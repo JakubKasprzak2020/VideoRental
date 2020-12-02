@@ -14,11 +14,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="userOrder")
+@Table(name="order_table")
 public class Order {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     private BigDecimal cost;
@@ -26,9 +26,6 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     private User user;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Cart cart;
 
     @OneToMany (fetch = FetchType.LAZY, mappedBy = "order")
     private List<Copy> copies;

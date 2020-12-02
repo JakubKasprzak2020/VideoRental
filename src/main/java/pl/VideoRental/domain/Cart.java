@@ -15,7 +15,7 @@ import java.util.List;
 public class Cart {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     private BigDecimal cost;
@@ -25,9 +25,6 @@ public class Cart {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart")
     private List<Copy> copies;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Order order;
 
 
 

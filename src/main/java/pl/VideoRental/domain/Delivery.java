@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class Delivery {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     private String address;

@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.persistence.criteria.Order;
 
 @Data
 @NoArgsConstructor
@@ -14,11 +13,11 @@ import javax.persistence.criteria.Order;
 public class Copy {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "movieId")
     private Movie movie;
 
     @ManyToOne(fetch = FetchType.LAZY)
