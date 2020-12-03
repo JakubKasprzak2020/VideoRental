@@ -31,25 +31,16 @@ class AddMovieToCatalogTest {
     @Autowired
     private DeleteMovieFromCatalog deleteMovieFromCatalog;
 
-    private Movie movie = new Movie().builder()
-            .title("Batman")
-            .genre(Genre.ACTION)
-            .description("Batman returned to Gotham...")
-            .build();
 
-    @BeforeEach
-    void clearDataBase(){
-        try {
-            deleteMovieFromCatalog.deleteById(movie.getId());
-        } catch (MovieDoesNotExist exception) {
-        }
-    }
-
-
-    //TODO - Tests passed only singly
 
     @Test
     void addNewMovieToCatalog() throws MovieAlreadyExistException, MovieDoesNotExist {
+        //given
+        Movie movie = Movie.builder()
+                .title("Batman")
+                .genre(Genre.ACTION)
+                .description("Batman returned to Gotham...")
+                .build();
         //when
         addMovieToCatalog.add(movie);
         Movie batman = getMovieFromCatalog.getByTitle(movie.getTitle());
@@ -61,10 +52,18 @@ class AddMovieToCatalogTest {
 
     @Test
     void addAlreadyExistedMovieToCatalog() throws MovieAlreadyExistException {
+        //given
+        Movie movie = Movie.builder()
+                .title("Birdman")
+                .genre(Genre.DRAMA)
+                .description("An actor played Super Hero Birdman...")
+                .build();
         //when
         addMovieToCatalog.add(movie);
         //then
-        assertThrows(MovieAlreadyExistException.class, ()-> {addMovieToCatalog.add(movie);});
+        assertThrows(MovieAlreadyExistException.class, () -> {
+            addMovieToCatalog.add(movie);
+        });
     }
 
 

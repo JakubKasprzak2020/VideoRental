@@ -18,5 +18,9 @@ public class IsMovieExist {
         return movieRepository.existsByTitle(title);
     }
 
+    public boolean isExistById(long id) {
+        return movieRepository.existsById(id);
+    }
+
 
 }
