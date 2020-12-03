@@ -1,6 +1,7 @@
 package pl.VideoRental.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 public class User {
 
@@ -19,6 +21,7 @@ public class User {
 
     private String name;
     private String lastName;
+    private String password;
     private UserType userType;
 
     @OneToOne(cascade = CascadeType.ALL)
