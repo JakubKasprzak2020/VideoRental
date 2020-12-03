@@ -1,6 +1,7 @@
 package pl.VideoRental.useCase.port;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ class AddMovieToCatalogTest {
     private AddMovieToCatalog addMovieToCatalog;
     @Autowired
     private GetMovieFromCatalog getMovieFromCatalog;
+    @Autowired
+    private DeleteMovieFromCatalog deleteMovieFromCatalog;
 
     private Movie movie = new Movie().builder()
             .title("Batman")
@@ -34,6 +37,16 @@ class AddMovieToCatalogTest {
             .description("Batman returned to Gotham...")
             .build();
 
+    @BeforeEach
+    void clearDataBase(){
+        try {
+            deleteMovieFromCatalog.deleteById(movie.getId());
+        } catch (MovieDoesNotExist exception) {
+        }
+    }
+
+
+    //TODO - Tests passed only singly
 
     @Test
     void addNewMovieToCatalog() throws MovieAlreadyExistException, MovieDoesNotExist {

@@ -14,7 +14,7 @@ public class GetMovieFromCatalog {
 
     private final MovieRepository movieRepository;
 
-    public Movie getById(Long id) throws MovieDoesNotExist {
+    public Movie getById(long id) throws MovieDoesNotExist {
         return movieRepository.findById(id).orElseThrow(() -> new MovieDoesNotExist("Film o id " + id));
     }
 
