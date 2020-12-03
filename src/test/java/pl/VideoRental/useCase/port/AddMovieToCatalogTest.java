@@ -8,10 +8,13 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.Assert;
+import pl.VideoRental.domain.Copy;
 import pl.VideoRental.domain.Genre;
 import pl.VideoRental.domain.Movie;
 import pl.VideoRental.useCase.exception.MovieAlreadyExistException;
 import pl.VideoRental.useCase.exception.MovieDoesNotExist;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,7 +41,9 @@ class AddMovieToCatalogTest {
         addMovieToCatalog.add(movie);
         Movie batman = getMovieFromCatalog.getByTitle(movie.getTitle());
         //then
-        assertEquals(batman, movie);
+        assertEquals(movie.getTitle(), batman.getTitle());
+        assertEquals(movie.getGenre(), batman.getGenre());
+        assertEquals(movie.getDescription(), batman.getDescription());
     }
 
 

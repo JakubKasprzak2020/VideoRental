@@ -25,7 +25,7 @@ public class Movie {
     private Date releaseDate;
     private Genre genre;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "movie")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "movie")
     private List<Copy> copies;
 
 

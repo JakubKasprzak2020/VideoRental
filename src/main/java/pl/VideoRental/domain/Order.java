@@ -27,7 +27,7 @@ public class Order {
     @JoinColumn(name = "userId")
     private User user;
 
-    @OneToMany (fetch = FetchType.LAZY, mappedBy = "order")
+    @OneToMany (fetch = FetchType.EAGER, mappedBy = "order")
     private List<Copy> copies;
 
     @OneToOne(cascade = CascadeType.ALL)

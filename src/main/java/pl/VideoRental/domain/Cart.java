@@ -23,7 +23,7 @@ public class Cart {
     @OneToOne(cascade = CascadeType.ALL)
     private User user;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cart")
     private List<Copy> copies;
 
 

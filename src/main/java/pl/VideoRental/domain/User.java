@@ -24,13 +24,13 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     private Cart cart;
 
-    @OneToMany (fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany (fetch = FetchType.EAGER, mappedBy = "user")
     private List<Copy> copies;
 
-    @OneToMany (fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany (fetch = FetchType.EAGER, mappedBy = "user")
     private List<Order> orders;
 
-    @OneToMany (fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany (fetch = FetchType.EAGER, mappedBy = "user")
     private List<Delivery> deliveries;
 
 }
