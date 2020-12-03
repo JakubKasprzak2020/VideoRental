@@ -11,7 +11,6 @@ import pl.VideoRental.useCase.exception.MovieDoesNotExist;
 public class DeleteMovieFromCatalog {
 
     private final MovieRepository movieRepository;
-
     private final GetMovieFromCatalog getMovieFromCatalog;
 
     public void delete(Movie movie) throws MovieDoesNotExist {

@@ -1,6 +1,7 @@
 package pl.VideoRental.useCase.port;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import pl.VideoRental.adapter.repository.MovieRepository;
@@ -12,7 +13,6 @@ import pl.VideoRental.useCase.exception.MovieDoesNotExist;
 public class IsMovieExist {
 
     private final MovieRepository movieRepository;
-
 
     public boolean isExistByTitle(String title) {
         return movieRepository.existsByTitle(title);
