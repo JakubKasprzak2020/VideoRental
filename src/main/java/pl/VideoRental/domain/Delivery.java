@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -18,11 +19,14 @@ public class Delivery {
 
     private String address;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @ManyToOne
+   // @JoinColumn(name = "userId")
     private User user;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Order order;
+
+    @OneToMany(mappedBy = "delivery", orphanRemoval = true, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    private List<Copy> copies;
 
 }

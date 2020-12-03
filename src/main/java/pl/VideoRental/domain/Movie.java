@@ -25,7 +25,7 @@ public class Movie {
     private Date releaseDate;
     private Genre genre;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "movie")
+    @OneToMany(mappedBy = "movie", orphanRemoval = true, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<Copy> copies;
 
 

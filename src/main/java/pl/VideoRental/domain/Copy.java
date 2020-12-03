@@ -16,24 +16,24 @@ public class Copy {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movieId")
+    @ManyToOne
+ //   @JoinColumn(name = "movieId")
     private Movie movie;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @ManyToOne
+  //  @JoinColumn(name = "userId")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cartId")
+    @ManyToOne
+ //   @JoinColumn(name = "cartId")
     private Cart cart;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "orderId")
+    @ManyToOne
+  //  @JoinColumn(name = "orderId")
     private Order order;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "deliveryId")
+    @ManyToOne
+  //  @JoinColumn(name = "deliveryId")
     private Delivery delivery;
 
 

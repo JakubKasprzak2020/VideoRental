@@ -28,15 +28,15 @@ class AddMovieToCatalogTest {
     @Autowired
     private GetMovieFromCatalog getMovieFromCatalog;
 
+    private Movie movie = new Movie().builder()
+            .title("Batman")
+            .genre(Genre.ACTION)
+            .description("Batman returned to Gotham...")
+            .build();
+
 
     @Test
     void addNewMovieToCatalog() throws MovieAlreadyExistException, MovieDoesNotExist {
-        //given
-        Movie movie = new Movie().builder()
-                .title("Batman")
-                .genre(Genre.ACTION)
-                .description("Batman returned to Gotham...")
-                .build();
         //when
         addMovieToCatalog.add(movie);
         Movie batman = getMovieFromCatalog.getByTitle(movie.getTitle());
@@ -44,6 +44,14 @@ class AddMovieToCatalogTest {
         assertEquals(movie.getTitle(), batman.getTitle());
         assertEquals(movie.getGenre(), batman.getGenre());
         assertEquals(movie.getDescription(), batman.getDescription());
+    }
+
+    @Test
+    void addAlreadyExistedMovieToCatalog() throws MovieAlreadyExistException {
+        //when
+        addMovieToCatalog.add(movie);
+        //then
+        assertThrows(MovieAlreadyExistException.class, ()-> {addMovieToCatalog.add(movie);});
     }
 
 

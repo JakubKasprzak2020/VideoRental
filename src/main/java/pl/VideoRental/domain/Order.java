@@ -23,11 +23,11 @@ public class Order {
 
     private BigDecimal cost;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @ManyToOne
+ //   @JoinColumn(name = "userId")
     private User user;
 
-    @OneToMany (fetch = FetchType.EAGER, mappedBy = "order")
+    @OneToMany(mappedBy = "order", orphanRemoval = true, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<Copy> copies;
 
     @OneToOne(cascade = CascadeType.ALL)
