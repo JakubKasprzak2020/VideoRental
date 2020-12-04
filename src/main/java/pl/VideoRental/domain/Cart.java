@@ -18,7 +18,7 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private BigDecimal cost;
+    private BigDecimal toPay = BigDecimal.ZERO;
 
     @OneToOne(cascade = CascadeType.ALL)
     private User user;
