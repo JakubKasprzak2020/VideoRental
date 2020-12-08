@@ -22,10 +22,12 @@ class CreateUserTest {
         String name = "John";
         String lastName = "Smith";
         String password = "myPassword1";
-        long expectedValueofIdOfUser = 1; //with generatedValue Strategy = Auto (user id = 1, cart id = 2)
-        long expectedValueofIdOfCart = 2; //with generatedValue Strategy = Auto (user id = 1, cart id = 2)
+        String email = "email@email.com";
+        String address = "address";
+        long expectedValueofIdOfUser = 2; //with generatedValue Strategy = Auto (user id = 2, cart id = 1)
+        long expectedValueofIdOfCart = 1; //with generatedValue Strategy = Auto (user id = 2, cart id = 1)
         //when
-        createUser.create(name, lastName, password);
+        createUser.create(name, lastName, password, email, address);
         User user = getUserFromCatalog.getById(expectedValueofIdOfUser);
         //then
         assertEquals(name, user.getName());

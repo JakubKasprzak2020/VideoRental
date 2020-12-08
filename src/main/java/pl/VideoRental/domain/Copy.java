@@ -17,9 +17,9 @@ public class Copy {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private LocalDate rentDate;
+    int rentalDays;
 
-    private int rentalDays;
+    LocalDate rentalDate;
 
     @ManyToOne
  //   @JoinColumn(name = "movieId")
@@ -30,16 +30,7 @@ public class Copy {
     private User user;
 
     @ManyToOne
- //   @JoinColumn(name = "cartId")
-    private Cart cart;
-
-    @ManyToOne
-  //  @JoinColumn(name = "orderId")
+  //  @JoinColumn(name = "fk_order")
     private Order order;
-
-    @ManyToOne
-  //  @JoinColumn(name = "deliveryId")
-    private Delivery delivery;
-
 
 }

@@ -16,10 +16,8 @@ public class AddCopyToCart {
     private final IsCopyFree isCopyFree;
     private final CalculateCostOfCopiesInCart calculateCostOfCopiesInCart;
 
-    public void add(Copy copy, Cart cart, int days) throws CopyIsAlreadyRented {
+    public void add(Cart cart, Copy copy) throws CopyIsAlreadyRented {
         if (isCopyFree.isFree(copy)) {
-            copy.setRentDate(LocalDate.now());
-            copy.setRentalDays(days);
             cart.getCopies().add(copy);
             calculateCostOfCopiesInCart.calculate(cart);
         } else {

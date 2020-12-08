@@ -6,6 +6,7 @@ import pl.VideoRental.domain.User;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -23,13 +24,13 @@ public class Order {
     private BigDecimal cost;
 
     @ManyToOne
- //   @JoinColumn(name = "userId")
+  //  @JoinColumn(name = "fk_user")
     private User user;
 
-    @OneToMany(mappedBy = "order", orphanRemoval = true, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private List<Copy> copies;
+    @OneToMany(mappedBy = "order")
+    private List<Copy> copies = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "order")
     private Delivery delivery;
 
 }

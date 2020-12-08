@@ -3,6 +3,7 @@ package pl.VideoRental.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -20,18 +21,18 @@ public class User {
     private String name;
     private String lastName;
     private String password;
+    private String email;
+    private String address;
     private UserType userType;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne //(mappedBy = "user")
+    @JoinColumn(name = "fk_user")
     private Cart cart;
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private List<Copy> copies;
+    @OneToMany(mappedBy = "user")
+    private List<Copy> copies = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private List<Order> orders;
-
-    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private List<Delivery> deliveries;
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST)
+    private List<Order> orders = new ArrayList<>();
 
 }

@@ -4,12 +4,14 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 public class Cart {
 
@@ -17,15 +19,9 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private BigDecimal toPay = BigDecimal.ZERO;
+    BigDecimal toPay = BigDecimal.ZERO;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private User user;
-
-    @OneToMany(mappedBy = "cart", orphanRemoval = true, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private List<Copy> copies;
-
-
-
+    @OneToMany //(mappedBy = "cart", fetch = FetchType.EAGER)
+    private List<Copy> copies = new ArrayList<>();
 
 }

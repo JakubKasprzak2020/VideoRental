@@ -10,6 +10,10 @@ import pl.VideoRental.useCase.exception.MovieDoesNotExist;
 @RequiredArgsConstructor
 public class DeleteMovieFromCatalog {
 
+/*
+If movie is deleted all copies are removed by annotation CascadeType and OrphanRemoval in Movie class
+ */
+
     private final MovieRepository movieRepository;
     private final GetMovieFromCatalog getMovieFromCatalog;
 

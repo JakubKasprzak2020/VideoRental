@@ -18,14 +18,10 @@ public class Delivery {
 
     private String address;
 
-    @ManyToOne
-   // @JoinColumn(name = "userId")
-    private User user;
+    private boolean wasDelivered;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Order order;
 
-    @OneToMany(mappedBy = "delivery", orphanRemoval = true, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private List<Copy> copies;
 
 }

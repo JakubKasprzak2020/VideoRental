@@ -1,10 +1,7 @@
 package pl.VideoRental.useCase.port;
 
 import org.springframework.stereotype.Component;
-import pl.VideoRental.domain.Cart;
-import pl.VideoRental.domain.Copy;
-import pl.VideoRental.domain.Movie;
-import pl.VideoRental.domain.UserType;
+import pl.VideoRental.domain.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -15,23 +12,23 @@ import java.util.List;
 public class CalculateCostOfCopiesInCart {
 
 
-    private final BigDecimal BASIC_COST_FOR_ONE_DAY = BigDecimal.valueOf(5);
+     final BigDecimal BASIC_COST_FOR_ONE_DAY = BigDecimal.valueOf(5);
 
-    private final BigDecimal IMPACT_ON_THE_PRICE_OF_PREMIERE_MOVIE = BigDecimal.valueOf(3);
-    private final BigDecimal IMPACT_ON_THE_PRICE_OF_NEW_MOVIE = BigDecimal.valueOf(2);
-    private final BigDecimal IMPACT_ON_THE_PRICE_OF_STANDARD_MOVIE = BigDecimal.valueOf(1);
-    private final BigDecimal IMPACT_ON_THE_PRICE_OF_CLASSIC_MOVIE = BigDecimal.valueOf(0.5);
+     final BigDecimal IMPACT_ON_THE_PRICE_OF_PREMIERE_MOVIE = BigDecimal.valueOf(3);
+     final BigDecimal IMPACT_ON_THE_PRICE_OF_NEW_MOVIE = BigDecimal.valueOf(2);
+     final BigDecimal IMPACT_ON_THE_PRICE_OF_STANDARD_MOVIE = BigDecimal.valueOf(1);
+     final BigDecimal IMPACT_ON_THE_PRICE_OF_CLASSIC_MOVIE = BigDecimal.valueOf(0.5);
 
-    private final BigDecimal IMPACT_ON_THE_PRICE_OF_SHORT_TERM_RENTAL = BigDecimal.valueOf(2);
-    private final BigDecimal IMPACT_ON_THE_PRICE_OF_STANDARD_TERM_RENTAL = BigDecimal.valueOf(1);
-    private final BigDecimal IMPACT_ON_THE_PRICE_OF_LONG_TERM_RENTAL = BigDecimal.valueOf(0.5);
+     final BigDecimal IMPACT_ON_THE_PRICE_OF_SHORT_TERM_RENTAL = BigDecimal.valueOf(2);
+     final BigDecimal IMPACT_ON_THE_PRICE_OF_STANDARD_TERM_RENTAL = BigDecimal.valueOf(1);
+     final BigDecimal IMPACT_ON_THE_PRICE_OF_LONG_TERM_RENTAL = BigDecimal.valueOf(0.5);
 
-    private final BigDecimal IMPACT_ON_THE_PRICE_OF_SILVER_USERTYPE = BigDecimal.valueOf(0.95);;
-    private final BigDecimal IMPACT_ON_THE_PRICE_OF_GOLD_USERTYPE = BigDecimal.valueOf(0.85);
-    private final BigDecimal IMPACT_ON_THE_PRICE_OF_PLATINUM_USERTYPE = BigDecimal.valueOf(0.7);
+     final BigDecimal IMPACT_ON_THE_PRICE_OF_SILVER_USERTYPE = BigDecimal.valueOf(0.95);;
+     final BigDecimal IMPACT_ON_THE_PRICE_OF_GOLD_USERTYPE = BigDecimal.valueOf(0.85);
+     final BigDecimal IMPACT_ON_THE_PRICE_OF_PLATINUM_USERTYPE = BigDecimal.valueOf(0.7);
 
-    private final int MAX_DAYS_FOR_SHORT_TERM_RENTAL = 3;
-    private final int MAX_DAYS_FOR_STANDARD_TERM_RENTAL = 6;
+     final int MAX_DAYS_FOR_SHORT_TERM_RENTAL = 3;
+     final int MAX_DAYS_FOR_STANDARD_TERM_RENTAL = 6;
 
     public void calculate(Cart cart) {
        List<Copy> copies = cart.getCopies();
@@ -43,25 +40,25 @@ public class CalculateCostOfCopiesInCart {
     }
 
 
-    private BigDecimal calculateCostOfCopy(Copy copy) {
+    BigDecimal calculateCostOfCopy(Copy copy) {
         int rentalDays = copy.getRentalDays();
+        LocalDate rentalDate = copy.getRentalDate();
         BigDecimal basicCost = calculateBasicCost(rentalDays);
-        BigDecimal impactOfDateRelease = getImpactOfDateRelease(copy);
-        BigDecimal impactOfUserType = getImpactOfUserType(copy);
+        BigDecimal impactOfDateRelease = getImpactOfDateRelease(copy, rentalDate);
+        BigDecimal impactOfUserType = getImpactOfUserType(copy.getUser());
         return basicCost.multiply(impactOfDateRelease).multiply(impactOfUserType);
     }
 
 
-    private int howManyDaysPassedFromRelease(Copy copy) {
+     int howManyDaysPassedFromRelease(Copy copy, LocalDate rentDate) {
         Movie movie = copy.getMovie();
         LocalDate releaseDate = movie.getReleaseDate();
-        LocalDate rentDate = copy.getRentDate();
         int days = Period.between(releaseDate, rentDate).getDays();
         return days;
     }
 
-    private BigDecimal getImpactOfDateRelease(Copy copy) {
-        int daysFromRelease = howManyDaysPassedFromRelease(copy);
+     BigDecimal getImpactOfDateRelease(Copy copy, LocalDate rentDate) {
+        int daysFromRelease = howManyDaysPassedFromRelease(copy, rentDate);
         if (daysFromRelease <= 14) {
             return IMPACT_ON_THE_PRICE_OF_PREMIERE_MOVIE;
         } else if (daysFromRelease <= 90) {
@@ -73,8 +70,8 @@ public class CalculateCostOfCopiesInCart {
         }
     }
 
-    private BigDecimal getImpactOfUserType(Copy copy) {
-        UserType userType = copy.getUser().getUserType();
+     BigDecimal getImpactOfUserType(User user) {
+        UserType userType = user.getUserType();
         if (userType == UserType.PLATINUM) {
             return IMPACT_ON_THE_PRICE_OF_PLATINUM_USERTYPE;
         } else if (userType == UserType.GOLD) {
@@ -86,12 +83,12 @@ public class CalculateCostOfCopiesInCart {
         }
     }
 
-    private BigDecimal calculateBasicCostForShortTerm(int days){
+     BigDecimal calculateBasicCostForShortTerm(int days){
         BigDecimal rentalDays = BigDecimal.valueOf(days);
         return BASIC_COST_FOR_ONE_DAY.multiply(rentalDays).multiply(IMPACT_ON_THE_PRICE_OF_SHORT_TERM_RENTAL);
     }
 
-    private BigDecimal calculateBasicCostForStandardTerm(int days) {
+     BigDecimal calculateBasicCostForStandardTerm(int days) {
         if (days <= MAX_DAYS_FOR_SHORT_TERM_RENTAL) {
             return calculateBasicCostForShortTerm(days);
         } else {
@@ -103,7 +100,7 @@ public class CalculateCostOfCopiesInCart {
         }
     }
 
-    private BigDecimal calculateBasicCost(int days) {
+     BigDecimal calculateBasicCost(int days) {
         if (days <= MAX_DAYS_FOR_STANDARD_TERM_RENTAL) {
             return calculateBasicCostForStandardTerm(days);
         } else {

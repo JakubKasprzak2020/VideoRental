@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,8 +25,8 @@ public class Movie {
     private LocalDate releaseDate;
     private Genre genre;
 
-    @OneToMany(mappedBy = "movie", orphanRemoval = true, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private List<Copy> copies;
+    @OneToMany(mappedBy = "movie", orphanRemoval = true, cascade = CascadeType.PERSIST)
+    private List<Copy> copies = new ArrayList<>();
 
 
 }
