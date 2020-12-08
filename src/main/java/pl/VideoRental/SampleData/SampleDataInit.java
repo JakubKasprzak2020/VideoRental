@@ -36,7 +36,6 @@ public class SampleDataInit implements CommandLineRunner {
     private void initSampleMovies() throws MovieAlreadyExistException {
         Movie movie1 = Movie.builder().title("Inglourious Basterds")
                 .releaseDate(LocalDate.of(2009, 1, 1))
-                .id(200)
                 .build();
 
             addMovieToCatalog.add(movie1);
