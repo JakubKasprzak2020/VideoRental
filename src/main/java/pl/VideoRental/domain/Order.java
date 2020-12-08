@@ -1,8 +1,6 @@
 package pl.VideoRental.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import pl.VideoRental.domain.Copy;
 import pl.VideoRental.domain.User;
 
@@ -10,7 +8,8 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
