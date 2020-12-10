@@ -9,7 +9,7 @@ public class IsCopyFree {
 
 
     public boolean isFree(Copy copy){
-        return copy.getUser() == null;
+        return copy.isAvailable();
     }
 
 }

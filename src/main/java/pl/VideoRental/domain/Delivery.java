@@ -7,6 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -18,7 +19,7 @@ public class Delivery {
 
     private String address;
 
-    private boolean wasDelivered;
+    private boolean isDelivered = false;
 
     @OneToOne
     private Order order;

@@ -27,6 +27,7 @@ public class User {
 
     @OneToOne //(mappedBy = "user")
     @JoinColumn(name = "fk_user")
+    @Transient
     private Cart cart;
 
     @OneToMany(mappedBy = "user")

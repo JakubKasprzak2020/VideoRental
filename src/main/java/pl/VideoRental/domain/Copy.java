@@ -21,6 +21,8 @@ public class Copy {
 
     LocalDate rentalDate;
 
+    boolean isAvailable = true;
+
     @ManyToOne
  //   @JoinColumn(name = "movieId")
     private Movie movie;
