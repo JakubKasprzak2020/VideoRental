@@ -38,7 +38,11 @@ public class SampleDataInit implements CommandLineRunner {
                 .releaseDate(LocalDate.of(2009, 1, 1))
                 .build();
 
+        Movie movie2 = Movie.builder().title("E.T.")
+                .releaseDate(LocalDate.of(1982, 1, 1))
+                .build();
             addMovieToCatalog.add(movie1);
+            addMovieToCatalog.add(movie2);
     }
 
     private void initSampleCopies() throws MovieDoesNotExist {

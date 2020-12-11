@@ -52,7 +52,7 @@ class AddCopyToCartTest {
 
     private Copy createSampleCopyAndGetItFromCatalog(Movie movie) throws MovieDoesNotExist {
         createCopyOfAMovie.create(movie.getId());
-        List<Copy> copies = getAllCopies.getAllWithTitle(movie.getTitle());
+        List<Copy> copies = getAllCopies.getAllByMovieTitle(movie.getTitle());
         return copies.get(0);
     }
 

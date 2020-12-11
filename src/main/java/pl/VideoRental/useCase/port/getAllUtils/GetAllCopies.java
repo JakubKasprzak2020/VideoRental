@@ -24,7 +24,7 @@ public class GetAllCopies {
         return copies;
     }
 
-    public List<Copy> getAllWithTitle(String title){
+    public List<Copy> getAllByMovieTitle(String title){
         List <Copy> copies = getAll();
         return copies.stream().filter(copy -> copy.getMovie().getTitle().equals(title)).collect(Collectors.toList());
     }

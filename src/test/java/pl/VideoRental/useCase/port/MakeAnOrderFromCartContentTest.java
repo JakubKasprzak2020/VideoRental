@@ -3,7 +3,6 @@ package pl.VideoRental.useCase.port;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import pl.VideoRental.adapter.repository.UserRepository;
 import pl.VideoRental.domain.Copy;
 import pl.VideoRental.domain.Movie;
 import pl.VideoRental.domain.Order;
@@ -57,7 +56,7 @@ class MakeAnOrderFromCartContentTest {
 
     private Copy createSampleCopyAndGetItFromCatalog(Movie movie) throws MovieDoesNotExist {
         createCopyOfAMovie.create(movie.getId());
-        List <Copy> copies = getAllCopies.getAllWithTitle(movie.getTitle());
+        List <Copy> copies = getAllCopies.getAllByMovieTitle(movie.getTitle());
         return copies.get(0);
     }
 
