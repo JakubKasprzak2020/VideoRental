@@ -13,9 +13,11 @@ public class EmptyACart {
     public void empty(Cart cart) {
         cart.setToPay(BigDecimal.ZERO);
         for (Copy copy : cart.getCopies()){
-            copy.setAvailable(true);
+            if (copy.getUser() == null) {
+                copy.setAvailable(true);
+            }
         }
-        cart.getCopies().clear();
+        cart.setCopies(new ArrayList<>());
     }
 
 }

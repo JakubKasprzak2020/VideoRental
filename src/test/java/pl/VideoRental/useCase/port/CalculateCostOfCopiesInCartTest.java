@@ -141,13 +141,13 @@ class CalculateCostOfCopiesInCartTest {
         premiereCopy.setRentalDays(rentalDays);
         premiereCopy.setRentalDate(RENTALDATE);
         //when
-        int resultInInt = calculateCostOfCopiesInCart.calculateCostOfCopy(premiereCopy).intValue();
+        int resultInInt = calculateCostOfCopiesInCart.calculateCostOfCopy(premiereCopy, platinumUser).intValue();
         //then
         int expectedInInt = 105; // 50 * 3 * 0.7
         assertEquals(expectedInInt, resultInInt); //int Value because in Big Decimal Expected was 105.0 and Actual:105.00
     }
 
-    @Test //TODO - test is not passing correctly
+    @Test //TODO - test is not passing correctly, gives 60
     public void shouldMakeCartSummaryForRegularUser() {
         //given
         premiereCopy.setUser(regularUser);
@@ -160,7 +160,7 @@ class CalculateCostOfCopiesInCartTest {
         cart.getCopies().add(premiereCopy);
         cart.getCopies().add(classicCopy);
         //when
-        calculateCostOfCopiesInCart.calculate(cart);
+        calculateCostOfCopiesInCart.calculate(regularUser);
         BigDecimal result = cart.getToPay();
         BigDecimal expected = BigDecimal.valueOf(35);
         //then

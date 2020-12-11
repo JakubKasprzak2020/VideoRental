@@ -30,22 +30,23 @@ public class CalculateCostOfCopiesInCart {
      final int MAX_DAYS_FOR_SHORT_TERM_RENTAL = 3;
      final int MAX_DAYS_FOR_STANDARD_TERM_RENTAL = 6;
 
-    public void calculate(Cart cart) {
+    public void calculate(User user) {
+        Cart cart = user.getCart();
        List<Copy> copies = cart.getCopies();
        for (Copy c : copies) {
-           BigDecimal costOfCopy = calculateCostOfCopy(c);
+           BigDecimal costOfCopy = calculateCostOfCopy(c, user);
            BigDecimal currentToPay = cart.getToPay();
            cart.setToPay(currentToPay.add(costOfCopy));
        }
     }
 
 
-    BigDecimal calculateCostOfCopy(Copy copy) {
+    BigDecimal calculateCostOfCopy(Copy copy, User user) {
         int rentalDays = copy.getRentalDays();
         LocalDate rentalDate = copy.getRentalDate();
         BigDecimal basicCost = calculateBasicCost(rentalDays);
         BigDecimal impactOfDateRelease = getImpactOfDateRelease(copy, rentalDate);
-        BigDecimal impactOfUserType = getImpactOfUserType(copy.getUser());
+        BigDecimal impactOfUserType = getImpactOfUserType(user);
         return basicCost.multiply(impactOfDateRelease).multiply(impactOfUserType);
     }
 
@@ -71,6 +72,9 @@ public class CalculateCostOfCopiesInCart {
     }
 
      BigDecimal getImpactOfUserType(User user) {
+        if (user.getUserType()==null){
+            return BigDecimal.ONE;
+        }
         UserType userType = user.getUserType();
         if (userType == UserType.PLATINUM) {
             return IMPACT_ON_THE_PRICE_OF_PLATINUM_USERTYPE;

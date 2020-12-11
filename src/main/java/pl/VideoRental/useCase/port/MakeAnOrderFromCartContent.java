@@ -27,12 +27,12 @@ public class MakeAnOrderFromCartContent {
     @Transactional
     public void makeAnOrder(User user){
         List<Copy> copies = user.getCart().getCopies();
-        Order order = buildOrder(user);
-        orderRepository.save(order);
-        user.getOrders().add(order);
         for (Copy copy : copies) {
             rentACopy.rent(copy, user);
         }
+        Order order = buildOrder(user);
+        orderRepository.save(order);
+        user.getOrders().add(order);
         emptyACart.empty(user.getCart());
         userRepository.save(user);
     }

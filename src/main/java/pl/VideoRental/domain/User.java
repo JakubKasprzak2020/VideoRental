@@ -27,13 +27,13 @@ public class User {
 
     @OneToOne //(mappedBy = "user")
     @JoinColumn(name = "fk_user")
-    @Transient
-    private Cart cart;
+    @Transient //TODO is it correct?
+    private Cart cart = new Cart();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch=FetchType.EAGER)
     private List<Copy> copies = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST, fetch=FetchType.EAGER)
     private List<Order> orders = new ArrayList<>();
 
 }

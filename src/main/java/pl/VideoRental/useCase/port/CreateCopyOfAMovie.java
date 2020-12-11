@@ -19,7 +19,7 @@ public class CreateCopyOfAMovie {
     private final MovieRepository movieRepository;
     private final IsMovieExist isMovieExist;
 
-    @Transactional
+    @Transactional //TODO - Lazy initialization error without this annotation
     public void create(long id) throws MovieDoesNotExist {
         if (!isMovieExist.isExistById(id)) {
             throw new MovieDoesNotExist("Movie with id " + id);
@@ -34,6 +34,7 @@ public class CreateCopyOfAMovie {
     private Copy createCopy(Movie movie) {
         return Copy.builder()
                 .movie(movie)
+                .isAvailable(true)
                 .build();
     }
 
