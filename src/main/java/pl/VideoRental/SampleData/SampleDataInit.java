@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 import pl.VideoRental.domain.Movie;
 import pl.VideoRental.useCase.exception.MovieAlreadyExistException;
 import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
-import pl.VideoRental.useCase.port.CreateMovie;
-import pl.VideoRental.useCase.port.CreateCopyOfAMovie;
-import pl.VideoRental.useCase.port.CreateUser;
+import pl.VideoRental.useCase.port.moviePort.CreateMovie;
+import pl.VideoRental.useCase.port.copyPort.CreateCopyOfAMovie;
+import pl.VideoRental.useCase.port.userPort.CreateUser;
 
 import java.time.LocalDate;
 

@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.*;
 import pl.VideoRental.domain.Movie;
 import pl.VideoRental.useCase.exception.MovieAlreadyExistException;
 import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
-import pl.VideoRental.useCase.port.CreateMovie;
-import pl.VideoRental.useCase.port.DeleteMovie;
-import pl.VideoRental.useCase.port.GetMovieFromCatalog;
-import pl.VideoRental.useCase.port.getAllUtils.GetAllMovies;
+import pl.VideoRental.useCase.port.moviePort.CreateMovie;
+import pl.VideoRental.useCase.port.moviePort.DeleteMovie;
+import pl.VideoRental.useCase.port.moviePort.GetMovieFromCatalog;
+import pl.VideoRental.useCase.port.moviePort.GetAllMovies;
 
 import java.util.List;
 

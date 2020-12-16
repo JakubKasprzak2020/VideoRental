@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import pl.VideoRental.domain.User;
-import pl.VideoRental.useCase.port.getAllUtils.GetAllUsers;
+import pl.VideoRental.useCase.port.userPort.GetAllUsers;
 
 import java.util.List;
 
