@@ -1,8 +1,8 @@
 package pl.VideoRental.useCase.exception;
 
-public class UserDoesNotExist extends Exception {
+public class UserDoesNotExistException extends Exception {
 
-    public UserDoesNotExist(Long id) {
+    public UserDoesNotExistException(Long id) {
         super("User with id " + id + " doesn't exist!");
     }
 }

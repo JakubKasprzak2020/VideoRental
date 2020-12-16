@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import pl.VideoRental.useCase.exception.MovieDoesNotExist;
+import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
 import pl.VideoRental.useCase.port.DeleteMovieFromCatalog;
 
 @RestController
@@ -17,10 +17,10 @@ public class DeleteMovieController {
 
     @DeleteMapping("api/movies/delete/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteMovie(@PathVariable long id) throws MovieDoesNotExist {
+    public void deleteMovie(@PathVariable long id) throws MovieDoesNotExistException {
         try {
             deleteMovieFromCatalog.deleteById(id);
-        } catch (MovieDoesNotExist e) {
+        } catch (MovieDoesNotExistException e) {
             System.out.println(e.getMessage());
         }
     }

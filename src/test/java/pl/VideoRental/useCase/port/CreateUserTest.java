@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.VideoRental.domain.User;
-import pl.VideoRental.useCase.exception.UserDoesNotExist;
+import pl.VideoRental.useCase.exception.UserDoesNotExistException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,7 +17,7 @@ class CreateUserTest {
     private GetUserFromCatalog getUserFromCatalog;
 
     @Test
-    void create_user() throws UserDoesNotExist {
+    void create_user() throws UserDoesNotExistException {
         //given
         String name = "John";
         String lastName = "Smith";

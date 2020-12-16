@@ -1,14 +1,13 @@
 package pl.VideoRental.useCase.port;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import pl.VideoRental.adapter.repository.CopyRepository;
 import pl.VideoRental.adapter.repository.MovieRepository;
 import pl.VideoRental.domain.Copy;
 import pl.VideoRental.domain.Movie;
-import pl.VideoRental.useCase.exception.MovieDoesNotExist;
+import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
 
 @Component
 @RequiredArgsConstructor
@@ -20,9 +19,9 @@ public class CreateCopyOfAMovie {
     private final IsMovieExist isMovieExist;
 
     @Transactional //TODO - Lazy initialization error without this annotation
-    public void create(long id) throws MovieDoesNotExist {
+    public void create(long id) throws MovieDoesNotExistException {
         if (!isMovieExist.isExistById(id)) {
-            throw new MovieDoesNotExist("Movie with id " + id);
+            throw new MovieDoesNotExistException("Movie with id " + id);
         }
         Movie movie = getMovieFromCatalog.getById(id);
         Copy copy = createCopy(movie);

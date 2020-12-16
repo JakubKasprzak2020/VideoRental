@@ -1,12 +1,8 @@
 package pl.VideoRental.useCase.port;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import pl.VideoRental.adapter.repository.MovieRepository;
-import pl.VideoRental.domain.Movie;
-import pl.VideoRental.useCase.exception.MovieDoesNotExist;
 
 @Component
 @RequiredArgsConstructor

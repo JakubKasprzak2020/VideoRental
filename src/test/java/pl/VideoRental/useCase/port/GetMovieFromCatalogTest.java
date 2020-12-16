@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import pl.VideoRental.domain.Genre;
 import pl.VideoRental.domain.Movie;
 import pl.VideoRental.useCase.exception.MovieAlreadyExistException;
-import pl.VideoRental.useCase.exception.MovieDoesNotExist;
+import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,7 +20,7 @@ class GetMovieFromCatalogTest {
 
 
     @Test
-    public void GetMovieFromCatalogByIdWhenMovieExist() throws MovieDoesNotExist, MovieAlreadyExistException {
+    public void GetMovieFromCatalogByIdWhenMovieExist() throws MovieDoesNotExistException, MovieAlreadyExistException {
         //given
         Movie movie = Movie.builder()
                 .title("Batman")
@@ -35,7 +35,7 @@ class GetMovieFromCatalogTest {
     }
 
     @Test
-    public void GetMovieFromCatalogByTitleWhenMovieExist() throws MovieDoesNotExist, MovieAlreadyExistException {
+    public void GetMovieFromCatalogByTitleWhenMovieExist() throws MovieDoesNotExistException, MovieAlreadyExistException {
         //given
         Movie movie = Movie.builder()
                 .title("Superman")
@@ -54,7 +54,7 @@ class GetMovieFromCatalogTest {
         //given
         long randomNumber = 5;
         //then
-       assertThrows(MovieDoesNotExist.class, ()->{getMovieFromCatalog.getById(randomNumber);});
+       assertThrows(MovieDoesNotExistException.class, ()->{getMovieFromCatalog.getById(randomNumber);});
     }
 
     @Test
@@ -62,7 +62,7 @@ class GetMovieFromCatalogTest {
         //given
         String randomTitle = "Iron Man";
         //then
-        assertThrows(MovieDoesNotExist.class, ()->{getMovieFromCatalog.getByTitle(randomTitle);});
+        assertThrows(MovieDoesNotExistException.class, ()->{getMovieFromCatalog.getByTitle(randomTitle);});
     }
 
 

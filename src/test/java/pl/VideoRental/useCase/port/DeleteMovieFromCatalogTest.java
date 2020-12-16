@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import pl.VideoRental.domain.Genre;
 import pl.VideoRental.domain.Movie;
 import pl.VideoRental.useCase.exception.MovieAlreadyExistException;
-import pl.VideoRental.useCase.exception.MovieDoesNotExist;
+import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,23 +28,23 @@ class DeleteMovieFromCatalogTest {
 
 
     @Test
-    void deleteFromCatalogById() throws MovieAlreadyExistException, MovieDoesNotExist {
+    void deleteFromCatalogById() throws MovieAlreadyExistException, MovieDoesNotExistException {
         //given
         addMovieToCatalog.add(movie);
         //when
         deleteMovieFromCatalog.deleteById(movie.getId());
         //then
-        assertThrows(MovieDoesNotExist.class, ()-> {getMovieFromCatalog.getById(movie.getId());});
+        assertThrows(MovieDoesNotExistException.class, ()-> {getMovieFromCatalog.getById(movie.getId());});
     }
 
     @Test //TODO - "No EntityManager with actual transaction available for current thread"
-    void deleteFromCatalogByTitle() throws MovieAlreadyExistException, MovieDoesNotExist {
+    void deleteFromCatalogByTitle() throws MovieAlreadyExistException, MovieDoesNotExistException {
         //given
         addMovieToCatalog.add(movie);
         //when
         deleteMovieFromCatalog.deleteByTitle(movie.getTitle());
         //then
-        assertThrows(MovieDoesNotExist.class, ()-> {getMovieFromCatalog.getByTitle(movie.getTitle());});
+        assertThrows(MovieDoesNotExistException.class, ()-> {getMovieFromCatalog.getByTitle(movie.getTitle());});
     }
 
     @Test
@@ -52,7 +52,7 @@ class DeleteMovieFromCatalogTest {
         //given
         long randomNumber = 7;
         //then
-        assertThrows(MovieDoesNotExist.class, ()-> {deleteMovieFromCatalog.deleteById(randomNumber);});
+        assertThrows(MovieDoesNotExistException.class, ()-> {deleteMovieFromCatalog.deleteById(randomNumber);});
     }
 
 

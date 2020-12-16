@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.VideoRental.domain.Genre;
 import pl.VideoRental.domain.Movie;
-import pl.VideoRental.useCase.exception.CopyDoesNotExist;
+import pl.VideoRental.useCase.exception.CopyDoesNotExistException;
 import pl.VideoRental.useCase.exception.MovieAlreadyExistException;
-import pl.VideoRental.useCase.exception.MovieDoesNotExist;
+import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,7 +27,7 @@ class CreateCopyOfAMovieTest {
     private GetCopyFromCatalog getCopyFromCatalog;
 
     @Test
-    void createCopyOfAMovie() throws MovieAlreadyExistException, MovieDoesNotExist, CopyDoesNotExist {
+    void createCopyOfAMovie() throws MovieAlreadyExistException, MovieDoesNotExistException, CopyDoesNotExistException {
         //given
         long expectedValueofIdOfCopy = 2; //with generatedValue Strategy = Auto (movie id = 1, copy id = 2)
         Movie movie = Movie.builder()
@@ -48,7 +48,7 @@ class CreateCopyOfAMovieTest {
         //given
         long randomNumber = 87;
         //then
-        assertThrows(MovieDoesNotExist.class, () -> {
+        assertThrows(MovieDoesNotExistException.class, () -> {
             createCopyOfAMovie.create(randomNumber);
         });
 

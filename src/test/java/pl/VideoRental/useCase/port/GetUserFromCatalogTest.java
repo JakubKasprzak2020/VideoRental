@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import pl.VideoRental.domain.User;
-import pl.VideoRental.useCase.exception.UserDoesNotExist;
+import pl.VideoRental.useCase.exception.UserDoesNotExistException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,7 +21,7 @@ class GetUserFromCatalogTest {
     private GetUserFromCatalog getUserFromCatalog;
 
     @Test
-    void getUserWhenUserExist() throws UserDoesNotExist {
+    void getUserWhenUserExist() throws UserDoesNotExistException {
         //given
         String name = "John";
         String lastName = "Smith";
@@ -38,11 +38,11 @@ class GetUserFromCatalogTest {
     }
 
     @Test
-    void getUserWhenUserDoesNotExist() throws UserDoesNotExist {
+    void getUserWhenUserDoesNotExist() throws UserDoesNotExistException {
         //given
         long randomNumber = 1;
         //then
-        assertThrows(UserDoesNotExist.class, ()->{getUserFromCatalog.getById(randomNumber);});
+        assertThrows(UserDoesNotExistException.class, ()->{getUserFromCatalog.getById(randomNumber);});
     }
 
 }

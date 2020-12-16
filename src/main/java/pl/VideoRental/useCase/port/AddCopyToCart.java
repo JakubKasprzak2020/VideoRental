@@ -6,10 +6,8 @@ import pl.VideoRental.adapter.repository.CopyRepository;
 import pl.VideoRental.domain.Cart;
 import pl.VideoRental.domain.Copy;
 import pl.VideoRental.domain.User;
-import pl.VideoRental.useCase.exception.CopyDoesNotExist;
-import pl.VideoRental.useCase.exception.CopyIsAlreadyRented;
+import pl.VideoRental.useCase.exception.CopyIsAlreadyRentedException;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Component
@@ -20,7 +18,7 @@ public class AddCopyToCart {
     private final CalculateCostOfCopiesInCart calculateCostOfCopiesInCart;
     private final CopyRepository copyRepository;
 
-    public void add(User user, Copy copy, int rentalDays, LocalDate rentalDate) throws CopyIsAlreadyRented {
+    public void add(User user, Copy copy, int rentalDays, LocalDate rentalDate) throws CopyIsAlreadyRentedException {
         Cart cart = user.getCart();
         if (isCopyFree.isFree(copy)) {
             cart.getCopies().add(copy);
@@ -30,7 +28,7 @@ public class AddCopyToCart {
             copyRepository.save(copy);
             calculateCostOfCopiesInCart.calculate(user);
         } else {
-            throw new CopyIsAlreadyRented(copy.getId());
+            throw new CopyIsAlreadyRentedException(copy.getId());
         }
 
 

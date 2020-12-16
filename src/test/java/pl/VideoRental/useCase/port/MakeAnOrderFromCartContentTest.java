@@ -7,9 +7,9 @@ import pl.VideoRental.domain.Copy;
 import pl.VideoRental.domain.Movie;
 import pl.VideoRental.domain.Order;
 import pl.VideoRental.domain.User;
-import pl.VideoRental.useCase.exception.CopyIsAlreadyRented;
+import pl.VideoRental.useCase.exception.CopyIsAlreadyRentedException;
 import pl.VideoRental.useCase.exception.MovieAlreadyExistException;
-import pl.VideoRental.useCase.exception.MovieDoesNotExist;
+import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
 import pl.VideoRental.useCase.port.getAllUtils.GetAllCopies;
 import pl.VideoRental.useCase.port.getAllUtils.GetAllOrders;
 import pl.VideoRental.useCase.port.getAllUtils.GetAllUsers;
@@ -48,13 +48,13 @@ class MakeAnOrderFromCartContentTest {
         return users.get(users.size()-1);
     }
 
-    private Movie createSampleMovieAndGetItFromCatalog() throws MovieDoesNotExist, MovieAlreadyExistException {
+    private Movie createSampleMovieAndGetItFromCatalog() throws MovieDoesNotExistException, MovieAlreadyExistException {
         Movie movie = Movie.builder().title("Harry Potter").releaseDate(LocalDate.of(2011, 1, 1)).build();
         addMovieToCatalog.add(movie);
         return getMovieFromCatalog.getByTitle(movie.getTitle());
     }
 
-    private Copy createSampleCopyAndGetItFromCatalog(Movie movie) throws MovieDoesNotExist {
+    private Copy createSampleCopyAndGetItFromCatalog(Movie movie) throws MovieDoesNotExistException {
         createCopyOfAMovie.create(movie.getId());
         List <Copy> copies = getAllCopies.getAllByMovieTitle(movie.getTitle());
         return copies.get(0);
@@ -62,7 +62,7 @@ class MakeAnOrderFromCartContentTest {
 
 
     @Test
-    public void shouldMakeAnOrder() throws MovieAlreadyExistException, MovieDoesNotExist, CopyIsAlreadyRented {
+    public void shouldMakeAnOrder() throws MovieAlreadyExistException, MovieDoesNotExistException, CopyIsAlreadyRentedException {
         //given
         User user = createSampleUserAndGetItFromCatalog();
         Movie movie = createSampleMovieAndGetItFromCatalog();

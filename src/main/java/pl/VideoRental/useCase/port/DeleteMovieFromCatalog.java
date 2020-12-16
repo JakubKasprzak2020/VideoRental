@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.VideoRental.adapter.repository.MovieRepository;
 import pl.VideoRental.domain.Movie;
-import pl.VideoRental.useCase.exception.MovieDoesNotExist;
+import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
 
 @Component
 @RequiredArgsConstructor
@@ -17,7 +17,7 @@ If movie is deleted all copies are removed by annotation CascadeType and OrphanR
     private final MovieRepository movieRepository;
     private final GetMovieFromCatalog getMovieFromCatalog;
 
-    public void delete(Movie movie) throws MovieDoesNotExist {
+    public void delete(Movie movie) throws MovieDoesNotExistException {
             getMovieFromCatalog.getById(movie.getId());
             movieRepository.delete(movie);
     }
@@ -28,7 +28,7 @@ If movie is deleted all copies are removed by annotation CascadeType and OrphanR
         movieRepository.deleteByTitle(title);
     }
 
-    public void deleteById(long id) throws MovieDoesNotExist {
+    public void deleteById(long id) throws MovieDoesNotExistException {
             getMovieFromCatalog.getById(id);
             movieRepository.deleteById(id);
         }
