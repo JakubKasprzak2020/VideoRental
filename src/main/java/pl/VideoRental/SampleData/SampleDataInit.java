@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import pl.VideoRental.domain.Movie;
+import pl.VideoRental.domain.UserSignInData;
 import pl.VideoRental.useCase.exception.MovieAlreadyExistException;
 import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
 import pl.VideoRental.useCase.port.moviePort.CreateMovie;
@@ -48,7 +49,17 @@ public class SampleDataInit implements CommandLineRunner {
     }
 
     private void initSampleUsers(){
-createUser.create("Quentin", "Tarantino", "password", "quentin@quentin.com", "Hollywood");
+
+        UserSignInData userSignInData = UserSignInData.builder()
+                .name("Quentin")
+                .lastName("Tarantino")
+                .email("quentin@quentin.com")
+                .password("password")
+                .address("Hollywood")
+                .build();
+
+
+createUser.create(userSignInData);
     }
 
 

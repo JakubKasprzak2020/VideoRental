@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.VideoRental.domain.User;
+import pl.VideoRental.domain.UserSignInData;
 import pl.VideoRental.useCase.exception.UserDoesNotExistException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,7 +28,14 @@ class CreateUserTest {
         long expectedValueofIdOfUser = 2; //with generatedValue Strategy = Auto (user id = 2, cart id = 1)
         long expectedValueofIdOfCart = 1; //with generatedValue Strategy = Auto (user id = 2, cart id = 1)
         //when
-        createUser.create(name, lastName, password, email, address);
+        UserSignInData userSignInData = UserSignInData.builder()
+                .name(name)
+                .lastName(lastName)
+                .password(password)
+                .email(email)
+                .address(address)
+                .build();
+        createUser.create(userSignInData);
         User user = getUserFromCatalog.getById(expectedValueofIdOfUser);
         //then
         assertEquals(name, user.getName());

@@ -6,6 +6,7 @@ import pl.VideoRental.adapter.repository.CartRepository;
 import pl.VideoRental.adapter.repository.UserRepository;
 import pl.VideoRental.domain.Cart;
 import pl.VideoRental.domain.User;
+import pl.VideoRental.domain.UserSignInData;
 import pl.VideoRental.domain.UserType;
 
 @Component
@@ -15,13 +16,13 @@ public class CreateUser {
     private final UserRepository userRepository;
     private final CartRepository cartRepository;
 
-    public void create(String name, String lastName, String password, String email, String address){
+    public void create(UserSignInData userSignInData){
         User user = User.builder()
-                .name(name)
-                .lastName(lastName)
-                .password(password)
-                .email(email)
-                .address(address)
+                .name(userSignInData.getName())
+                .lastName(userSignInData.getLastName())
+                .password(userSignInData.getPassword())
+                .email(userSignInData.getEmail())
+                .address(userSignInData.getAddress())
                 .cart(new Cart())
                 .userType(UserType.REGULAR)
                 .build();
