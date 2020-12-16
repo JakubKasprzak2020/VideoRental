@@ -1,5 +1,6 @@
 package pl.VideoRental.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public class Delivery {
     private boolean isDelivered = false;
 
     @OneToOne
+    @JsonManagedReference
     private Order order;
 
 

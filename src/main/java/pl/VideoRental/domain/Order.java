@@ -1,5 +1,7 @@
 package pl.VideoRental.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import pl.VideoRental.domain.Copy;
 import pl.VideoRental.domain.User;
@@ -26,13 +28,14 @@ public class Order {
     private BigDecimal cost;
 
     @ManyToOne
-  //  @JoinColumn(name = "fk_user")
+    @JsonManagedReference
     private User user;
 
     @OneToMany
     private List<Copy> copies = new ArrayList<>();
 
     @OneToOne(mappedBy = "order")
+    @JsonBackReference
     private Delivery delivery;
 
 }

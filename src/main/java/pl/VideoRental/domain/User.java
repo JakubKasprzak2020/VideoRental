@@ -1,5 +1,6 @@
 package pl.VideoRental.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,9 +32,11 @@ public class User {
     private Cart cart = new Cart();
 
     @OneToMany(mappedBy = "user", fetch=FetchType.EAGER)
+    @JsonBackReference
     private List<Copy> copies = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST)
+    @JsonBackReference
     private List<Order> orders = new ArrayList<>();
 
 }

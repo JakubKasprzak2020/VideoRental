@@ -1,5 +1,6 @@
 package pl.VideoRental.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,6 +27,7 @@ public class Movie {
     private Genre genre;
 
     @OneToMany(mappedBy = "movie", orphanRemoval = true, cascade = CascadeType.PERSIST)
+    @JsonBackReference
     private List<Copy> copies = new ArrayList<>();
 
 
