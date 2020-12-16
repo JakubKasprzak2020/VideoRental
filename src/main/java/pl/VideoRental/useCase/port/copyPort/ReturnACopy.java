@@ -21,7 +21,6 @@ public class ReturnACopy {
        copy.setAvailable(true);
        copy.setRentalDays(0);
        copy.setRentalDate(null);
-       copy.setOrder(null);
        userRepository.save(user);
        copyRepository.save(copy);
     }

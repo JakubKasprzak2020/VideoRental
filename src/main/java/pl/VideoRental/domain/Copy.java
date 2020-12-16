@@ -24,15 +24,10 @@ public class Copy {
     boolean isAvailable = true;
 
     @ManyToOne
- //   @JoinColumn(name = "movieId")
     private Movie movie;
 
     @ManyToOne
-  //  @JoinColumn(name = "userId")
     private User user;
 
-    @ManyToOne
-  //  @JoinColumn(name = "fk_order")
-    private Order order;
 
 }

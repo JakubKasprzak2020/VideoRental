@@ -33,7 +33,7 @@ public class User {
     @OneToMany(mappedBy = "user", fetch=FetchType.EAGER)
     private List<Copy> copies = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST, fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST)
     private List<Order> orders = new ArrayList<>();
 
 }

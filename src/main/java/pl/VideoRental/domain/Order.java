@@ -29,7 +29,7 @@ public class Order {
   //  @JoinColumn(name = "fk_user")
     private User user;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany
     private List<Copy> copies = new ArrayList<>();
 
     @OneToOne(mappedBy = "order")
