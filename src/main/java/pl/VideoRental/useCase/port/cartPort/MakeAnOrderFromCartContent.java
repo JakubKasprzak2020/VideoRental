@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.VideoRental.adapter.repository.CopyRepository;
 import pl.VideoRental.adapter.repository.OrderRepository;
 import pl.VideoRental.adapter.repository.UserRepository;
+import pl.VideoRental.domain.Cart;
 import pl.VideoRental.domain.Copy;
 import pl.VideoRental.domain.Order;
 import pl.VideoRental.domain.User;
@@ -18,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MakeAnOrderFromCartContent {
 
+    private final Cart cart;
     private final UserRepository userRepository;
     private final CopyRepository copyRepository;
     private final OrderRepository orderRepository;
@@ -27,14 +29,14 @@ public class MakeAnOrderFromCartContent {
 
     @Transactional
     public void makeAnOrder(User user){
-        List<Copy> copies = user.getCart().getCopies();
+        List<Copy> copies = cart.getCopies();
         for (Copy copy : copies) {
             rentACopy.rent(copy, user);
         }
         Order order = buildOrder(user);
         orderRepository.save(order);
         user.getOrders().add(order);
-        emptyACart.empty(user.getCart());
+        emptyACart.empty(cart);
         userRepository.save(user);
     }
 
@@ -42,8 +44,8 @@ public class MakeAnOrderFromCartContent {
     private Order buildOrder(User user){
         return Order.builder()
                 .user(user)
-                .copies(user.getCart().getCopies())
-                .cost(user.getCart().getToPay())
+                .copies(cart.getCopies())
+                .cost(cart.getToPay())
                 .build();
     }
 

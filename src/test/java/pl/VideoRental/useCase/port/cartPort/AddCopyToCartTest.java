@@ -1,15 +1,14 @@
-package pl.VideoRental.useCase.port.copyPort;
+package pl.VideoRental.useCase.port.cartPort;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import pl.VideoRental.domain.Copy;
-import pl.VideoRental.domain.Movie;
-import pl.VideoRental.domain.User;
-import pl.VideoRental.domain.UserSignInData;
+import pl.VideoRental.domain.*;
 import pl.VideoRental.useCase.exception.CopyIsAlreadyRentedException;
 import pl.VideoRental.useCase.exception.MovieAlreadyExistException;
 import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
+import pl.VideoRental.useCase.port.copyPort.CreateCopyOfAMovie;
+import pl.VideoRental.useCase.port.copyPort.GetAllCopies;
 import pl.VideoRental.useCase.port.moviePort.CreateMovie;
 import pl.VideoRental.useCase.port.userPort.CreateUser;
 import pl.VideoRental.useCase.port.moviePort.GetMovieFromCatalog;
@@ -37,6 +36,8 @@ class AddCopyToCartTest {
     CreateCopyOfAMovie createCopyOfAMovie;
     @Autowired
     GetAllCopies getAllCopies;
+    @Autowired
+    Cart cart;
 
 
 //TODO - the same methods are in MakeAnOrderFromCartContentTest - DRY!
@@ -76,7 +77,7 @@ class AddCopyToCartTest {
         //when
         addCopyToCart.add(user, copy, 2, LocalDate.of(2020, 1, 1));
         //then
-        Copy copyFromCart = user.getCart().getCopies().get(0);
+        Copy copyFromCart = cart.getCopies().get(0);
         assertEquals(copy.getId(), copyFromCart.getId());
         assertEquals(movie.getTitle(), copyFromCart.getMovie().getTitle());
         assertFalse(copyFromCart.isAvailable());
@@ -92,5 +93,11 @@ class AddCopyToCartTest {
     @Test
     void cannotAddToCartCopyThatIsNotValid() {
 //TODO
+    }
+
+    static class RemoveACopyFromACartTest {
+
+        //TODO
+
     }
 }

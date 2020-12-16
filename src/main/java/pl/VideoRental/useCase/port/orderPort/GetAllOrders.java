@@ -3,9 +3,7 @@ package pl.VideoRental.useCase.port.orderPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.VideoRental.adapter.repository.OrderRepository;
-import pl.VideoRental.adapter.repository.UserRepository;
 import pl.VideoRental.domain.Order;
-import pl.VideoRental.domain.User;
 
 import java.util.ArrayList;
 import java.util.List;

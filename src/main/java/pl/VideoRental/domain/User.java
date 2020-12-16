@@ -26,10 +26,6 @@ public class User {
     private String address;
     private UserType userType;
 
-    @OneToOne //(mappedBy = "user")
-    @JoinColumn(name = "fk_user")
-    @Transient //TODO is it correct?
-    private Cart cart = new Cart();
 
     @OneToMany(mappedBy = "user", fetch=FetchType.EAGER)
     @JsonBackReference

@@ -1,4 +1,4 @@
-package pl.VideoRental.useCase.port.copyPort;
+package pl.VideoRental.useCase.port.cartPort;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -7,7 +7,7 @@ import pl.VideoRental.domain.Cart;
 import pl.VideoRental.domain.Copy;
 import pl.VideoRental.domain.User;
 import pl.VideoRental.useCase.exception.CopyIsAlreadyRentedException;
-import pl.VideoRental.useCase.port.cartPort.CalculateCostOfCopiesInCart;
+import pl.VideoRental.useCase.port.copyPort.IsCopyFree;
 
 import java.time.LocalDate;
 
@@ -15,12 +15,12 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class AddCopyToCart {
 
+    private final Cart cart;
     private final IsCopyFree isCopyFree;
     private final CalculateCostOfCopiesInCart calculateCostOfCopiesInCart;
     private final CopyRepository copyRepository;
 
     public void add(User user, Copy copy, int rentalDays, LocalDate rentalDate) throws CopyIsAlreadyRentedException {
-        Cart cart = user.getCart();
         if (isCopyFree.isFree(copy)) {
             cart.getCopies().add(copy);
             copy.setAvailable(false);

@@ -7,7 +7,6 @@ import pl.VideoRental.domain.*;
 import pl.VideoRental.useCase.exception.CopyIsAlreadyRentedException;
 import pl.VideoRental.useCase.exception.MovieAlreadyExistException;
 import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
-import pl.VideoRental.useCase.port.copyPort.AddCopyToCart;
 import pl.VideoRental.useCase.port.copyPort.CreateCopyOfAMovie;
 import pl.VideoRental.useCase.port.copyPort.GetAllCopies;
 import pl.VideoRental.useCase.port.orderPort.GetAllOrders;

@@ -18,6 +18,8 @@ class EmptyACartTest {
 
     @Autowired
     private EmptyACart emptyACart;
+    @Autowired
+    private Cart cart;
 
     @Test
     public void shouldEmptyACart(){
@@ -27,10 +29,6 @@ class EmptyACartTest {
         List<Copy> copies = new ArrayList<>();
         copies.add(copy1);
         copies.add(copy2);
-        Cart cart = Cart.builder()
-                .copies(copies)
-                .toPay(BigDecimal.TEN)
-                .build();
         //when
         emptyACart.empty(cart);
         //then

@@ -1,4 +1,4 @@
-package pl.VideoRental.useCase.port.copyPort;
+package pl.VideoRental.useCase.port.cartPort;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -10,13 +10,13 @@ import pl.VideoRental.useCase.port.cartPort.CalculateCostOfCopiesInCart;
 
 @Component
 @RequiredArgsConstructor
-public class RemoveACopyFromACart {
+public class RemoveCopyFromCart {
 
+    private final Cart cart;
     private final CopyRepository copyRepository;
     private final CalculateCostOfCopiesInCart calculateCostOfCopiesInCart;
 
     public void removeCopy(User user, Copy copy){
-        Cart cart = user.getCart();
         copy.setAvailable(true);
         copyRepository.save(copy);
         cart.getCopies().remove(copy);

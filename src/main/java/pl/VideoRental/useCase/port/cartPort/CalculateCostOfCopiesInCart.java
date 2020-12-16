@@ -1,5 +1,6 @@
 package pl.VideoRental.useCase.port.cartPort;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.VideoRental.domain.*;
 
@@ -9,7 +10,10 @@ import java.time.Period;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class CalculateCostOfCopiesInCart {
+
+    private final Cart cart;
 
 
      final BigDecimal BASIC_COST_FOR_ONE_DAY = BigDecimal.valueOf(5);
@@ -31,7 +35,6 @@ public class CalculateCostOfCopiesInCart {
      final int MAX_DAYS_FOR_STANDARD_TERM_RENTAL = 6;
 
     public void calculate(User user) {
-        Cart cart = user.getCart();
        List<Copy> copies = cart.getCopies();
        for (Copy c : copies) {
            BigDecimal costOfCopy = calculateCostOfCopy(c, user);

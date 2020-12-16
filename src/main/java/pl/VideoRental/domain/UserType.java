@@ -1,4 +1,8 @@
 package pl.VideoRental.domain;
 
-public enum UserType { REGULAR, SILVER, GOLD, PLATINUM
+public enum UserType {
+    REGULAR,
+    SILVER,
+    GOLD,
+    PLATINUM
 }

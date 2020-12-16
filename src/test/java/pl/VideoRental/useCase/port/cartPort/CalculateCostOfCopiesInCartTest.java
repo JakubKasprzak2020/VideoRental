@@ -21,11 +21,13 @@ class CalculateCostOfCopiesInCartTest {
     private CreateCopyOfAMovie createCopyOfAMovie;
     @Autowired
     private CalculateCostOfCopiesInCart calculateCostOfCopiesInCart;
+    @Autowired
+    private Cart cart;
 
-    private User regularUser = User.builder().name("RegularUser").userType(UserType.REGULAR).cart(new Cart()).build();
-    private User silverUser = User.builder().name("SilverUser").userType(UserType.SILVER).cart(new Cart()).build();
-    private User goldUser = User.builder().name("GoldUser").userType(UserType.GOLD).cart(new Cart()).build();
-    private User platinumUser = User.builder().name("PlatinumUser").userType(UserType.PLATINUM).cart(new Cart()).build();
+    private User regularUser = User.builder().name("RegularUser").userType(UserType.REGULAR).build();
+    private User silverUser = User.builder().name("SilverUser").userType(UserType.SILVER).build();
+    private User goldUser = User.builder().name("GoldUser").userType(UserType.GOLD).build();
+    private User platinumUser = User.builder().name("PlatinumUser").userType(UserType.PLATINUM).build();
 
     private Movie premiereMovie = Movie.builder().title("Premiere Movie").releaseDate(LocalDate.of(2020, 12, 01)).build();
     private Movie newMovie = Movie.builder().title("New Movie").releaseDate(LocalDate.of(2020, 10, 01)).build();
@@ -158,7 +160,7 @@ class CalculateCostOfCopiesInCartTest {
         classicCopy.setUser(regularUser);
         classicCopy.setRentalDays(1);
         classicCopy.setRentalDate(RENTALDATE);
-        Cart cart = regularUser.getCart();
+       // Cart cart = calculateCostOfCopiesInCart.getCart();
         cart.getCopies().add(premiereCopy);
         cart.getCopies().add(classicCopy);
         //when
