@@ -11,14 +11,14 @@ import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class DeleteMovieFromCatalogTest {
+class DeleteMovieTest {
 
     @Autowired
-    private AddMovieToCatalog addMovieToCatalog;
+    private CreateMovie createMovie;
     @Autowired
     private GetMovieFromCatalog getMovieFromCatalog;
     @Autowired
-    private DeleteMovieFromCatalog deleteMovieFromCatalog;
+    private DeleteMovie deleteMovie;
 
     private Movie movie = new Movie().builder()
             .title("Sherlock Holmes")
@@ -30,9 +30,9 @@ class DeleteMovieFromCatalogTest {
     @Test
     void deleteFromCatalogById() throws MovieAlreadyExistException, MovieDoesNotExistException {
         //given
-        addMovieToCatalog.add(movie);
+        createMovie.create(movie);
         //when
-        deleteMovieFromCatalog.deleteById(movie.getId());
+        deleteMovie.deleteById(movie.getId());
         //then
         assertThrows(MovieDoesNotExistException.class, ()-> {getMovieFromCatalog.getById(movie.getId());});
     }
@@ -40,9 +40,9 @@ class DeleteMovieFromCatalogTest {
     @Test //TODO - "No EntityManager with actual transaction available for current thread"
     void deleteFromCatalogByTitle() throws MovieAlreadyExistException, MovieDoesNotExistException {
         //given
-        addMovieToCatalog.add(movie);
+        createMovie.create(movie);
         //when
-        deleteMovieFromCatalog.deleteByTitle(movie.getTitle());
+        deleteMovie.deleteByTitle(movie.getTitle());
         //then
         assertThrows(MovieDoesNotExistException.class, ()-> {getMovieFromCatalog.getByTitle(movie.getTitle());});
     }
@@ -52,7 +52,8 @@ class DeleteMovieFromCatalogTest {
         //given
         long randomNumber = 7;
         //then
-        assertThrows(MovieDoesNotExistException.class, ()-> {deleteMovieFromCatalog.deleteById(randomNumber);});
+        assertThrows(MovieDoesNotExistException.class, ()-> {
+            deleteMovie.deleteById(randomNumber);});
     }
 
 

@@ -27,7 +27,7 @@ class MakeAnOrderFromCartContentTest {
     @Autowired
     private GetAllUsers getAllUsers;
     @Autowired
-    private AddMovieToCatalog addMovieToCatalog;
+    private CreateMovie createMovie;
     @Autowired
     private CreateCopyOfAMovie createCopyOfAMovie;
     @Autowired
@@ -50,7 +50,7 @@ class MakeAnOrderFromCartContentTest {
 
     private Movie createSampleMovieAndGetItFromCatalog() throws MovieDoesNotExistException, MovieAlreadyExistException {
         Movie movie = Movie.builder().title("Harry Potter").releaseDate(LocalDate.of(2011, 1, 1)).build();
-        addMovieToCatalog.add(movie);
+        createMovie.create(movie);
         return getMovieFromCatalog.getByTitle(movie.getTitle());
     }
 

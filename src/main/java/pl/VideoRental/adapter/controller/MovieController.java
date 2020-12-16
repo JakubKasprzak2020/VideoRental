@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import pl.VideoRental.domain.Movie;
 import pl.VideoRental.useCase.exception.MovieAlreadyExistException;
 import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
-import pl.VideoRental.useCase.port.AddMovieToCatalog;
-import pl.VideoRental.useCase.port.DeleteMovieFromCatalog;
+import pl.VideoRental.useCase.port.CreateMovie;
+import pl.VideoRental.useCase.port.DeleteMovie;
 import pl.VideoRental.useCase.port.GetMovieFromCatalog;
 import pl.VideoRental.useCase.port.getAllUtils.GetAllMovies;
 
@@ -17,8 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MovieController {
 
-    private final AddMovieToCatalog addMovieToCatalog;
-    private final DeleteMovieFromCatalog deleteMovieFromCatalog;
+    private final CreateMovie createMovie;
+    private final DeleteMovie deleteMovie;
     private final GetAllMovies getAllMovies;
     private final GetMovieFromCatalog getMovieFromCatalog;
 
@@ -44,7 +44,7 @@ public class MovieController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createMovie(@RequestBody Movie movie) throws MovieAlreadyExistException {
         try {
-            addMovieToCatalog.add(movie);
+            createMovie.create(movie);
             System.out.println(movie.getTitle() + " was created");
         } catch ( MovieAlreadyExistException e) {
             System.out.println(e.getMessage());
@@ -55,7 +55,7 @@ public class MovieController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteMovie(@PathVariable long id) throws MovieDoesNotExistException {
         try {
-            deleteMovieFromCatalog.deleteById(id);
+            deleteMovie.deleteById(id);
         } catch (MovieDoesNotExistException e) {
             System.out.println(e.getMessage());
         }

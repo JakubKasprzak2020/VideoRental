@@ -13,14 +13,14 @@ import static org.junit.jupiter.api.Assertions.*;
 //@ExtendWith(SpringExtension.class)
 //@DataJpaTest
 @SpringBootTest
-class AddMovieToCatalogTest {
+class CreateMovieTest {
 
     @Autowired
-    private AddMovieToCatalog addMovieToCatalog;
+    private CreateMovie createMovie;
     @Autowired
     private GetMovieFromCatalog getMovieFromCatalog;
     @Autowired
-    private DeleteMovieFromCatalog deleteMovieFromCatalog;
+    private DeleteMovie deleteMovie;
 
 
 
@@ -33,7 +33,7 @@ class AddMovieToCatalogTest {
                 .description("Batman returned to Gotham...")
                 .build();
         //when
-        addMovieToCatalog.add(movie);
+        createMovie.create(movie);
         Movie batman = getMovieFromCatalog.getByTitle(movie.getTitle());
         //then
         assertEquals(movie.getTitle(), batman.getTitle());
@@ -50,10 +50,10 @@ class AddMovieToCatalogTest {
                 .description("An actor played Super Hero Birdman...")
                 .build();
         //when
-        addMovieToCatalog.add(movie);
+        createMovie.create(movie);
         //then
         assertThrows(MovieAlreadyExistException.class, () -> {
-            addMovieToCatalog.add(movie);
+            createMovie.create(movie);
         });
     }
 

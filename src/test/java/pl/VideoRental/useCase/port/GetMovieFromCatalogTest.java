@@ -16,7 +16,7 @@ class GetMovieFromCatalogTest {
     @Autowired
     GetMovieFromCatalog getMovieFromCatalog;
     @Autowired
-    AddMovieToCatalog addMovieToCatalog;
+    CreateMovie createMovie;
 
 
     @Test
@@ -28,7 +28,7 @@ class GetMovieFromCatalogTest {
                 .description("Batman returned to Gotham...")
                 .build();
         //when
-        addMovieToCatalog.add(movie);
+        createMovie.create(movie);
         Movie movieGotFromCatalog = getMovieFromCatalog.getById(movie.getId());
         //then
         assertEquals(movie.getId(), movieGotFromCatalog.getId());
@@ -43,7 +43,7 @@ class GetMovieFromCatalogTest {
                 .description("Superman returned to Metropolis...")
                 .build();
         //when
-        addMovieToCatalog.add(movie);
+        createMovie.create(movie);
         Movie movieGotFromCatalog = getMovieFromCatalog.getByTitle(movie.getTitle());
         //then
         assertEquals(movie.getTitle(), movieGotFromCatalog.getTitle());

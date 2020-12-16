@@ -8,12 +8,12 @@ import pl.VideoRental.useCase.exception.MovieAlreadyExistException;
 
 @Component
 @RequiredArgsConstructor
-public class AddMovieToCatalog {
+public class CreateMovie {
 
     private final MovieRepository movieRepository;
     private final IsMovieExist isMovieExist;
 
-    public void add(Movie movie) throws MovieAlreadyExistException {
+    public void create(Movie movie) throws MovieAlreadyExistException {
         if (!isMovieExist.isExistByTitle(movie.getTitle())) {
             movieRepository.save(movie);
         } else {

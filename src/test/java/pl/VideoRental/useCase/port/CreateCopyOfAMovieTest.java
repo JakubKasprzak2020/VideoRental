@@ -18,7 +18,7 @@ class CreateCopyOfAMovieTest {
     @Autowired
     private GetMovieFromCatalog getMovieFromCatalog;
     @Autowired
-    private AddMovieToCatalog addMovieToCatalog;
+    private CreateMovie createMovie;
     @Autowired
     private CreateCopyOfAMovie createCopyOfAMovie;
     @Autowired
@@ -34,7 +34,7 @@ class CreateCopyOfAMovieTest {
                 .title("GhostBusters")
                 .genre(Genre.COMEDY)
                 .build();
-        addMovieToCatalog.add(movie);
+        createMovie.create(movie);
         //when
         createCopyOfAMovie.create(movie.getId());
         boolean result = isCopyExist.isExistById(expectedValueofIdOfCopy);

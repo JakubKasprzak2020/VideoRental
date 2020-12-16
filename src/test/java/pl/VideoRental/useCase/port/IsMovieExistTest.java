@@ -1,6 +1,5 @@
 package pl.VideoRental.useCase.port;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,9 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class IsMovieExistTest {
 
     @Autowired
-    AddMovieToCatalog addMovieToCatalog;
+    CreateMovie createMovie;
     @Autowired
-    DeleteMovieFromCatalog deleteMovieFromCatalog;
+    DeleteMovie deleteMovie;
     @Autowired
     IsMovieExist isMovieExist;
 
@@ -29,7 +28,7 @@ class IsMovieExistTest {
                 .genre(Genre.COMEDY)
                 .build();
         //when
-        addMovieToCatalog.add(movie);
+        createMovie.create(movie);
         boolean result = isMovieExist.isExistById(movie.getId());
         //then
         assertTrue(result);
@@ -43,7 +42,7 @@ class IsMovieExistTest {
                 .genre(Genre.HORROR)
                 .build();
         //when
-        addMovieToCatalog.add(movie);
+        createMovie.create(movie);
         boolean result = isMovieExist.isExistByTitle(movie.getTitle());
         //then
         assertTrue(result);

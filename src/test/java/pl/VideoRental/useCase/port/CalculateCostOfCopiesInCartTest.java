@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CalculateCostOfCopiesInCartTest {
 
     @Autowired
-    private AddMovieToCatalog addMovieToCatalog;
+    private CreateMovie createMovie;
     @Autowired
     private CreateCopyOfAMovie createCopyOfAMovie;
     @Autowired
