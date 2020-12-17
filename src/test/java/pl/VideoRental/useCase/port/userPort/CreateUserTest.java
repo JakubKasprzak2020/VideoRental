@@ -18,17 +18,13 @@ class CreateUserTest {
     private GetUserFromCatalog getUserFromCatalog;
 
     @Test
-    void create_user() throws UserDoesNotExistException {
+    void shouldCreateUser() throws UserDoesNotExistException {
         //given
         String name = "John";
         String lastName = "Smith";
         String password = "myPassword1";
         String email = "email@email.com";
         String address = "address";
-        //TODO - change it for sure!
-        long expectedValueofIdOfUser = 2; //with generatedValue Strategy = Auto (user id = 2, cart id = 1)
-    //    long expectedValueofIdOfCart = 1; //with generatedValue Strategy = Auto (user id = 2, cart id = 1)
-        //when
         UserSignInData userSignInData = UserSignInData.builder()
                 .name(name)
                 .lastName(lastName)
@@ -36,11 +32,14 @@ class CreateUserTest {
                 .email(email)
                 .address(address)
                 .build();
-        createUser.create(userSignInData);
-        User user = getUserFromCatalog.getById(expectedValueofIdOfUser);
+        User user = createUser.create(userSignInData);
         //then
         assertEquals(name, user.getName());
         assertEquals(lastName, user.getLastName());
+        assertEquals(password, user.getPassword());
+        assertEquals(email, user.getEmail());
+        assertEquals(address, user.getAddress());
+        assertTrue(user.getId() != 0);
     }
 
 }

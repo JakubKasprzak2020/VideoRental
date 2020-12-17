@@ -17,6 +17,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class SampleDataInit implements CommandLineRunner {
 
+    public static int usersLengthMarker = 0;
 
     private final CreateMovie createMovie;
     private final CreateCopyOfAMovie createCopyOfAMovie;
@@ -50,21 +51,32 @@ public class SampleDataInit implements CommandLineRunner {
 
     private void initSampleUsers(){
 
-        UserSignInData userSignInData = UserSignInData.builder()
+        UserSignInData userSignInData1 = UserSignInData.builder()
                 .name("Quentin")
                 .lastName("Tarantino")
                 .email("quentin@quentin.com")
                 .password("password")
                 .address("Hollywood")
                 .build();
+        UserSignInData userSignInData2 = UserSignInData.builder()
+                .name("Queen")
+                .lastName("Elizabeth")
+                .email("queen@elizabeth.gb")
+                .password("longlive")
+                .address("London")
+                .build();
 
-
-createUser.create(userSignInData);
+        createUserAndChangeUsersSizeMarker(userSignInData1);
+        createUserAndChangeUsersSizeMarker(userSignInData2);
     }
 
 
 
 
+    private void createUserAndChangeUsersSizeMarker(UserSignInData userSignInData){
+        createUser.create(userSignInData);
+        usersLengthMarker++;
+    }
 
 
 }

@@ -14,7 +14,7 @@ public class CreateUser {
 
     private final UserRepository userRepository;
 
-    public void create(UserSignInData userSignInData){
+    public User create(UserSignInData userSignInData){
         User user = User.builder()
                 .name(userSignInData.getName())
                 .lastName(userSignInData.getLastName())
@@ -23,8 +23,8 @@ public class CreateUser {
                 .address(userSignInData.getAddress())
                 .userType(UserType.REGULAR)
                 .build();
-
         userRepository.save(user);
+        return user;
     }
 
 

@@ -9,10 +9,11 @@ import pl.VideoRental.domain.User;
 import pl.VideoRental.domain.UserSignInData;
 import pl.VideoRental.useCase.exception.UserDoesNotExistException;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class GetUserFromCatalogTest {
 
 
@@ -20,16 +21,17 @@ class GetUserFromCatalogTest {
     private CreateUser createUser;
     @Autowired
     private GetUserFromCatalog getUserFromCatalog;
+    @Autowired
+    private GetAllUsers getAllUsers;
 
     @Test
-    void getUserWhenUserExist() throws UserDoesNotExistException {
+    void shouldGetUserWhenUserExist() throws UserDoesNotExistException {
         //given
         String name = "John";
         String lastName = "Smith";
         String password = "myPassword1";
         String email = "email@email.com";
         String address = "address";
-        long expectedValueofIdOfUser = 2; //with generatedValue Strategy = Auto (user id = 2, cart id = 1)
         //when
         UserSignInData userSignInData = UserSignInData.builder()
                 .name(name)
@@ -38,19 +40,23 @@ class GetUserFromCatalogTest {
                 .email(email)
                 .address(address)
                 .build();
-        createUser.create(userSignInData);
-        User user = getUserFromCatalog.getById(expectedValueofIdOfUser);
+       User user = createUser.create(userSignInData);
+        User userFromCatalog = getUserFromCatalog.getById(user.getId());
         //then
         assertEquals(name, user.getName());
         assertEquals(lastName, user.getLastName());
+        assertEquals(password, user.getPassword());
+        assertEquals(email, user.getEmail());
+        assertEquals(address, user.getAddress());
+        assertEquals(user.getId(), userFromCatalog.getId());
     }
 
     @Test
-    void getUserWhenUserDoesNotExist() throws UserDoesNotExistException {
+    void shouldThrowExceptionWhenUserDoesNotExist() throws UserDoesNotExistException {
         //given
-        long randomNumber = 1;
+        long numberOfUserIdThatNotExist = 1300;
         //then
-        assertThrows(UserDoesNotExistException.class, ()->{getUserFromCatalog.getById(randomNumber);});
+        assertThrows(UserDoesNotExistException.class, ()->{getUserFromCatalog.getById(numberOfUserIdThatNotExist);});
     }
 
 }
