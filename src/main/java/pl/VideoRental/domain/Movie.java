@@ -26,7 +26,7 @@ public class Movie {
     private LocalDate releaseDate;
     private Genre genre;
 
-    @OneToMany(mappedBy = "movie", orphanRemoval = true, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "movie", orphanRemoval = true, cascade = CascadeType.PERSIST, fetch=FetchType.EAGER)
     @JsonBackReference
     private List<Copy> copies = new ArrayList<>();
 

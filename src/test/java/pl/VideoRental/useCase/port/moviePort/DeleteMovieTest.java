@@ -11,6 +11,8 @@ import pl.VideoRental.useCase.port.moviePort.GetMovieFromCatalog;
 import pl.VideoRental.useCase.port.moviePort.CreateMovie;
 import pl.VideoRental.useCase.port.moviePort.DeleteMovie;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -22,41 +24,39 @@ class DeleteMovieTest {
     private GetMovieFromCatalog getMovieFromCatalog;
     @Autowired
     private DeleteMovie deleteMovie;
+    @Autowired
+    private GetAllMovies getAllMovies;
 
     private Movie movie = new Movie().builder()
             .title("Sherlock Holmes")
             .genre(Genre.CRIME_STORY)
             .description("Sherlock Holmes returned to London...")
+            .releaseDate(LocalDate.of(2000, 1, 1))
             .build();
 
 
+
     @Test
-    void deleteFromCatalogById() throws MovieAlreadyExistException, MovieDoesNotExistException {
+    void shouldDeleteMovieById() throws MovieAlreadyExistException, MovieDoesNotExistException {
         //given
         createMovie.create(movie);
         //when
         deleteMovie.deleteById(movie.getId());
         //then
-        assertThrows(MovieDoesNotExistException.class, ()-> {getMovieFromCatalog.getById(movie.getId());});
+        assertThrows(MovieDoesNotExistException.class, ()-> getMovieFromCatalog.getById(movie.getId()));
     }
 
-    @Test //TODO - "No EntityManager with actual transaction available for current thread"
-    void deleteFromCatalogByTitle() throws MovieAlreadyExistException, MovieDoesNotExistException {
-        //given
-        createMovie.create(movie);
-        //when
-        deleteMovie.deleteByTitle(movie.getTitle());
-        //then
-        assertThrows(MovieDoesNotExistException.class, ()-> {getMovieFromCatalog.getByTitle(movie.getTitle());});
-    }
 
     @Test
-    void deleteByIdWhenMovieDoesNotExists() {
+    void shouldNotDeleteAnythingWithWrongIdAsAnArgument() {
         //given
-        long randomNumber = 7;
+        int moviesSizeBeforeDeleting = getAllMovies.getAll().size();
+        long movieIdThatNotExist = 1300;
+        //when
+        deleteMovie.deleteById(movieIdThatNotExist);
+        int movieSizeAfterDeleting = getAllMovies.getAll().size();
         //then
-        assertThrows(MovieDoesNotExistException.class, ()-> {
-            deleteMovie.deleteById(randomNumber);});
+        assertEquals(moviesSizeBeforeDeleting, movieSizeAfterDeleting);
     }
 
 

@@ -14,6 +14,4 @@ public interface MovieRepository extends CrudRepository<Movie, Long> {
 
     public boolean existsByTitle(String title);
 
-    public Long deleteByTitle(String title);
-
 }

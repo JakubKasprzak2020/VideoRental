@@ -7,6 +7,8 @@ import pl.VideoRental.domain.Genre;
 import pl.VideoRental.domain.Movie;
 import pl.VideoRental.useCase.exception.MovieAlreadyExistException;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -14,8 +16,6 @@ class IsMovieExistTest {
 
     @Autowired
     CreateMovie createMovie;
-    @Autowired
-    DeleteMovie deleteMovie;
     @Autowired
     IsMovieExist isMovieExist;
 
@@ -26,6 +26,8 @@ class IsMovieExistTest {
         Movie movie = Movie.builder()
                 .title("The Big Lebowski")
                 .genre(Genre.COMEDY)
+                .releaseDate(LocalDate.of(2000, 1, 1))
+                .description("Comedy of the Coen Brothers.")
                 .build();
         //when
         createMovie.create(movie);
@@ -40,6 +42,8 @@ class IsMovieExistTest {
         Movie movie = Movie.builder()
                 .title("Shining")
                 .genre(Genre.HORROR)
+                .releaseDate(LocalDate.of(2000, 1, 1))
+                .description("Horror movie made by Stanley Kubrick.")
                 .build();
         //when
         createMovie.create(movie);
@@ -51,9 +55,9 @@ class IsMovieExistTest {
     @Test
     void isMovieExistByIdWhenMovieDoesNotExist() {
         //given
-        long randomNumber = 18;
+        long idOfMovieThatDoesNotExist = 2500;
         //when
-        boolean result = isMovieExist.isExistById(randomNumber);
+        boolean result = isMovieExist.isExistById(idOfMovieThatDoesNotExist);
         //then
         assertFalse(result);
     }
@@ -61,9 +65,9 @@ class IsMovieExistTest {
     @Test
     void isMovieExistByTitleWhenMovieDoesNotExist() {
         //given
-        String randomTitle = "Monthy Python and the Holy Grail";
+        String titleOfMovieThatDoesNotExist = "AAAAAAAAAAA87654gbhjnea6HSHAe";
         //when
-        boolean result = isMovieExist.isExistByTitle(randomTitle);
+        boolean result = isMovieExist.isExistByTitle(titleOfMovieThatDoesNotExist);
         //then
         assertFalse(result);
     }

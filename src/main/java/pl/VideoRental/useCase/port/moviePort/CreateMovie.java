@@ -13,9 +13,10 @@ public class CreateMovie {
     private final MovieRepository movieRepository;
     private final IsMovieExist isMovieExist;
 
-    public void create(Movie movie) throws MovieAlreadyExistException {
+    public Movie create(Movie movie) throws MovieAlreadyExistException {
         if (!isMovieExist.isExistByTitle(movie.getTitle())) {
             movieRepository.save(movie);
+            return movie;
         } else {
             throw new MovieAlreadyExistException(movie.getTitle());
         }

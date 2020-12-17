@@ -10,41 +10,23 @@ import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
 @RequiredArgsConstructor
 public class DeleteMovie {
 
-/*
-If movie is deleted all copies are removed by annotation CascadeType and OrphanRemoval in Movie class
- */
+    /**
+     * If movie is deleted all copies of this movie are removed
+     * becouse of annotation CascadeType and OrphanRemoval in Movie class
+     */
 
     private final MovieRepository movieRepository;
     private final GetMovieFromCatalog getMovieFromCatalog;
 
-    public void delete(Movie movie) throws MovieDoesNotExistException {
-            getMovieFromCatalog.getById(movie.getId());
-            movieRepository.delete(movie);
-    }
 
-
-    //TODO temporarily not working
-    public void deleteByTitle(String title){
-        movieRepository.deleteByTitle(title);
-    }
-
-    public void deleteById(long id) throws MovieDoesNotExistException {
-            getMovieFromCatalog.getById(id);
-            movieRepository.deleteById(id);
-        }
-
-    //METHOD WITH TRY CATCH BLOCK
-/*    public void deleteById(long id){
+    public void deleteById(long id){
         try {
             getMovieFromCatalog.getById(id);
             movieRepository.deleteById(id);
-        } catch (MovieDoesNotExist exception) {
+        } catch (MovieDoesNotExistException exception) {
             System.out.println(exception.getMessage());
         }
-    }*/
-
-
-
+    }
 
 
 }

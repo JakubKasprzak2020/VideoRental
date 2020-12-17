@@ -53,12 +53,8 @@ public class MovieController {
 
     @DeleteMapping("api/movies/delete/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteMovie(@PathVariable long id) throws MovieDoesNotExistException {
-        try {
+    public void deleteMovie(@PathVariable long id) {
             deleteMovie.deleteById(id);
-        } catch (MovieDoesNotExistException e) {
-            System.out.println(e.getMessage());
-        }
     }
 
 
