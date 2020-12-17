@@ -22,4 +22,16 @@ public class CreateMovie {
         }
     }
 
+
+    public Movie createIfIsNotExisting(Movie movie) {
+        try {
+            String title = movie.getTitle();
+            System.out.println(String.format("Movie %s was created successfully", title));
+            return create(movie);
+        } catch (MovieAlreadyExistException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
 }

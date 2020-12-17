@@ -40,15 +40,11 @@ public class MovieController {
         }
     }
 
+    //TODO not working with Postmen
     @PostMapping("/api/movies")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createMovie(@RequestBody Movie movie) throws MovieAlreadyExistException {
-        try {
-            createMovie.create(movie);
-            System.out.println(movie.getTitle() + " was created");
-        } catch ( MovieAlreadyExistException e) {
-            System.out.println(e.getMessage());
-        }
+    public Movie createMovie(@RequestBody Movie movie) throws MovieAlreadyExistException {
+        return createMovie.createIfIsNotExisting(movie);
     }
 
     @DeleteMapping("api/movies/delete/{id}")
