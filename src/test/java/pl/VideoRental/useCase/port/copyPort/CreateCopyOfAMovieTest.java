@@ -3,6 +3,7 @@ package pl.VideoRental.useCase.port.copyPort;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import pl.VideoRental.domain.Copy;
 import pl.VideoRental.domain.Genre;
 import pl.VideoRental.domain.Movie;
 import pl.VideoRental.useCase.exception.CopyDoesNotExistException;
@@ -11,6 +12,8 @@ import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
 import pl.VideoRental.useCase.port.moviePort.CreateMovie;
 import pl.VideoRental.useCase.port.moviePort.GetMovieFromCatalog;
 
+
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,30 +32,34 @@ class CreateCopyOfAMovieTest {
     private GetCopyFromCatalog getCopyFromCatalog;
 
     @Test
-    void createCopyOfAMovie() throws MovieAlreadyExistException, MovieDoesNotExistException, CopyDoesNotExistException {
+    void shouldCreateCopyOfAMovie() throws MovieAlreadyExistException, MovieDoesNotExistException, CopyDoesNotExistException {
         //given
-        long expectedValueofIdOfCopy = 2; //with generatedValue Strategy = Auto (movie id = 1, copy id = 2)
         Movie movie = Movie.builder()
                 .title("GhostBusters")
                 .genre(Genre.COMEDY)
+                .releaseDate(LocalDate.of(2000, 1, 1))
+                .description("Who can help when ghosts are attacking a city?")
                 .build();
         createMovie.create(movie);
         //when
-        createCopyOfAMovie.create(movie.getId());
-        boolean result = isCopyExist.isExistById(expectedValueofIdOfCopy);
+        Copy copy = createCopyOfAMovie.create(movie.getId());
+        boolean result = isCopyExist.isExistById(copy.getId());
         //then
         assertTrue(result);
-        assertEquals(movie.getTitle(), getCopyFromCatalog.get(expectedValueofIdOfCopy).getMovie().getTitle());
+        assertEquals(movie.getId(), copy.getMovie().getId());
+        assertNull(copy.getUser());
+        assertTrue(copy.isAvailable());
+        assertNull(copy.getRentalDate());
+        assertEquals(0, copy.getRentalDays());
     }
 
     @Test
-    void createCopyOfAMovieThatDoesNotExist(){
+    void shouldThrowExceptionWhenCreatingCopyOfAMovieThatDoesNotExist(){
         //given
-        long randomNumber = 87;
+        long idOfMovieThatDoNotExist = 5000;
         //then
-        assertThrows(MovieDoesNotExistException.class, () -> {
-            createCopyOfAMovie.create(randomNumber);
-        });
+        assertThrows(MovieDoesNotExistException.class, () ->
+            createCopyOfAMovie.create(idOfMovieThatDoNotExist));
 
     }
 

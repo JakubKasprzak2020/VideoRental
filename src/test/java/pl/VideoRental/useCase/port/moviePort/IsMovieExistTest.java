@@ -21,7 +21,7 @@ class IsMovieExistTest {
 
 
     @Test
-    void isMovieExistByIdWhenMovieExist() throws MovieAlreadyExistException {
+    void shouldReturnTrueWhenSearchingByIdWhenMovieExists() throws MovieAlreadyExistException {
         //given
         Movie movie = Movie.builder()
                 .title("The Big Lebowski")
@@ -37,7 +37,7 @@ class IsMovieExistTest {
     }
 
     @Test
-    void isMovieExistByTitleWhenMovieExist() throws MovieAlreadyExistException {
+    void shouldReturnTrueWhenSearchingByTitleWhenMovieExists() throws MovieAlreadyExistException {
         //given
         Movie movie = Movie.builder()
                 .title("Shining")
@@ -53,7 +53,7 @@ class IsMovieExistTest {
     }
 
     @Test
-    void isMovieExistByIdWhenMovieDoesNotExist() {
+    void shouldReturnFalseWhenSearchingByIdWhenMovieExists() {
         //given
         long idOfMovieThatDoesNotExist = 2500;
         //when
@@ -63,7 +63,7 @@ class IsMovieExistTest {
     }
 
     @Test
-    void isMovieExistByTitleWhenMovieDoesNotExist() {
+    void shouldReturnFalseWhenSearchingByTitleWhenMovieExists() {
         //given
         String titleOfMovieThatDoesNotExist = "AAAAAAAAAAA87654gbhjnea6HSHAe";
         //when
