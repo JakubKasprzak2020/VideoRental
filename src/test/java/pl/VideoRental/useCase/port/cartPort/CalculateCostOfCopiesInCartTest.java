@@ -11,6 +11,7 @@ import pl.VideoRental.useCase.port.copyPort.CreateCopyOfAMovie;
 import pl.VideoRental.useCase.port.moviePort.CreateMovie;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.stream.Stream;
 
@@ -27,28 +28,30 @@ class CalculateCostOfCopiesInCartTest {
     private CalculateCostOfCopiesInCart calculateCostOfCopiesInCart;
     @Autowired
     private Cart cart;
+    @Autowired
+    private EmptyACart emptyACart;
 
-    private static User regularUser = User.builder().name("RegularUser").userType(UserType.REGULAR).build();
-    private static User silverUser = User.builder().name("SilverUser").userType(UserType.SILVER).build();
-    private static User goldUser = User.builder().name("GoldUser").userType(UserType.GOLD).build();
-    private static User platinumUser = User.builder().name("PlatinumUser").userType(UserType.PLATINUM).build();
+    private static final User regularUser = User.builder().name("RegularUser").userType(UserType.REGULAR).build();
+    private static final User silverUser = User.builder().name("SilverUser").userType(UserType.SILVER).build();
+    private static final User goldUser = User.builder().name("GoldUser").userType(UserType.GOLD).build();
+    private static final User platinumUser = User.builder().name("PlatinumUser").userType(UserType.PLATINUM).build();
 
-    private static Movie premiereMovie = Movie.builder().title("Premiere Movie").releaseDate(LocalDate.of(2020, 12, 1)).build();
-    private static Movie newMovie = Movie.builder().title("New Movie").releaseDate(LocalDate.of(2020, 10, 1)).build();
-    private static Movie standardMovie = Movie.builder().title("Standard Movie").releaseDate(LocalDate.of(2020, 5, 1)).build();
-    private static Movie classicMovie = Movie.builder().title("Classic Movie").releaseDate(LocalDate.of(2005, 12, 1)).build();
+    private static final Movie premiereMovie = Movie.builder().title("Premiere Movie").releaseDate(LocalDate.of(2020, 12, 1)).build();
+    private static final Movie newMovie = Movie.builder().title("New Movie").releaseDate(LocalDate.of(2020, 10, 1)).build();
+    private static final Movie standardMovie = Movie.builder().title("Standard Movie").releaseDate(LocalDate.of(2020, 5, 1)).build();
+    private static final Movie classicMovie = Movie.builder().title("Classic Movie").releaseDate(LocalDate.of(2005, 12, 1)).build();
 
-    private static Copy premiereCopy = Copy.builder().movie(premiereMovie).build();
-    private static Copy newCopy = Copy.builder().movie(newMovie).build();
-    private static Copy standardCopy = Copy.builder().movie(standardMovie).build();
-    private static Copy classicCopy = Copy.builder().movie(classicMovie).build();
+    private static final Copy premiereCopy = Copy.builder().movie(premiereMovie).build();
+    private static final Copy newCopy = Copy.builder().movie(newMovie).build();
+    private static final Copy standardCopy = Copy.builder().movie(standardMovie).build();
+    private static final Copy classicCopy = Copy.builder().movie(classicMovie).build();
 
     private static final LocalDate RENTALDATE = LocalDate.of(2020, 12, 2);
 
 
     @ParameterizedTest
     @MethodSource("providesCopiesWithImpactOfDateRelease")
-    void shouldGiveImpactOfDatesReleases(Copy copy, BigDecimal expected){
+    void shouldGiveImpactOfDatesReleases(Copy copy, BigDecimal expected) {
         //when
         BigDecimal result = calculateCostOfCopiesInCart.getImpactOfDateRelease(copy, RENTALDATE);
         //then
@@ -65,16 +68,16 @@ class CalculateCostOfCopiesInCartTest {
     }
 
 
-   @ParameterizedTest
-   @MethodSource("providesUserWithImpactOfUserType")
-    void shouldGiveImpactOfUsersTypes(User user, BigDecimal expected){
+    @ParameterizedTest
+    @MethodSource("providesUserWithImpactOfUserType")
+    void shouldGiveImpactOfUsersTypes(User user, BigDecimal expected) {
         //when
         BigDecimal result = calculateCostOfCopiesInCart.getImpactOfUserType(user);
         //then
         assertEquals(expected, result);
     }
 
-    private static Stream<Arguments> providesUserWithImpactOfUserType(){
+    private static Stream<Arguments> providesUserWithImpactOfUserType() {
         return Stream.of(
                 Arguments.of(platinumUser, CalculateCostOfCopiesInCart.IMPACT_ON_THE_PRICE_OF_PLATINUM_USERTYPE),
                 Arguments.of(goldUser, CalculateCostOfCopiesInCart.IMPACT_ON_THE_PRICE_OF_GOLD_USERTYPE),
@@ -85,7 +88,7 @@ class CalculateCostOfCopiesInCartTest {
 
     @ParameterizedTest
     @MethodSource("providesCopiesWithNumberOfDaysFromMovieReleaseToRentalDate")
-    void shouldCalculateHowManyDaysPassedFromRelease(Copy copy, int expected){
+    void shouldCalculateHowManyDaysPassedFromRelease(Copy copy, int expected) {
         //when
         int result = calculateCostOfCopiesInCart.howManyDaysPassedFromRelease(copy, RENTALDATE);
         //then
@@ -93,10 +96,10 @@ class CalculateCostOfCopiesInCartTest {
     }
 
     /**
-     *number od days in method providesCopiesWithNumberOfDaysFromMovieReleaseToRentalDate from https://www.timeanddate.com/
+     * number od days in method providesCopiesWithNumberOfDaysFromMovieReleaseToRentalDate from https://www.timeanddate.com/
      */
 
-    private static Stream<Arguments> providesCopiesWithNumberOfDaysFromMovieReleaseToRentalDate(){
+    private static Stream<Arguments> providesCopiesWithNumberOfDaysFromMovieReleaseToRentalDate() {
         return Stream.of(
                 Arguments.of(premiereCopy, 1),
                 Arguments.of(newCopy, 62),
@@ -105,98 +108,162 @@ class CalculateCostOfCopiesInCartTest {
         );
     }
 
-    @Test
-    public void shouldCalculateBasicCostForShortTerm(){
-        //given
-        int rentalDays = 2;
+    /**
+     * values in next tests with an assumption that
+     * BASIC_COST_FOR_ONE_DAY = 5
+     * IMPACT_ON_THE_PRICE_OF_SHORT_TERM_RENTAL = 2
+     * IMPACT_ON_THE_PRICE_OF_STANDARD_TERM_RENTAL = 1
+     * IMPACT_ON_THE_PRICE_OF_LONG_TERM_RENTAL = 0.5
+     * MAX_DAYS_FOR_SHORT_TERM_RENTAL = 3
+     * MAX_DAYS_FOR_STANDARD_TERM_RENTAL = 6
+     */
+
+    @ParameterizedTest
+    @MethodSource("provideNumberOfRentalDaysAndExpectedCostForShortTermMethod")
+    public void shouldCalculateBasicCostForShortTerm(int rentalDays, BigDecimal expected) {
         //when
         BigDecimal result = calculateCostOfCopiesInCart.calculateBasicCostForShortTerm(rentalDays);
-        BigDecimal expected = BigDecimal.valueOf(20); // rental days * impactOfRelays * basic cost = 2 * 2 * 5
         //then
         assertEquals(expected, result);
     }
 
-    @Test
-    public void shouldCalculateBasicCostForShortTermWithBasicMethod(){
-        //given
-        int rentalDays = 2;
-        //when
-        BigDecimal result = calculateCostOfCopiesInCart.calculateBasicCost(rentalDays);
-        BigDecimal expected = BigDecimal.valueOf(20); // rental days * impactOfRelays * basic coste = 2 * 2 * 5
-        //then
-        assertEquals(expected, result);
+
+    private static Stream<Arguments> provideNumberOfRentalDaysAndExpectedCostForShortTermMethod() {
+        return Stream.of(
+                Arguments.of(1, BigDecimal.valueOf(10)), //1*2*5
+                Arguments.of(2, BigDecimal.valueOf(20)), //2*2*5
+                Arguments.of(3, BigDecimal.valueOf(30)), //3*2*5
+                Arguments.of(5, BigDecimal.valueOf(50)), //5*2*5
+                Arguments.of(100, BigDecimal.valueOf(1000)), //100*2*5
+                Arguments.of(497, BigDecimal.valueOf(4970)) //497*2*5
+        );
     }
 
-    @Test
-    public void shouldCalculateBasicCostForStandardTerm(){
-        //given
-        int rentalDays = 5;
+    @ParameterizedTest
+    @MethodSource("provideNumberOfRentalDaysAndExpectedCostForStandardTermMethod")
+    public void shouldCalculateBasicCostForStandardTerm(int rentalDays, BigDecimal expected) {
         //when
         BigDecimal result = calculateCostOfCopiesInCart.calculateBasicCostForStandardTerm(rentalDays);
-        BigDecimal expected = BigDecimal.valueOf(40); // 3 * 2 * 5 + 2 * 1 * 5
         //then
         assertEquals(expected, result);
     }
 
-    @Test
-    public void shouldCalculateBasicCostForStandardTermWithBasicMethod(){
-        //given
-        int rentalDays = 5;
+
+    private static Stream<Arguments> provideNumberOfRentalDaysAndExpectedCostForStandardTermMethod() {
+        return Stream.of(
+                Arguments.of(1, BigDecimal.valueOf(10)), //1*2*5
+                Arguments.of(2, BigDecimal.valueOf(20)), //2*2*5
+                Arguments.of(3, BigDecimal.valueOf(30)), //3*2*5
+                Arguments.of(4, BigDecimal.valueOf(35)), //30 + 5*1
+                Arguments.of(5, BigDecimal.valueOf(40)), //30 + 5*2
+                Arguments.of(14, BigDecimal.valueOf(85)), //30 + 5*11
+                Arguments.of(100, BigDecimal.valueOf(515)) //30 + 5*97
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideNumberOfRentalDaysAndExpectedCostForBasicMethod")
+    public void shouldCalculateBasicCostWithBasicMethod(int rentalDays, BigDecimal expected) {
         //when
         BigDecimal result = calculateCostOfCopiesInCart.calculateBasicCost(rentalDays);
-        BigDecimal expected = BigDecimal.valueOf(40); // 3 * 2 * 5 + 2 * 1 * 5
         //then
         assertEquals(expected, result);
     }
 
-    @Test
-    public void shouldCalculateBasicCostForLongTermWithBasicMethod(){
-        //given
-        int rentalDays = 8;
-        //when
-        BigDecimal result = calculateCostOfCopiesInCart.calculateBasicCost(rentalDays);
-        BigDecimal expected = BigDecimal.valueOf(50.0); // 3 * 2 * 5 + 3 * 1 * 5 + 2 * 0.5 * 5 = 30 + 15 + 5
-        //then
-        assertEquals(expected, result);
+    private static Stream<Arguments> provideNumberOfRentalDaysAndExpectedCostForBasicMethod() {
+        return Stream.of(
+                Arguments.of(1, BigDecimal.valueOf(10)), //1*2*5
+                Arguments.of(2, BigDecimal.valueOf(20)), //2*2*5
+                Arguments.of(3, BigDecimal.valueOf(30)), //3*2*5
+                Arguments.of(4, BigDecimal.valueOf(35)), //30 + 5*1
+                Arguments.of(5, BigDecimal.valueOf(40)), //30 + 5*2
+                Arguments.of(6, BigDecimal.valueOf(45)), //30 + 5*3
+                Arguments.of(7, BigDecimal.valueOf(47.5)), //45 + 5*0.5*1
+                Arguments.of(8, BigDecimal.valueOf(50.0)), //45 + 5*0.5*2
+                Arguments.of(14, BigDecimal.valueOf(65.0)), //45 + 5*0.5*8
+                Arguments.of(100, BigDecimal.valueOf(280.0)) //45 + 5*0.5*94
+        );
     }
 
 
-    @Test
-    public void shouldCalculateCostOfCopyOfPremiereMovieForPlatinumUser(){
+    @ParameterizedTest
+    @MethodSource("provideCopyWithUserAndExpectedCost")
+    public void shouldCalculateCostOfCopyWithImpactOfAllFactors(Copy copy, User user, BigDecimal expected) {
         //given
-        int rentalDays = 8;
-        premiereCopy.setUser(platinumUser);
-        premiereCopy.setRentalDays(rentalDays);
-        premiereCopy.setRentalDate(RENTALDATE);
+        int rentalDays1 = 1;
+        int rentalDays2 = 4;
+        int rentalDays3 = 6;
+        int rentalDays4 = 18;
         //when
-        int resultInInt = calculateCostOfCopiesInCart.calculateCostOfCopy(premiereCopy, platinumUser).intValue();
-        //then
-        int expectedInInt = 105; // 50 * 3 * 0.7
-        assertEquals(expectedInInt, resultInInt); //int Value because in Big Decimal Expected was 105.0 and Actual:105.00
-    }
-
-    @Test //TODO - test is not passing correctly, gives 60
-    public void shouldMakeCartSummaryForRegularUser() {
-        //given
-        premiereCopy.setUser(regularUser);
-        premiereCopy.setRentalDays(1);
+        premiereCopy.setRentalDays(rentalDays1);
         premiereCopy.setRentalDate(RENTALDATE);
-        classicCopy.setUser(regularUser);
-        classicCopy.setRentalDays(1);
+        newCopy.setRentalDays(rentalDays2);
+        newCopy.setRentalDate(RENTALDATE);
+        standardCopy.setRentalDays(rentalDays3);
+        standardCopy.setRentalDate(RENTALDATE);
+        classicCopy.setRentalDays(rentalDays4);
         classicCopy.setRentalDate(RENTALDATE);
-       // Cart cart = calculateCostOfCopiesInCart.getCart();
-        cart.getCopies().add(premiereCopy);
-        cart.getCopies().add(classicCopy);
-        //when
-        calculateCostOfCopiesInCart.calculate(regularUser);
-        int result = cart.getToPay().intValue();
-        int expected = 35;
+        BigDecimal result = calculateCostOfCopiesInCart.calculateCostOfCopy(copy, user);
         //then
         assertEquals(expected, result);
     }
 
+    private static Stream<Arguments> provideCopyWithUserAndExpectedCost() {
+        return Stream.of(
+                Arguments.of(premiereCopy, platinumUser, BigDecimal.valueOf(21.00).setScale(2, RoundingMode.CEILING)), // 5*1*2*3*0.7
+                Arguments.of(newCopy, regularUser, BigDecimal.valueOf(70.00).setScale(2, RoundingMode.CEILING)), // (30 + 5*1*1) * 2 * 1
+                Arguments.of(standardCopy, silverUser, BigDecimal.valueOf(42.75)), // 45 * 1 * 0.95
+                Arguments.of(classicCopy, goldUser, BigDecimal.valueOf(31.88)) // (45 + 12*5*0.5) * 0.5 * 0.85
+        );
+    }
+
+@Test
+    public void shouldCalculateCostOfCopiesInCartWithOneMovie(){
+        //given
+    standardCopy.setRentalDate(RENTALDATE);
+    standardCopy.setRentalDays(3);
+    //when
+    cart.getCopies().add(standardCopy);
+    calculateCostOfCopiesInCart.calculate(regularUser);
+    //then
+    BigDecimal expected = BigDecimal.valueOf(30).setScale(2, RoundingMode.CEILING); // 30 * 1 * 1
+    assertEquals(expected, cart.getToPay());
+    emptyACart.empty(cart);
+}
+
+    @Test
+    public void shouldCalculateCostOfCopiesInCartWithTwoMovies(){
+        //given
+        standardCopy.setRentalDate(RENTALDATE);
+        standardCopy.setRentalDays(3);
+        premiereCopy.setRentalDate(RENTALDATE);
+        premiereCopy.setRentalDays(3);
+        //when
+        cart.getCopies().add(standardCopy);
+        cart.getCopies().add(premiereCopy);
+        calculateCostOfCopiesInCart.calculate(silverUser);
+        //then
+        BigDecimal expected = BigDecimal.valueOf(114).setScale(2, RoundingMode.CEILING); // (30 * 1 + 30 * 3) * 0.95
+        assertEquals(expected, cart.getToPay());
+        emptyACart.empty(cart);
+    }
+
+    @Test
+    public void shouldCalculateCostOfCopiesInCartWithThreeMovies(){
+        //given
+        //when
+        //then
+        emptyACart.empty(cart);
+    }
+
+    @Test
+    public void shouldCalculateCostOfCopiesInCartWithFourMovies(){
+        //given
+        //when
+        //then
+        emptyACart.empty(cart);
+    }
 
 
-    //TODO create more complex tests
 
 }

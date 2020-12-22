@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import pl.VideoRental.domain.*;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
@@ -56,7 +57,8 @@ public class CalculateCostOfCopiesInCart {
         BigDecimal basicCost = calculateBasicCost(rentalDays);
         BigDecimal impactOfDateRelease = getImpactOfDateRelease(copy, rentalDate);
         BigDecimal impactOfUserType = getImpactOfUserType(user);
-        return basicCost.multiply(impactOfDateRelease).multiply(impactOfUserType);
+        BigDecimal result = basicCost.multiply(impactOfDateRelease).multiply(impactOfUserType);
+        return result.setScale(2, RoundingMode.CEILING);
     }
 
 
