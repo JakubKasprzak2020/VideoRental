@@ -26,9 +26,10 @@ class EmptyACartTest {
         //given
         Copy copy1 = Copy.builder().isAvailable(false).build();
         Copy copy2 = Copy.builder().isAvailable(false).build();
-        List<Copy> copies = new ArrayList<>();
+        List<Copy> copies = cart.getCopies();
         copies.add(copy1);
         copies.add(copy2);
+        cart.setToPay(BigDecimal.TEN); // random value
         //when
         emptyACart.empty(cart);
         //then
