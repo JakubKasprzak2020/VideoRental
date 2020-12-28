@@ -18,10 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class CalculateCostOfCopiesInCartTest {
 
-/*    @Autowired
-    private CreateMovie createMovie;
-    @Autowired
-    private CreateCopyOfAMovie createCopyOfAMovie;*/
     @Autowired
     private CalculateCostOfCopiesInCart calculateCostOfCopiesInCart;
     @Autowired
@@ -246,6 +242,17 @@ class CalculateCostOfCopiesInCartTest {
                 Arguments.of(standardCopy, silverUser, BigDecimal.valueOf(42.75)), // 45 * 1 * 0.95
                 Arguments.of(classicCopy, goldUser, BigDecimal.valueOf(31.88)) // (45 + 12*5*0.5) * 0.5 * 0.85
         );
+    }
+
+    @Test
+    public void shouldReturnCostOfZeroWhenCartIsEmpty(){
+        //given
+        BigDecimal expected = BigDecimal.ZERO;
+        //when
+        emptyACart.empty(cart);
+        calculateCostOfCopiesInCart.calculate(regularUser);
+        //then
+        assertEquals(expected, cart.getToPay());
     }
 
 @Test

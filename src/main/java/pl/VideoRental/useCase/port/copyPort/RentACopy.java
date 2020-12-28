@@ -16,13 +16,14 @@ public class RentACopy {
 
     /**
      * There is no verification if copy is available because rent method is used to copies that are already in users cart.
-     * Verification is before in this process during method add from AddCopyToCart class.
+     * Verification is before this process during method add from AddCopyToCart class. All copies from cart have isAvailable value
+     * set to false.
      */
 
 
    public void rent(Copy copy, User user){
        copy.setUser(user);
-       copy.setAvailable(false);
+    //   copy.setAvailable(false);
        copyRepository.save(copy);
        user.getCopies().add(copy);
        userRepository.save(user);

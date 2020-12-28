@@ -18,11 +18,11 @@ public class Copy {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    int rentalDays;
+    private int rentalDays;
 
-    LocalDate rentalDate;
+    private LocalDate rentalDate;
 
-    boolean isAvailable = true;
+    private boolean isAvailable = true;
 
     @ManyToOne
     @JsonManagedReference

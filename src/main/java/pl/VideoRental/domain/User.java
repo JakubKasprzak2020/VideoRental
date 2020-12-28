@@ -36,8 +36,8 @@ public class User {
     @JsonBackReference
     private List<Copy> copies = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST)
+ /*   @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST)
     @JsonBackReference
-    private List<Order> orders = new ArrayList<>();
+    private List<Order> orders = new ArrayList<>();*/
 
 }

@@ -28,7 +28,6 @@ class RentACopyTest {
         //when
         rentACopy.rent(copy, user);
         //then
-        assertFalse(copy.isAvailable());
         assertEquals(user.getId(), copy.getUser().getId());
         assertEquals(copy.getId(), user.getCopies().get(firstIndexValue).getId());
     }
