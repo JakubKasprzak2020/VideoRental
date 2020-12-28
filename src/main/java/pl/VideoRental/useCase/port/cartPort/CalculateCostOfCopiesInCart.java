@@ -19,7 +19,7 @@ public class CalculateCostOfCopiesInCart {
     private final Cart cart;
 
 
-     final BigDecimal BASIC_COST_FOR_ONE_DAY = BigDecimal.valueOf(5);
+     final static BigDecimal BASIC_COST_FOR_ONE_DAY = BigDecimal.valueOf(5);
 
      final static BigDecimal IMPACT_ON_THE_PRICE_OF_PREMIERE_MOVIE = BigDecimal.valueOf(3);
      final static BigDecimal IMPACT_ON_THE_PRICE_OF_NEW_MOVIE = BigDecimal.valueOf(2);
