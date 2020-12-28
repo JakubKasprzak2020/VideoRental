@@ -42,12 +42,12 @@ public class CalculateCostOfCopiesInCart {
      final static int MAX_DAYS_AFTER_RELEASE_FOR_STANDARD_MOVIE = 365;
 
     public void calculate(User user) {
-        cart.setToPay(BigDecimal.ZERO);
+        BigDecimal toPay = BigDecimal.ZERO;
        for (Copy c : cart.getCopies()) {
            BigDecimal costOfCopy = calculateCostOfCopy(c, user);
-           BigDecimal currentToPay = cart.getToPay();
-           cart.setToPay(currentToPay.add(costOfCopy));
+           toPay = toPay.add(costOfCopy);
        }
+       cart.setToPay(toPay);
     }
 
 

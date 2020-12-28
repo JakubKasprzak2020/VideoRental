@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class DeliverTest {
 
+
    @Autowired
     private Deliver deliver;
 
@@ -18,7 +19,6 @@ class DeliverTest {
     public void shouldDeliverDelivery(){
        //given
        Delivery delivery = new Delivery();
-       delivery.setDelivered(false);
        //when
        deliver.deliverToUser(delivery);
        //then

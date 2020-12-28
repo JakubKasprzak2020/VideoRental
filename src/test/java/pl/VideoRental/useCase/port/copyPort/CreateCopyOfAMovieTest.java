@@ -21,18 +21,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class CreateCopyOfAMovieTest {
 
     @Autowired
-    private GetMovieFromCatalog getMovieFromCatalog;
-    @Autowired
     private CreateMovie createMovie;
     @Autowired
     private CreateCopyOfAMovie createCopyOfAMovie;
     @Autowired
     private IsCopyExist isCopyExist;
-    @Autowired
-    private GetCopyFromCatalog getCopyFromCatalog;
 
     @Test
-    void shouldCreateCopyOfAMovie() throws MovieAlreadyExistException, MovieDoesNotExistException, CopyDoesNotExistException {
+    void shouldCreateCopyOfAMovie() throws MovieAlreadyExistException, MovieDoesNotExistException {
         //given
         Movie movie = Movie.builder()
                 .title("GhostBusters")

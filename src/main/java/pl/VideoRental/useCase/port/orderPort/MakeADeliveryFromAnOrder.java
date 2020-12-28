@@ -16,10 +16,11 @@ public class MakeADeliveryFromAnOrder {
    private final DeliveryRepository deliveryRepository;
    private final UserRepository userRepository;
 
-    public void makeADelivery(Order order, String address ){
+    public Delivery makeADelivery(Order order, String address ){
         Delivery delivery = Delivery.builder().order(order).address(address).build();
-        userRepository.save(order.getUser());
+       // userRepository.save(order.getUser());
         orderRepository.save(order);
         deliveryRepository.save(delivery);
+        return delivery;
     }
 }

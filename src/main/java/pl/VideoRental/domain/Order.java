@@ -31,7 +31,7 @@ public class Order {
     //@JsonManagedReference
     private User user;
 
-    @OneToMany
+    @OneToMany(fetch=FetchType.EAGER)
     private List<Copy> copies = new ArrayList<>();
 
     @OneToOne(mappedBy = "order")

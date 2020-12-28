@@ -124,8 +124,8 @@ public class SampleDataInit implements CommandLineRunner {
     private void createCopyAndChangeCopiesSizeMarker(Long id) throws MovieDoesNotExistException {
         createCopyOfAMovie.create(id);
         copiesLengthMarker++;
-
     }
+
 
 
 }
