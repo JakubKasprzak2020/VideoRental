@@ -19,6 +19,8 @@ class GetMovieFromCatalogTest {
     GetMovieFromCatalog getMovieFromCatalog;
     @Autowired
     CreateMovie createMovie;
+    @Autowired
+    DeleteMovie deleteMovie;
 
 
     @Test
@@ -39,6 +41,7 @@ class GetMovieFromCatalogTest {
         assertEquals(movie.getDescription(), movieGotFromCatalog.getDescription());
         assertEquals(movie.getReleaseDate(), movieGotFromCatalog.getReleaseDate());
         assertEquals(movie.getGenre(), movieGotFromCatalog.getGenre());
+        deleteMovie.deleteById(movie.getId());
     }
 
     @Test
@@ -59,6 +62,7 @@ class GetMovieFromCatalogTest {
         assertEquals(movie.getDescription(), movieGotFromCatalog.getDescription());
         assertEquals(movie.getReleaseDate(), movieGotFromCatalog.getReleaseDate());
         assertEquals(movie.getGenre(), movieGotFromCatalog.getGenre());
+        deleteMovie.deleteById(movie.getId());
     }
 
     @Test

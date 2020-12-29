@@ -18,6 +18,8 @@ class IsMovieExistTest {
     CreateMovie createMovie;
     @Autowired
     IsMovieExist isMovieExist;
+    @Autowired
+    DeleteMovie deleteMovie;
 
 
     @Test
@@ -34,6 +36,7 @@ class IsMovieExistTest {
         boolean result = isMovieExist.isExistById(movie.getId());
         //then
         assertTrue(result);
+        deleteMovie.deleteById(movie.getId());
     }
 
     @Test
@@ -50,10 +53,11 @@ class IsMovieExistTest {
         boolean result = isMovieExist.isExistByTitle(movie.getTitle());
         //then
         assertTrue(result);
+        deleteMovie.deleteById(movie.getId());
     }
 
     @Test
-    void shouldReturnFalseWhenSearchingByIdWhenMovieExists() {
+    void shouldReturnFalseWhenSearchingByIdWhenMovieDoesNotExists() {
         //given
         long idOfMovieThatDoesNotExist = 2500;
         //when
@@ -63,7 +67,7 @@ class IsMovieExistTest {
     }
 
     @Test
-    void shouldReturnFalseWhenSearchingByTitleWhenMovieExists() {
+    void shouldReturnFalseWhenSearchingByTitleWhenMovieDoesNotExists() {
         //given
         String titleOfMovieThatDoesNotExist = "AAAAAAAAAAA87654gbhjnea6HSHAe";
         //when

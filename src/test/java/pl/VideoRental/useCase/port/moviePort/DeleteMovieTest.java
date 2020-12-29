@@ -37,7 +37,7 @@ class DeleteMovieTest {
 
 
     @Test
-    void shouldDeleteMovieById() throws MovieAlreadyExistException, MovieDoesNotExistException {
+    void shouldDeleteMovieById() throws MovieAlreadyExistException {
         //given
         createMovie.create(movie);
         //when

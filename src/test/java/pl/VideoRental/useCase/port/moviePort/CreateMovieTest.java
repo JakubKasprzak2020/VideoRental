@@ -19,6 +19,8 @@ class CreateMovieTest {
     private CreateMovie createMovie;
     @Autowired
     private GetMovieFromCatalog getMovieFromCatalog;
+    @Autowired
+    private DeleteMovie deleteMovie;
 
     @Test
     void shouldAddNewMovieToCatalog() throws MovieAlreadyExistException, MovieDoesNotExistException {
@@ -39,6 +41,7 @@ class CreateMovieTest {
         assertEquals(movie.getReleaseDate(), batman.getReleaseDate());
         assertEquals(movie.getId(), batman.getId());
         assertTrue(batman.getCopies().isEmpty());
+        deleteMovie.deleteById(movie.getId());
     }
 
     @Test
@@ -54,6 +57,7 @@ class CreateMovieTest {
         createMovie.create(movie);
         //then
         assertThrows(MovieAlreadyExistException.class, () -> createMovie.create(movie));
+        deleteMovie.deleteById(movie.getId());
     }
 
 
