@@ -27,6 +27,8 @@ class GetAllOrdersTest {
     private GetAllCopies getAllCopies;
     @Autowired
     OrderRepository orderRepository;
+    @Autowired
+    DeleteOrder deleteOrder;
 
     @Test
     public void shouldGetAllOrders() {
@@ -51,6 +53,7 @@ class GetAllOrdersTest {
         assertEquals(1, orders.size());
         assertEquals(user.getId(), orders.get(firstIndexNumber).getUser().getId());
         assertEquals(2, orders.get(firstIndexNumber).getCopies().size());
+        deleteOrder.deleteById(order.getId());
     }
 
 }

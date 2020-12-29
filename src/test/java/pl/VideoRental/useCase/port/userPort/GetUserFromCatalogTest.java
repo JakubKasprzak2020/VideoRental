@@ -23,6 +23,8 @@ class GetUserFromCatalogTest {
     private GetUserFromCatalog getUserFromCatalog;
     @Autowired
     private GetAllUsers getAllUsers;
+    @Autowired
+    private DeleteUser deleteUser;
 
     @Test
     void shouldGetUserWhenUserExist() throws UserDoesNotExistException {
@@ -49,6 +51,7 @@ class GetUserFromCatalogTest {
         assertEquals(email, user.getEmail());
         assertEquals(address, user.getAddress());
         assertEquals(user.getId(), userFromCatalog.getId());
+        deleteUser.deleteById(user.getId());
     }
 
     @Test

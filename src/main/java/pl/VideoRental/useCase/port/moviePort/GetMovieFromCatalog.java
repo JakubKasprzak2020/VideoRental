@@ -13,7 +13,7 @@ public class GetMovieFromCatalog {
     private final MovieRepository movieRepository;
 
     public Movie getById(long id) throws MovieDoesNotExistException {
-        return movieRepository.findById(id).orElseThrow(() -> new MovieDoesNotExistException("Film o id " + id));
+        return movieRepository.findById(id).orElseThrow(() -> new MovieDoesNotExistException("Movie with id " + id));
     }
 
     public Movie getByTitle(String title) throws MovieDoesNotExistException {

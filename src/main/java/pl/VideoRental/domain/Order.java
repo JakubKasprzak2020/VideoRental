@@ -34,8 +34,10 @@ public class Order {
     @OneToMany(fetch=FetchType.EAGER)
     private List<Copy> copies = new ArrayList<>();
 
-    @OneToOne(mappedBy = "order")
+    @OneToOne(mappedBy = "order", orphanRemoval = true) //TODO after deleting order there should be no delivery left - check is it work
     @JsonBackReference
     private Delivery delivery;
+
+
 
 }

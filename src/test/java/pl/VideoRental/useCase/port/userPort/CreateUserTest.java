@@ -16,6 +16,8 @@ class CreateUserTest {
     private CreateUser createUser;
     @Autowired
     private GetUserFromCatalog getUserFromCatalog;
+    @Autowired
+    private DeleteUser deleteUser;
 
     @Test
     void shouldCreateUser() throws UserDoesNotExistException {
@@ -40,6 +42,7 @@ class CreateUserTest {
         assertEquals(email, user.getEmail());
         assertEquals(address, user.getAddress());
         assertTrue(user.getId() != 0);
+        deleteUser.deleteById(user.getId());
     }
 
 }
