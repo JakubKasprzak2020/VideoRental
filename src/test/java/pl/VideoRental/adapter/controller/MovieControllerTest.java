@@ -12,21 +12,20 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import pl.VideoRental.domain.Genre;
+import pl.VideoRental.SampleData.SampleDataStorage;
 import pl.VideoRental.domain.Movie;
 import pl.VideoRental.useCase.port.moviePort.CreateMovie;
 import pl.VideoRental.useCase.port.moviePort.DeleteMovie;
 import pl.VideoRental.useCase.port.moviePort.GetAllMovies;
 import pl.VideoRental.useCase.port.moviePort.GetMovieFromCatalog;
 
-import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(MovieController.class)
-public class MovieControllerTestIdea2 {
+public class MovieControllerTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -43,32 +42,17 @@ public class MovieControllerTestIdea2 {
     @MockBean
     private GetMovieFromCatalog getMovieFromCatalog;
 
+    Movie movie1 = SampleDataStorage.MOVIE_1;
+    Movie movie2 = SampleDataStorage.MOVIE_2;
 
     @Test
     void shouldReturnMovie() throws Exception {
-
-        Movie movie = Movie.builder()
-                .title("E.T.")
-                .genre(Genre.SCI_FI)
-                .releaseDate(LocalDate.of(1982, 1, 1))
-                .description("An Alien appears on the Earth...")
-                .build();
-
-      //  GetMovieFromCatalog getMovieFromCatalog = Mockito.mock(GetMovieFromCatalog.class);
-        Mockito.when(getMovieFromCatalog.getByTitle("E.T.")).thenReturn(movie);
-
-        String url = "/api/movies/E.T.";
-
-
-
+        Mockito.when(getMovieFromCatalog.getByTitle(movie1.getTitle())).thenReturn(movie1);
+        String url = "/api/movies/" + movie1.getTitle();
         RequestBuilder request = MockMvcRequestBuilders.get(url);
-       // MvcResult result = mockMvc.perform(request).andReturn();
-        // assertEquals("E.T", result.getResponse().getContentAsString());
         MvcResult mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
-
         String actualJsonResponse = mvcResult.getResponse().getContentAsString();
-        String expectedJsonResponse = objectMapper.writeValueAsString(movie);
-
+        String expectedJsonResponse = objectMapper.writeValueAsString(movie1);
         assertEquals(expectedJsonResponse, actualJsonResponse);
     }
 

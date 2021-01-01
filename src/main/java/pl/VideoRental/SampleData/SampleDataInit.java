@@ -28,9 +28,9 @@ public class SampleDataInit implements CommandLineRunner {
     public static int moviesLengthMarker = 0;
     public static int copiesLengthMarker = 0;
 
-    public static final String TITLE_OF_MOVIE_1 = "Inglourious Basterds";
-    public static final String TITLE_OF_MOVIE_2 = "E.T.";
-    public static final String TITLE_OF_MOVIE_3 = "Scream";
+    public static final String TITLE_OF_MOVIE_1 = SampleDataStorage.MOVIE_1.getTitle();
+    public static final String TITLE_OF_MOVIE_2 = SampleDataStorage.MOVIE_2.getTitle();
+    public static final String TITLE_OF_MOVIE_3 = SampleDataStorage.MOVIE_3.getTitle();
 
     public static final int NUMBER_OF_COPIES_OF_MOVIE_1 = 3;
 
@@ -49,30 +49,9 @@ public class SampleDataInit implements CommandLineRunner {
 
 
     private void initSampleMovies() throws MovieAlreadyExistException {
-        Movie movie1 = Movie.builder()
-                .title(TITLE_OF_MOVIE_1)
-                .genre(Genre.ACTION)
-                .description("Second World War in Europe...")
-                .releaseDate(LocalDate.of(2009, 1, 1))
-                .build();
-
-        Movie movie2 = Movie.builder()
-                .title(TITLE_OF_MOVIE_2)
-                .genre(Genre.SCI_FI)
-                .releaseDate(LocalDate.of(1982, 1, 1))
-                .description("An Alien appears on the Earth...")
-                .build();
-
-        Movie movie3 = Movie.builder()
-                .title(TITLE_OF_MOVIE_3)
-                .genre(Genre.HORROR)
-                .releaseDate(LocalDate.of(1996, 1, 1))
-                .description("A masked murderer attacked!")
-                .build();
-
-        createMovieAndChangeUsersSizeMarker(movie1);
-        createMovieAndChangeUsersSizeMarker(movie2);
-        createMovieAndChangeUsersSizeMarker(movie3);
+        createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_1);
+        createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_2);
+        createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_3);
     }
 
     private void initSampleCopies() throws MovieDoesNotExistException {
@@ -88,24 +67,8 @@ public class SampleDataInit implements CommandLineRunner {
     }
 
     private void initSampleUsers(){
-
-        UserSignInData userSignInData1 = UserSignInData.builder()
-                .name("Quentin")
-                .lastName("Tarantino")
-                .email("quentin@quentin.com")
-                .password("password")
-                .address("Hollywood")
-                .build();
-        UserSignInData userSignInData2 = UserSignInData.builder()
-                .name("Queen")
-                .lastName("Elizabeth")
-                .email("queen@elizabeth.gb")
-                .password("longlive")
-                .address("London")
-                .build();
-
-        createUserAndChangeUsersSizeMarker(userSignInData1);
-        createUserAndChangeUsersSizeMarker(userSignInData2);
+        createUserAndChangeUsersSizeMarker(SampleDataStorage.USER_SIGN_IN_DATA_1);
+        createUserAndChangeUsersSizeMarker(SampleDataStorage.USER_SIGN_IN_DATA_2);
     }
 
 
