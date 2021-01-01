@@ -38,6 +38,7 @@ class DeleteOrderTest {
                 .build();
     }
 
+    @Test
     void shouldDeleteOrderById() {
         //given
         Order order = makeAnOrder();
