@@ -8,6 +8,7 @@ import pl.VideoRental.useCase.exception.*;
 import pl.VideoRental.useCase.port.copyPort.CreateCopyOfAMovie;
 import pl.VideoRental.useCase.port.copyPort.GetAllCopies;
 import pl.VideoRental.useCase.port.copyPort.ReturnACopy;
+import pl.VideoRental.useCase.port.orderPort.DeleteOrder;
 import pl.VideoRental.useCase.port.orderPort.GetAllOrders;
 import pl.VideoRental.useCase.port.userPort.GetAllUsers;
 import pl.VideoRental.useCase.port.moviePort.CreateMovie;
@@ -36,6 +37,8 @@ class MakeAnOrderFromCartContentTest {
     private Cart cart;
     @Autowired
     private ReturnACopy returnACopy;
+    @Autowired
+    DeleteOrder deleteOrder;
 
 
     @Test
@@ -56,6 +59,7 @@ class MakeAnOrderFromCartContentTest {
         assertNull(order.getDelivery());
         assertTrue(order.getCost().intValue() > 0);
         returnACopy.returnACopy(copy);
+        deleteOrder.deleteById(order.getId());
     }
 
     @Test

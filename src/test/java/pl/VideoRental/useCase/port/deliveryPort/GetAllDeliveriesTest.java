@@ -7,6 +7,7 @@ import pl.VideoRental.adapter.repository.DeliveryRepository;
 import pl.VideoRental.adapter.repository.OrderRepository;
 import pl.VideoRental.domain.Delivery;
 import pl.VideoRental.domain.Order;
+import pl.VideoRental.useCase.port.orderPort.DeleteOrder;
 
 import java.util.List;
 
@@ -21,6 +22,10 @@ class GetAllDeliveriesTest {
     GetAllDeliveries getAllDeliveries;
     @Autowired
     OrderRepository orderRepository;
+    @Autowired
+    DeleteDelivery deleteDelivery;
+    @Autowired
+    DeleteOrder deleteOrder;
 
     @Test
     void shouldGetAllDeliveries() {
@@ -37,6 +42,8 @@ class GetAllDeliveriesTest {
         //then
         assertNotNull(deliveries);
         assertEquals(1, deliveries.size());
+        deleteOrder.deleteById(order.getId());
+        deleteDelivery.deleteById(delivery.getId());
     }
 
 }

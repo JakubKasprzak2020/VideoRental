@@ -8,6 +8,7 @@ import pl.VideoRental.domain.Delivery;
 import pl.VideoRental.domain.Order;
 import pl.VideoRental.domain.User;
 import pl.VideoRental.useCase.port.copyPort.GetAllCopies;
+import pl.VideoRental.useCase.port.deliveryPort.DeleteDelivery;
 import pl.VideoRental.useCase.port.deliveryPort.GetAllDeliveries;
 import pl.VideoRental.useCase.port.userPort.GetAllUsers;
 
@@ -22,11 +23,14 @@ class MakeADeliveryFromAnOrderTest {
 
     @Autowired
     MakeADeliveryFromAnOrder makeADeliveryFromAnOrder;
-
     @Autowired
     GetAllUsers getAllUsers;
     @Autowired
     GetAllCopies getAllCopies;
+    @Autowired
+    DeleteOrder deleteOrder;
+    @Autowired
+    DeleteDelivery deleteDelivery;
 
     @Test
     void shouldMakeADelivery(){
@@ -49,6 +53,8 @@ class MakeADeliveryFromAnOrderTest {
         assertEquals(user.getId(), delivery.getOrder().getUser().getId());
         assertEquals(copy.getId(), delivery.getOrder().getCopies().get(firstIndexNumber).getId());
         assertFalse(delivery.isDelivered());
+        deleteOrder.deleteById(order.getId());
+        deleteDelivery.deleteById(delivery.getId());
     }
 
 

@@ -55,7 +55,8 @@ class ReturnACopyTest {
         rentACopy.rent(copy2, user);
         returnACopy.returnACopy(copy1);
         //then
-        assertEquals(1, user.getCopies().size()); // expected one because two copies had been rented and one was returned
+        assertEquals(1, user.getCopies().size()); // expected 1 because two copies had been rented and one was returned
+        returnACopy.returnACopy(copy2);
     }
 
     @Test

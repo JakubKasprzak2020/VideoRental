@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.VideoRental.domain.Copy;
 import pl.VideoRental.domain.User;
+import pl.VideoRental.useCase.exception.CopyIsNotRentedException;
 import pl.VideoRental.useCase.port.userPort.GetAllUsers;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,9 +19,11 @@ class RentACopyTest {
     GetAllUsers getAllUsers;
     @Autowired
     GetAllCopies getAllCopies;
+    @Autowired
+    ReturnACopy returnACopy;
 
     @Test
-    void shouldRentACopy(){
+    void shouldRentACopy() throws CopyIsNotRentedException {
         //given
         final int firstIndexValue = 0;
         User user = getAllUsers.getAll().get(firstIndexValue);
@@ -30,6 +33,7 @@ class RentACopyTest {
         //then
         assertEquals(user.getId(), copy.getUser().getId());
         assertEquals(copy.getId(), user.getCopies().get(firstIndexValue).getId());
+        returnACopy.returnACopy(copy);
     }
 
 }

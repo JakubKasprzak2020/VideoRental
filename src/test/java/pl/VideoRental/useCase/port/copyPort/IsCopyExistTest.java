@@ -19,6 +19,8 @@ class IsCopyExistTest {
     GetAllMovies getAllMovies;
     @Autowired
     IsCopyExist isCopyExist;
+    @Autowired
+    DeleteCopy deleteCopy;
 
     @Test
     void shouldReturnTrueWhenCopyExists() throws MovieDoesNotExistException {
@@ -29,6 +31,7 @@ class IsCopyExistTest {
         boolean result = isCopyExist.isExistById(copy.getId());
         //then
         assertTrue(result);
+        deleteCopy.deleteById(copy.getId());
     }
 
     @Test

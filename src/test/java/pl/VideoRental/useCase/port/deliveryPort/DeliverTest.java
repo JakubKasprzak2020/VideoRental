@@ -14,6 +14,8 @@ class DeliverTest {
 
    @Autowired
     private Deliver deliver;
+   @Autowired
+   private DeleteDelivery deleteDelivery;
 
    @Test
     public void shouldDeliverDelivery(){
@@ -23,6 +25,7 @@ class DeliverTest {
        deliver.deliverToUser(delivery);
        //then
        assertTrue(delivery.isDelivered());
+       deleteDelivery.deleteById(delivery.getId());
    }
 
 }

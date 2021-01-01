@@ -102,7 +102,7 @@ class CalculateCostOfCopiesInCartTest {
         );
     }
 
-    /*
+    /**
      * values in next tests with an assumption that:
      * BASIC_COST_FOR_ONE_DAY = 5
      * IMPACT_ON_THE_PRICE_OF_SHORT_TERM_RENTAL = 2
