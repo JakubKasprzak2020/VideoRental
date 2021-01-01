@@ -21,11 +21,11 @@ public class CreateCopyOfAMovie {
     private final IsMovieExist isMovieExist;
 
     @Transactional //TODO - Lazy initialization error without this annotation
-    public Copy create(long id) throws MovieDoesNotExistException {
-        if (!isMovieExist.isExistById(id)) {
-            throw new MovieDoesNotExistException("Movie with id " + id);
+    public Copy create(long movieId) throws MovieDoesNotExistException {
+        if (!isMovieExist.isExistById(movieId)) {
+            throw new MovieDoesNotExistException("Movie with id " + movieId);
         }
-        Movie movie = getMovieFromCatalog.getById(id);
+        Movie movie = getMovieFromCatalog.getById(movieId);
         Copy copy = createCopy(movie);
         copyRepository.save(copy);
         movie.getCopies().add(copy);

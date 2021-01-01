@@ -26,6 +26,8 @@ class CreateCopyOfAMovieTest {
     private CreateCopyOfAMovie createCopyOfAMovie;
     @Autowired
     private IsCopyExist isCopyExist;
+    @Autowired
+    private DeleteCopy deleteCopy;
 
     @Test
     void shouldCreateCopyOfAMovie() throws MovieAlreadyExistException, MovieDoesNotExistException {
@@ -47,6 +49,7 @@ class CreateCopyOfAMovieTest {
         assertTrue(copy.isAvailable());
         assertNull(copy.getRentalDate());
         assertEquals(0, copy.getRentalDays());
+        deleteCopy.deleteById(copy.getId());
     }
 
     @Test

@@ -7,9 +7,6 @@ import pl.VideoRental.domain.Genre;
 import pl.VideoRental.domain.Movie;
 import pl.VideoRental.useCase.exception.MovieAlreadyExistException;
 import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
-import pl.VideoRental.useCase.port.moviePort.GetMovieFromCatalog;
-import pl.VideoRental.useCase.port.moviePort.CreateMovie;
-import pl.VideoRental.useCase.port.moviePort.DeleteMovie;
 
 import java.time.LocalDate;
 
