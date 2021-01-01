@@ -40,7 +40,6 @@ public class MovieController {
         }
     }
 
-    //TODO not working with Postmen
     @PostMapping("/api/movies")
     @ResponseStatus(HttpStatus.CREATED)
     public Movie createMovie(@RequestBody Movie movie) throws MovieAlreadyExistException {

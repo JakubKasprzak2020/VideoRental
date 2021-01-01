@@ -1,5 +1,7 @@
 package pl.VideoRental.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
@@ -25,7 +27,6 @@ public class Copy {
     private boolean isAvailable = true;
 
     @ManyToOne
-    @JsonManagedReference
     private Movie movie;
 
     @ManyToOne
