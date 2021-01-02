@@ -29,6 +29,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -98,26 +99,28 @@ public class MovieControllerTest {
 
         Mockito.when(createMovie.createIfIsNotExisting(any(Movie.class))).thenReturn(movie);
         String url = "/api/movies";
-        RequestBuilder request = MockMvcRequestBuilders.post(url).contentType(MediaType.APPLICATION_JSON).content(movieJson);
+        RequestBuilder request = MockMvcRequestBuilders
+                .post(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(movieJson);
         MvcResult mvcResult = mockMvc.perform(request).andExpect(status().isCreated()).andReturn();
         String actualJsonResponse = mvcResult.getResponse().getContentAsString();
         String expectedJsonResponse = objectMapper.writeValueAsString(movie);
         assertEquals(expectedJsonResponse, actualJsonResponse);
     }
 
+    @Test
+    void shouldDeleteMovie() throws Exception {
+        long id = 1;
+        Mockito.doNothing().when(deleteMovie).deleteById(id);
+        String url = "/api/movies/delete/" + id;
+        RequestBuilder request = MockMvcRequestBuilders.delete(url);
+        mockMvc.perform(request).andExpect(status().isOk());
+        Mockito.verify(deleteMovie, times(1)).deleteById(id);
+    }
 
 
-/*    @Test
-    void shouldCreateNewMovie() throws Exception {
-        Mockito.when(createMovie.create(movie1)).thenReturn(movie1);
-        String url = "/api/movies/";
-       RequestBuilder request = MockMvcRequestBuilders.post(url)
-               .contentType("application/json")
-               .content(objectMapper.writeValueAsString(movie1));
 
-        MvcResult mvcResult = mockMvc.perform(request).andExpect(status().isCreated()).andReturn();
-        String actualJsonResponse =
-    }*/
 
 
 }
