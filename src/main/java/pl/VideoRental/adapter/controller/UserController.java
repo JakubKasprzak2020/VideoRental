@@ -19,7 +19,7 @@ public class UserController {
 
     @GetMapping("/api/users")
     @ResponseStatus(HttpStatus.OK)
-    public List<User> getAllUsers(){
+    public List<User> getAllUsersFromCatalog(){
         return getAllUsers.getAll();
     }
 

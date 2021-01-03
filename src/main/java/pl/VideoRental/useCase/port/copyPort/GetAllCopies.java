@@ -15,8 +15,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GetAllCopies {
 
-    @Autowired
-    CopyRepository copyRepository;
+    private final CopyRepository copyRepository;
 
     public List<Copy> getAll(){
         List <Copy> copies = new ArrayList<>();

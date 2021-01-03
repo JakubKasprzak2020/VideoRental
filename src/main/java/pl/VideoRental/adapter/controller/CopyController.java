@@ -19,7 +19,7 @@ public class CopyController {
 
     @GetMapping("/api/copies")
     @ResponseStatus(HttpStatus.OK)
-    public List<Copy> GetAllCopies(){
+    public List<Copy> getAllCopiesFromCatalog(){
         return getAllCopies.getAll();
     }
 

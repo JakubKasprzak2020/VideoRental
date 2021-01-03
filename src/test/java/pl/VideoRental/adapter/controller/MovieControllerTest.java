@@ -16,7 +16,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import pl.VideoRental.SampleData.SampleDataStorage;
 import pl.VideoRental.domain.Genre;
 import pl.VideoRental.domain.Movie;
-import pl.VideoRental.useCase.exception.MovieAlreadyExistException;
 import pl.VideoRental.useCase.port.moviePort.CreateMovie;
 import pl.VideoRental.useCase.port.moviePort.DeleteMovie;
 import pl.VideoRental.useCase.port.moviePort.GetAllMovies;
@@ -37,10 +36,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class MovieControllerTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Autowired
-    ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
 
     @MockBean
     private CreateMovie createMovie;
@@ -51,8 +50,8 @@ public class MovieControllerTest {
     @MockBean
     private GetMovieFromCatalog getMovieFromCatalog;
 
-    Movie movie1 = SampleDataStorage.MOVIE_1;
-    Movie movie2 = SampleDataStorage.MOVIE_2;
+    private Movie movie1 = SampleDataStorage.MOVIE_1;
+    private Movie movie2 = SampleDataStorage.MOVIE_2;
 
 
     @Test
