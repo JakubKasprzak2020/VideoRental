@@ -12,9 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import pl.VideoRental.SampleData.SampleDataStorage;
 import pl.VideoRental.domain.User;
-import pl.VideoRental.useCase.port.userPort.CreateUser;
 import pl.VideoRental.useCase.port.userPort.GetAllUsers;
 
 import java.util.ArrayList;
@@ -29,26 +27,32 @@ class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private ObjectMapper objectMapper;
 
     @MockBean
     private GetAllUsers getAllUsers;
 
-    @Autowired
-    private CreateUser createUser;
-
-/*    private User user1 = createUser.create(SampleDataStorage.USER_SIGN_IN_DATA_1);
-    private User user2 = createUser.create(SampleDataStorage.USER_SIGN_IN_DATA_2);*/
+    private final User USER_1 = User.builder()
+            .name("Winston")
+            .lastName("Churchill")
+            .email("win@gov.com")
+            .address("Downing Street")
+            .password("To Berlin")
+            .build();
+    private final User USER_2 = User.builder()
+            .name("Jozef")
+            .lastName("Stalin")
+            .email("jstalin@google.com")
+            .address("Red Square")
+            .password("1234")
+            .build();
 
     @Test
     void shouldGetAllUsers() throws Exception {
-       /* User user1 = createUser.create(SampleDataStorage.USER_SIGN_IN_DATA_1);
-        User user2 = createUser.create(SampleDataStorage.USER_SIGN_IN_DATA_2);*/
         List<User> users = new ArrayList<>();
-/*        users.add(user1);
-        users.add(user2);*/
+        users.add(USER_1);
+        users.add(USER_2);
         Mockito.when(getAllUsers.getAll()).thenReturn(users);
         String url = "/api/users";
         RequestBuilder request = MockMvcRequestBuilders.get(url);
