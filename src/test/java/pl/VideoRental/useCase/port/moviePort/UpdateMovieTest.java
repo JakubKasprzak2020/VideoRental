@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.VideoRental.SampleData.SampleDataStorage;
 import pl.VideoRental.domain.Movie;
+import pl.VideoRental.useCase.port.copyPort.CreateCopyOfAMovie;
 
 import static org.junit.jupiter.api.Assertions.*;
 
