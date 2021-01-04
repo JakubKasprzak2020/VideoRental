@@ -29,6 +29,7 @@ public class SampleDataStorage {
             .description("A masked murderer attacked!")
             .build();
 
+
    public static final UserSignInData USER_SIGN_IN_DATA_1 = UserSignInData.builder()
             .name("Quentin")
             .lastName("Tarantino")
