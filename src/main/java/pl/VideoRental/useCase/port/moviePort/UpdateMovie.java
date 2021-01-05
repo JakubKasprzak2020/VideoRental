@@ -10,8 +10,7 @@ import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
 @RequiredArgsConstructor
 public class UpdateMovie {
 
-    private final
-    GetMovieFromCatalog getMovieFromCatalog;
+    private final GetMovieFromCatalog getMovieFromCatalog;
     private final MovieRepository movieRepository;
 
     public void update(long id, Movie newMovie) {
