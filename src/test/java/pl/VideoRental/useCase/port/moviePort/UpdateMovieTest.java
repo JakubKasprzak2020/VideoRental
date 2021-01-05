@@ -39,7 +39,7 @@ class UpdateMovieTest {
 
 
     @Test
-    void shouldNotUpdateUserWhenIdIsIncorrect() {
+    void shouldNotUpdateMovieWhenIdIsIncorrect() {
         //given
         long idOfMovieThatDoesNotExist = 560;
         //when

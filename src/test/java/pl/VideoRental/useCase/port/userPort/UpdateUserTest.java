@@ -62,7 +62,5 @@ class UpdateUserTest {
         List<User> listOfUsersWhoseNameIsClint = getAllUsers.getAll().stream()
                 .filter(u -> u.getName().equals(user.getName())).collect(Collectors.toList());
       assertTrue(listOfUsersWhoseNameIsClint.isEmpty());
-   /*     System.out.println(listOfUsersWhoseNameIsClint.size());
-        System.out.println(listOfUsersWhoseNameIsClint.get(0).getName());*/
     }
 }
