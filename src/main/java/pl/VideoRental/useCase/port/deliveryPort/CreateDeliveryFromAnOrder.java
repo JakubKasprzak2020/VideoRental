@@ -1,4 +1,4 @@
-package pl.VideoRental.useCase.port.orderPort;
+package pl.VideoRental.useCase.port.deliveryPort;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,7 @@ import pl.VideoRental.domain.Order;
 
 @Component
 @RequiredArgsConstructor
-public class MakeADeliveryFromAnOrder {
+public class CreateDeliveryFromAnOrder {
 
    private final OrderRepository orderRepository;
    private final DeliveryRepository deliveryRepository;

@@ -1,4 +1,4 @@
-package pl.VideoRental.useCase.port.cartPort;
+package pl.VideoRental.useCase.port.orderPort;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class MakeAnOrderFromCartContent {
+public class CreateOrderFromCartContent {
 
     private final Cart cart;
     private final UserRepository userRepository;
