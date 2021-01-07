@@ -16,10 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import pl.VideoRental.SampleData.SampleDataStorage;
 import pl.VideoRental.domain.Genre;
 import pl.VideoRental.domain.Movie;
-import pl.VideoRental.useCase.port.moviePort.CreateMovie;
-import pl.VideoRental.useCase.port.moviePort.DeleteMovie;
-import pl.VideoRental.useCase.port.moviePort.GetAllMovies;
-import pl.VideoRental.useCase.port.moviePort.GetMovieFromCatalog;
+import pl.VideoRental.useCase.port.moviePort.*;
 
 
 import java.time.LocalDate;
@@ -49,6 +46,8 @@ public class MovieControllerTest {
     private GetAllMovies getAllMovies;
     @MockBean
     private GetMovieFromCatalog getMovieFromCatalog;
+    @MockBean
+    private UpdateMovie updateMovie;
 
     private Movie movie1 = SampleDataStorage.MOVIE_1;
     private Movie movie2 = SampleDataStorage.MOVIE_2;

@@ -6,10 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.VideoRental.domain.Movie;
 import pl.VideoRental.useCase.exception.MovieAlreadyExistException;
 import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
-import pl.VideoRental.useCase.port.moviePort.CreateMovie;
-import pl.VideoRental.useCase.port.moviePort.DeleteMovie;
-import pl.VideoRental.useCase.port.moviePort.GetMovieFromCatalog;
-import pl.VideoRental.useCase.port.moviePort.GetAllMovies;
+import pl.VideoRental.useCase.port.moviePort.*;
 
 import java.util.List;
 
@@ -21,17 +18,18 @@ public class MovieController {
     private final DeleteMovie deleteMovie;
     private final GetAllMovies getAllMovies;
     private final GetMovieFromCatalog getMovieFromCatalog;
+    private final UpdateMovie updateMovie;
 
 
     @GetMapping(path="/api/movies")
     @ResponseStatus(HttpStatus.OK)
-    public List<Movie> getAllMovies() {
+    public List<Movie> getAll() {
         return getAllMovies.getAll();
     }
 
     @GetMapping("/api/movies/{title}")
     @ResponseStatus(HttpStatus.OK)
-    public Movie getMovie(@PathVariable String title) throws MovieDoesNotExistException {
+    public Movie get(@PathVariable String title) throws MovieDoesNotExistException {
         try {
             return getMovieFromCatalog.getByTitle(title);
         } catch (MovieDoesNotExistException e){
@@ -42,14 +40,20 @@ public class MovieController {
 
     @PostMapping("/api/movies")
     @ResponseStatus(HttpStatus.CREATED)
-    public Movie createMovie(@RequestBody Movie movie) throws MovieAlreadyExistException {
+    public Movie create(@RequestBody Movie movie) throws MovieAlreadyExistException {
         return createMovie.createIfIsNotExisting(movie);
     }
 
     @DeleteMapping("api/movies/delete/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteMovie(@PathVariable long id) {
+    public void delete(@PathVariable long id) {
             deleteMovie.deleteById(id);
+    }
+
+    @PutMapping("api/movies/update/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void update(@RequestBody Movie movie, @PathVariable long id) {
+        updateMovie.update(id, movie);
     }
 
 
