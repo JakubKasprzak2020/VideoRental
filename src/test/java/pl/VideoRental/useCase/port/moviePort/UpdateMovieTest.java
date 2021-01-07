@@ -48,5 +48,8 @@ class UpdateMovieTest {
         assertFalse(isMovieExist.isExistByTitle(movie.getTitle()));
     }
 
+    //TODO Update should be impossible when new title is not unique
+
+
 
 }

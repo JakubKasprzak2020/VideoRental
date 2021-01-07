@@ -118,7 +118,19 @@ public class MovieControllerTest {
     }
 
 
-
+    //TODO error 400 bad request
+    @Test
+    void shouldUpdateMovie() throws Exception {
+        long randomIdNumber = 1;
+        Movie movie = Movie.builder()
+                .title("Forest Gump")
+                .build();
+        Mockito.doNothing().when(updateMovie).update(randomIdNumber, movie);
+        String url = "/api/movies/update/" + randomIdNumber;
+        RequestBuilder request = MockMvcRequestBuilders.put(url);
+        mockMvc.perform(request).andExpect(status().isOk());
+        Mockito.verify(updateMovie, times(1)).update(randomIdNumber, movie);
+    }
 
 
 }
