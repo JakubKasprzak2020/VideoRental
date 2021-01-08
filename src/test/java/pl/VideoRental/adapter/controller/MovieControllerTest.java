@@ -25,6 +25,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -49,18 +50,30 @@ public class MovieControllerTest {
     @MockBean
     private UpdateMovie updateMovie;
 
-    private Movie movie1 = SampleDataStorage.MOVIE_1;
-    private Movie movie2 = SampleDataStorage.MOVIE_2;
+    private final Movie movie1 = SampleDataStorage.MOVIE_1;
+    private final Movie movie2 = SampleDataStorage.MOVIE_2;
+
+
+    private final String movieJson = "{\n" +
+            "        \"id\": 0,\n" +
+            "        \"title\": \"A bridge too far\",\n" +
+            "        \"description\": \"Year 1944, Europe...\",\n" +
+            "        \"releaseDate\": \"1977-01-01\",\n" +
+            "        \"genre\": \"HISTORICAL\"\n" +
+            "    }";
 
 
     @Test
     void shouldGetAllMovies() throws Exception {
+        //given
         List<Movie> movies = new ArrayList<>();
         movies.add(movie1);
         movies.add(movie2);
-        Mockito.when(getAllMovies.getAll()).thenReturn(movies);
         String url = "/api/movies";
+        //when
+        Mockito.when(getAllMovies.getAll()).thenReturn(movies);
         RequestBuilder request = MockMvcRequestBuilders.get(url);
+        //then
         MvcResult mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
         String actualJsonResponse = mvcResult.getResponse().getContentAsString();
         String expectedJsonResponse = objectMapper.writeValueAsString(movies);
@@ -69,9 +82,12 @@ public class MovieControllerTest {
 
     @Test
     void shouldGetMovie() throws Exception {
-        Mockito.when(getMovieFromCatalog.getByTitle(movie1.getTitle())).thenReturn(movie1);
+        //given
         String url = "/api/movies/" + movie1.getTitle();
+        //when
+        Mockito.when(getMovieFromCatalog.getByTitle(movie1.getTitle())).thenReturn(movie1);
         RequestBuilder request = MockMvcRequestBuilders.get(url);
+        //then
         MvcResult mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
         String actualJsonResponse = mvcResult.getResponse().getContentAsString();
         String expectedJsonResponse = objectMapper.writeValueAsString(movie1);
@@ -80,27 +96,21 @@ public class MovieControllerTest {
 
     @Test
     void shouldCreateNewMovie() throws Exception {
+        //given
         Movie movie = Movie.builder()
                 .title("A bridge too far")
                 .genre(Genre.HISTORICAL)
                 .description("Year 1944, Europe...")
                 .releaseDate(LocalDate.of(1977, 1, 1))
                 .build();
-
-        String movieJson = "{\n" +
-                "        \"id\": 0,\n" +
-                "        \"title\": \"A bridge too far\",\n" +
-                "        \"description\": \"Year 1944, Europe...\",\n" +
-                "        \"releaseDate\": \"1977-01-01\",\n" +
-                "        \"genre\": \"HISTORICAL\"\n" +
-                "    }";
-
-        Mockito.when(createMovie.createIfIsNotExisting(any(Movie.class))).thenReturn(movie);
         String url = "/api/movies";
+        //when
+        Mockito.when(createMovie.createIfIsNotExisting(any(Movie.class))).thenReturn(movie);
         RequestBuilder request = MockMvcRequestBuilders
                 .post(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(movieJson);
+        //then
         MvcResult mvcResult = mockMvc.perform(request).andExpect(status().isCreated()).andReturn();
         String actualJsonResponse = mvcResult.getResponse().getContentAsString();
         String expectedJsonResponse = objectMapper.writeValueAsString(movie);
@@ -109,27 +119,33 @@ public class MovieControllerTest {
 
     @Test
     void shouldDeleteMovie() throws Exception {
+        //given
         long id = 1;
-        Mockito.doNothing().when(deleteMovie).deleteById(id);
         String url = "/api/movies/delete/" + id;
+        //when
+        Mockito.doNothing().when(deleteMovie).deleteById(id);
         RequestBuilder request = MockMvcRequestBuilders.delete(url);
+        //then
         mockMvc.perform(request).andExpect(status().isOk());
         Mockito.verify(deleteMovie, times(1)).deleteById(id);
     }
 
 
-    //TODO error 400 bad request
     @Test
     void shouldUpdateMovie() throws Exception {
+        //given
         long randomIdNumber = 1;
-        Movie movie = Movie.builder()
-                .title("Forest Gump")
-                .build();
-        Mockito.doNothing().when(updateMovie).update(randomIdNumber, movie);
         String url = "/api/movies/update/" + randomIdNumber;
-        RequestBuilder request = MockMvcRequestBuilders.put(url);
+        //when
+        Mockito.doNothing().when(updateMovie).update(eq(randomIdNumber), any(Movie.class));
+        RequestBuilder request = MockMvcRequestBuilders
+                .put(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(movieJson);
+        //then
         mockMvc.perform(request).andExpect(status().isOk());
-        Mockito.verify(updateMovie, times(1)).update(randomIdNumber, movie);
+        Mockito.verify(updateMovie, times(1))
+                .update(eq(randomIdNumber), any(Movie.class));
     }
 
 
