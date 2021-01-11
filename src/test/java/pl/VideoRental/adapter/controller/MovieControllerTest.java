@@ -130,14 +130,14 @@ public class MovieControllerTest {
         Mockito.verify(deleteMovie, times(1)).deleteById(id);
     }
 
-
+//TODO status 415, not supported media type
     @Test
     void shouldUpdateMovie() throws Exception {
         //given
-        long randomIdNumber = 1;
-        String url = "/api/movies/update/" + randomIdNumber;
+        long randomId = 1;
+        String url = "/api/movies/update/" + randomId;
         //when
-        Mockito.doNothing().when(updateMovie).update(eq(randomIdNumber), any(Movie.class));
+        Mockito.doNothing().when(updateMovie).update(eq(randomId), any(Movie.class));
         RequestBuilder request = MockMvcRequestBuilders
                 .put(url)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -145,7 +145,7 @@ public class MovieControllerTest {
         //then
         mockMvc.perform(request).andExpect(status().isOk());
         Mockito.verify(updateMovie, times(1))
-                .update(eq(randomIdNumber), any(Movie.class));
+                .update(eq(randomId), any(Movie.class));
     }
 
 
