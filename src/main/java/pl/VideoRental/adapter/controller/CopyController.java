@@ -2,12 +2,12 @@ package pl.VideoRental.adapter.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.VideoRental.domain.Copy;
-import pl.VideoRental.useCase.port.copyPort.GetAllCopies;
+import pl.VideoRental.useCase.exception.CopyDoesNotExistException;
+import pl.VideoRental.useCase.exception.CopyIsNotRentedException;
+import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
+import pl.VideoRental.useCase.port.copyPort.*;
 
 import java.util.List;
 
@@ -16,18 +16,76 @@ import java.util.List;
 public class CopyController {
 
     private final GetAllCopies getAllCopies;
+    private final GetCopyFromCatalog getCopyFromCatalog;
+    private final CreateCopyOfAMovie createCopyOfAMovie;
+    private final DeleteCopy deleteCopy;
+    private final UpdateCopy updateCopy;
+    private final ReturnACopy returnACopy;
+    private final RentACopy rentACopy;
 
     @GetMapping("/api/copies")
     @ResponseStatus(HttpStatus.OK)
-    public List<Copy> getAllCopiesFromCatalog(){
+    public List<Copy> getAll(){
         return getAllCopies.getAll();
     }
 
-    @GetMapping("/api/copies/{title}")
+    @GetMapping("/api/copies/of_movie/{title}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Copy> GetAllCopiesByMovieTitle(@PathVariable String title) {
+    public List<Copy> getAllByMovieTitle(@PathVariable String title) {
         return getAllCopies.getAllByMovieTitle(title);
     }
+
+    @GetMapping("/api/copies/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Copy getById(@PathVariable long id) {
+        try {
+            return getCopyFromCatalog.get(id);
+        } catch( CopyDoesNotExistException exception) {
+            System.out.println(exception.getMessage());
+            return null;
+        }
+    }
+
+    @PostMapping("/api/copies/{movieId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Copy create(@PathVariable long movieId){
+        try {
+           return createCopyOfAMovie.create(movieId);
+        } catch (MovieDoesNotExistException exception) {
+            System.out.println(exception.getMessage());
+            return null;
+        }
+    }
+
+    @DeleteMapping("/api/copies/delete/{copyId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void delete(@PathVariable long copyId) {
+        deleteCopy.deleteById(copyId);
+    }
+
+    @PutMapping("/api/copies/update/{copyId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void update(@PathVariable long copyId, @RequestBody Copy copy) {
+        updateCopy.update(copyId, copy);
+    }
+
+    //TODO - need User, so Spring Security level must be make first
+    @PutMapping("/api/copies/rent/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void rent(){
+
+    }
+
+    @PutMapping("/api/copies/return/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void returnRentedCopy(@RequestBody Copy copy){
+        try {
+            returnACopy.returnACopy(copy);
+        } catch (CopyIsNotRentedException exception) {
+            System.out.println(exception.getMessage());
+        }
+    }
+
 
 
 

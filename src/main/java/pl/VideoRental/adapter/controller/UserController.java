@@ -2,6 +2,7 @@ package pl.VideoRental.adapter.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.VideoRental.domain.User;
@@ -51,7 +52,7 @@ public class UserController {
         deleteUser.deleteById(id);
     }
 
-    @PutMapping("api/users/update/{id}")
+    @PutMapping(value = "api/users/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void update(@RequestBody User user, @PathVariable long id) {
         updateUser.update(id, user);

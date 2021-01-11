@@ -21,6 +21,7 @@ public class UpdateUser {
             oldUser.setEmail(newUser.getEmail());
             oldUser.setAddress(newUser.getAddress());
             oldUser.setPassword(newUser.getPassword());
+            oldUser.setUserType(newUser.getUserType());
             userRepository.save(oldUser);
         } catch (UserDoesNotExistException exception){
             System.out.println(exception.getMessage());

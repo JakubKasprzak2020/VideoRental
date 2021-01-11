@@ -17,7 +17,6 @@ public class User {
 
     /**
      * copies - a list of movie copies which are current rented by user
-     * orders - a list of all orders that user have ever made
      */
 
     @Id

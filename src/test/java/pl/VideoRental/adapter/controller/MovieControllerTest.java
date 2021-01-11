@@ -130,7 +130,6 @@ public class MovieControllerTest {
         Mockito.verify(deleteMovie, times(1)).deleteById(id);
     }
 
-//TODO status 415, not supported media type
     @Test
     void shouldUpdateMovie() throws Exception {
         //given
