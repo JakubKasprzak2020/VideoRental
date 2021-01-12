@@ -136,24 +136,6 @@ class CopyControllerTest {
         Mockito.verify(deleteCopy, times(1)).deleteById(any(Long.class));
     }
 
-    // status 415, not supported media type
- /*   @Test
-    void shouldUpdateCopy() throws Exception {
-        //given
-        long randomId = 1;
-        String url = "/api/copies/update/" + randomId;
-        //when
-        Mockito.doNothing().when(updateCopy).update(any(Long.class), any(Copy.class));
-        RequestBuilder request = MockMvcRequestBuilders
-                .put(url)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(COPY_1));
-        //then
-        mockMvc.perform(request).andExpect(status().isOk());
-        Mockito.verify(updateCopy, times(1))
-                .update(any(Long.class), any(Copy.class));
-    }*/
-
     @Test
     void shouldUpdateCopy() throws Exception {
         //given

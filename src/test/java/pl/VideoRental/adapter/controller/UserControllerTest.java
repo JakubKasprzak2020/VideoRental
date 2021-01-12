@@ -144,26 +144,6 @@ class UserControllerTest {
         Mockito.verify(deleteUser, times(1)).deleteById(any(Long.class));
     }
 
-    // status 415, not supported media type
-/*    @Test
-    void shouldUpdateUser() throws Exception {
-        //given
-        long randomId = 1;
-        String url = "/api/users/update/" + randomId;
-        //when
-        Mockito.doNothing().when(updateUser).update(any(Long.class), any(User.class));
-     //   System.out.println(objectMapper.writeValueAsString(USER_1));
-        RequestBuilder request = MockMvcRequestBuilders
-                .put(url)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(userJson);
-               // .content(objectMapper.writeValueAsString(USER_1));
-        //then
-        mockMvc.perform(request).andExpect(status().isOk());
-        Mockito.verify(updateUser, times(1))
-                .update(any(Long.class), any(User.class));
-    }*/
-
 
     @Test
     void shouldUpdateUser() throws Exception {
@@ -177,7 +157,6 @@ class UserControllerTest {
                 .put(url)
                 .contentType(MediaType.TEXT_PLAIN)
                 .content(userJson);
-        // .content(objectMapper.writeValueAsString(USER_1));
         //then
         mockMvc.perform(request).andExpect(status().isOk());
         Mockito.verify(updateUser, times(1))

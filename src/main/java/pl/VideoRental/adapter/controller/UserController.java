@@ -52,15 +52,6 @@ public class UserController {
         deleteUser.deleteById(id);
     }
 
-/*    // TODO status 415, not supported media type
-    @PutMapping(value = "api/users/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public void update(@RequestBody User user, @PathVariable long id) {
-        updateUser.update(id, user);
-    }*/
-
-
-
     @PutMapping(value = "api/users/update/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void update(@RequestBody String json, @PathVariable long id) {

@@ -1,5 +1,6 @@
 package pl.VideoRental.util;
 
+import com.google.gson.JsonSyntaxException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +17,7 @@ class JSONConverterTest {
     JSONConverter jsonConverter;
 
     @Test
-    public void shouldConvertToUser(){
+    void shouldConvertToUser(){
         //given
         String userJson = "{\n" +
                 "        \"id\": 876,\n" +
@@ -42,7 +43,7 @@ class JSONConverterTest {
 
 
     @Test
-    public void shouldConvertToCopy(){
+    void shouldConvertToCopy(){
         //given
         String copyJson = "{\n" +
                 "        \"id\": 4,\n" +
@@ -67,6 +68,15 @@ class JSONConverterTest {
         assertEquals(1, copy.getMovie().getId());
         assertNull(copy.getUser());
         assertTrue(copy.isAvailable());
+    }
+
+
+    @Test
+    void shouldThrowExceptionWhenStringIsInappropriate(){
+        //given
+        String inappropriateString = "ihyuugyv";
+        //then
+        assertThrows(JsonSyntaxException.class, ()-> jsonConverter.getCopyFromJson(inappropriateString));
     }
 
 }

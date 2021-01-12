@@ -65,13 +65,6 @@ public class CopyController {
         deleteCopy.deleteById(copyId);
     }
 
-  /*  // TODO status 415, not supported media type
-    @PutMapping("/api/copies/update/{copyId}")
-    @ResponseStatus(HttpStatus.OK)
-    public void update(@PathVariable long copyId, @RequestBody Copy copy) {
-        updateCopy.update(copyId, copy);
-    }*/
-
     @PutMapping("/api/copies/update/{copyId}")
     @ResponseStatus(HttpStatus.OK)
     public void update(@PathVariable long copyId, @RequestBody String json) {
