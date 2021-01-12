@@ -27,6 +27,7 @@ public class Order {
 
     private BigDecimal cost;
 
+    //TODO ManyToOne here is probably redundant
     @ManyToOne
     //@JsonManagedReference
     private User user;

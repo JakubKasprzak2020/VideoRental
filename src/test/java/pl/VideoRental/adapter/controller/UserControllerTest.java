@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import pl.VideoRental.util.JSONConverter;
 import pl.VideoRental.domain.User;
 import pl.VideoRental.domain.UserSignInData;
 import pl.VideoRental.useCase.port.userPort.*;
@@ -44,6 +45,8 @@ class UserControllerTest {
     private DeleteUser deleteUser;
     @MockBean
     private UpdateUser updateUser;
+    @MockBean
+    private JSONConverter jsonConverter;
 
     private final User USER_1 = User.builder()
             .name("Winston")
@@ -141,8 +144,8 @@ class UserControllerTest {
         Mockito.verify(deleteUser, times(1)).deleteById(any(Long.class));
     }
 
-    //TODO status 415, not supported media type
-    @Test
+    // status 415, not supported media type
+/*    @Test
     void shouldUpdateUser() throws Exception {
         //given
         long randomId = 1;
@@ -159,6 +162,28 @@ class UserControllerTest {
         mockMvc.perform(request).andExpect(status().isOk());
         Mockito.verify(updateUser, times(1))
                 .update(any(Long.class), any(User.class));
+    }*/
+
+
+    @Test
+    void shouldUpdateUser() throws Exception {
+        //given
+        long randomId = 1;
+        String url = "/api/users/update/" + randomId;
+        //when
+        Mockito.doNothing().when(updateUser).update(any(Long.class), any(User.class));
+        Mockito.when(jsonConverter.getUserFromJson(userJson)).thenReturn(USER_1);
+        RequestBuilder request = MockMvcRequestBuilders
+                .put(url)
+                .contentType(MediaType.TEXT_PLAIN)
+                .content(userJson);
+        // .content(objectMapper.writeValueAsString(USER_1));
+        //then
+        mockMvc.perform(request).andExpect(status().isOk());
+        Mockito.verify(updateUser, times(1))
+                .update(any(Long.class), any(User.class));
     }
+
+
 
 }

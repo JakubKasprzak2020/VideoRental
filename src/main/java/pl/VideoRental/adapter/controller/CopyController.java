@@ -8,6 +8,7 @@ import pl.VideoRental.useCase.exception.CopyDoesNotExistException;
 import pl.VideoRental.useCase.exception.CopyIsNotRentedException;
 import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
 import pl.VideoRental.useCase.port.copyPort.*;
+import pl.VideoRental.util.JSONConverter;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class CopyController {
     private final UpdateCopy updateCopy;
     private final ReturnACopy returnACopy;
     private final RentACopy rentACopy;
+    private final JSONConverter jsonConverter;
 
     @GetMapping("/api/copies")
     @ResponseStatus(HttpStatus.OK)
@@ -63,13 +65,21 @@ public class CopyController {
         deleteCopy.deleteById(copyId);
     }
 
+  /*  // TODO status 415, not supported media type
     @PutMapping("/api/copies/update/{copyId}")
     @ResponseStatus(HttpStatus.OK)
     public void update(@PathVariable long copyId, @RequestBody Copy copy) {
         updateCopy.update(copyId, copy);
+    }*/
+
+    @PutMapping("/api/copies/update/{copyId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void update(@PathVariable long copyId, @RequestBody String json) {
+        Copy copy = jsonConverter.getCopyFromJson(json);
+        updateCopy.update(copyId, copy);
     }
 
-    //TODO - need User, so Spring Security level must be make first
+    //TODO - need User, so Spring Security level must be made first
     @PutMapping("/api/copies/rent/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void rent(){

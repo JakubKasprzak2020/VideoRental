@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import pl.VideoRental.SampleData.SampleDataStorage;
 import pl.VideoRental.domain.Copy;
 import pl.VideoRental.useCase.port.copyPort.*;
+import pl.VideoRental.util.JSONConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,8 @@ class CopyControllerTest {
     private ReturnACopy returnACopy;
     @MockBean
     private RentACopy rentACopy;
+    @MockBean
+    private JSONConverter jsonConverter;
 
     private final Copy COPY_1 = Copy.builder().movie(SampleDataStorage.MOVIE_1).build();
     private final Copy COPY_2 = Copy.builder().movie(SampleDataStorage.MOVIE_1).build();
@@ -133,8 +136,8 @@ class CopyControllerTest {
         Mockito.verify(deleteCopy, times(1)).deleteById(any(Long.class));
     }
 
-    //TODO status 415, not supported media type
-    @Test
+    // status 415, not supported media type
+ /*   @Test
     void shouldUpdateCopy() throws Exception {
         //given
         long randomId = 1;
@@ -144,6 +147,24 @@ class CopyControllerTest {
         RequestBuilder request = MockMvcRequestBuilders
                 .put(url)
                 .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(COPY_1));
+        //then
+        mockMvc.perform(request).andExpect(status().isOk());
+        Mockito.verify(updateCopy, times(1))
+                .update(any(Long.class), any(Copy.class));
+    }*/
+
+    @Test
+    void shouldUpdateCopy() throws Exception {
+        //given
+        long randomId = 1;
+        String url = "/api/copies/update/" + randomId;
+        //when
+        Mockito.doNothing().when(updateCopy).update(any(Long.class), any(Copy.class));
+        Mockito.when(jsonConverter.getCopyFromJson(any(String.class))).thenReturn(COPY_1);
+        RequestBuilder request = MockMvcRequestBuilders
+                .put(url)
+                .contentType(MediaType.TEXT_PLAIN)
                 .content(objectMapper.writeValueAsString(COPY_1));
         //then
         mockMvc.perform(request).andExpect(status().isOk());

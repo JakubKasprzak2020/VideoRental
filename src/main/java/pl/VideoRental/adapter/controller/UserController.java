@@ -2,9 +2,8 @@ package pl.VideoRental.adapter.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import pl.VideoRental.util.JSONConverter;
 import pl.VideoRental.domain.User;
 import pl.VideoRental.domain.UserSignInData;
 import pl.VideoRental.useCase.exception.UserDoesNotExistException;
@@ -21,6 +20,7 @@ public class UserController {
     private final CreateUser createUser;
     private final DeleteUser deleteUser;
     private final UpdateUser updateUser;
+    private final JSONConverter jsonConverter;
 
     @GetMapping("/api/users")
     @ResponseStatus(HttpStatus.OK)
@@ -52,11 +52,19 @@ public class UserController {
         deleteUser.deleteById(id);
     }
 
+/*    // TODO status 415, not supported media type
     @PutMapping(value = "api/users/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void update(@RequestBody User user, @PathVariable long id) {
         updateUser.update(id, user);
+    }*/
+
+
+
+    @PutMapping(value = "api/users/update/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void update(@RequestBody String json, @PathVariable long id) {
+        User user = jsonConverter.getUserFromJson(json);
+        updateUser.update(id, user);
     }
-
-
 }
