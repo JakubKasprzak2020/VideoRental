@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import pl.VideoRental.domain.Copy;
 import pl.VideoRental.domain.User;
+import pl.VideoRental.useCase.exception.CopyDoesNotExistException;
 import pl.VideoRental.useCase.exception.CopyIsNotRentedException;
 import pl.VideoRental.useCase.port.userPort.GetAllUsers;
 
@@ -66,7 +67,26 @@ class ReturnACopyTest {
         Copy copy1 = getAllCopies.getAll().get(firstIndexValue);
         //then
         assertThrows(CopyIsNotRentedException.class, ()-> returnACopy.returnACopy(copy1));
+    }
 
+    @Test
+    void shouldReturnACopyWhenIdIsCorrect(){
+        //given
+        final int firstIndexValue = 0;
+        User user = getAllUsers.getAll().get(firstIndexValue);
+        Copy copy = getAllCopies.getAll().get(firstIndexValue);
+        long copyId = copy.getId();
+        //when
+        rentACopy.rent(copy, user);
+        returnACopy.returnACopyById(copyId);
+        Copy returnedCopy = getAllCopies.getAll().get(firstIndexValue);
+        User userThatReturnedCopy = getAllUsers.getAll().get(firstIndexValue);
+        //then
+        assertTrue(returnedCopy.isAvailable());
+        assertEquals(0, returnedCopy.getRentalDays());
+        assertNull(returnedCopy.getRentalDate());
+        assertNull(returnedCopy.getUser());
+        assertEquals(0, userThatReturnedCopy.getCopies().size());
     }
 
 }
