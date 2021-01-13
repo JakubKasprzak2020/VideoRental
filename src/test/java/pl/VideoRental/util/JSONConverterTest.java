@@ -5,8 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.VideoRental.domain.Copy;
+import pl.VideoRental.domain.Order;
 import pl.VideoRental.domain.User;
 import pl.VideoRental.domain.UserType;
+
+import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -69,6 +72,27 @@ class JSONConverterTest {
         assertNull(copy.getUser());
         assertTrue(copy.isAvailable());
     }
+
+    //TODO - test is not passing
+    @Test
+    void shouldConvertToOrder(){
+        String orderJson = "{\n" +
+                "        \"id\": 298,\n" +
+                "        \"cost\": 29,\n" +
+                "        \"user\": null,\n" +
+                "        \"copies\": null,\n" +
+                "        \"delivery\": null,\n" +
+                "    }";
+        //when
+        Order order = jsonConverter.getOrderFromJson(orderJson);
+        //then
+        assertEquals(298, order.getId());
+        assertEquals(BigDecimal.valueOf(29), order.getCost() );
+        assertNull(order.getUser());
+        assertNull(order.getDelivery());
+        assertNull(order.getCopies());
+    }
+
 
 
     @Test

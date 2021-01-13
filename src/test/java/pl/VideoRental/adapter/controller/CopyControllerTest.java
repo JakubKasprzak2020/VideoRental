@@ -82,7 +82,7 @@ class CopyControllerTest {
         copies.add(COPY_1);
         copies.add(COPY_2);
         String title = SampleDataStorage.MOVIE_1.getTitle();
-        String url = "/api/copies/of_movie/" + title;
+        String url = "/api/copies/movie/" + title;
         //when
         Mockito.when(getAllCopies.getAllByMovieTitle(title)).thenReturn(copies);
         RequestBuilder request = MockMvcRequestBuilders.get(url);
@@ -127,7 +127,7 @@ class CopyControllerTest {
     void shouldDeleteCopy() throws Exception {
         //given
         long randomId = 9;
-        String url = "/api/copies/delete/" + randomId;
+        String url = "/api/copies/" + randomId;
         //when
         Mockito.doNothing().when(deleteCopy).deleteById(any(Long.class));
         RequestBuilder request = MockMvcRequestBuilders.delete(url);
@@ -140,7 +140,7 @@ class CopyControllerTest {
     void shouldUpdateCopy() throws Exception {
         //given
         long randomId = 1;
-        String url = "/api/copies/update/" + randomId;
+        String url = "/api/copies/" + randomId;
         //when
         Mockito.doNothing().when(updateCopy).update(any(Long.class), any(Copy.class));
         Mockito.when(jsonConverter.getCopyFromJson(any(String.class))).thenReturn(COPY_1);

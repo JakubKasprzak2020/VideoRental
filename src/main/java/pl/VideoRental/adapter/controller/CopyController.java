@@ -30,7 +30,7 @@ public class CopyController {
         return getAllCopies.getAll();
     }
 
-    @GetMapping("/api/copies/of_movie/{title}")
+    @GetMapping("/api/copies/movie/{title}")
     @ResponseStatus(HttpStatus.OK)
     public List<Copy> getAllByMovieTitle(@PathVariable String title) {
         return getAllCopies.getAllByMovieTitle(title);
@@ -58,13 +58,13 @@ public class CopyController {
         }
     }
 
-    @DeleteMapping("/api/copies/delete/{copyId}")
+    @DeleteMapping("/api/copies/{copyId}")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable long copyId) {
         deleteCopy.deleteById(copyId);
     }
 
-    @PutMapping("/api/copies/update/{copyId}")
+    @PutMapping("/api/copies/{copyId}")
     @ResponseStatus(HttpStatus.OK)
     public void update(@PathVariable long copyId, @RequestBody String json) {
         Copy copy = jsonConverter.getCopyFromJson(json);
