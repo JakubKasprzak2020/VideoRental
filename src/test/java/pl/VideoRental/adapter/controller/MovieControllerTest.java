@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import pl.VideoRental.SampleData.SampleDataStorage;
+import pl.VideoRental.sampleData.SampleDataStorage;
 import pl.VideoRental.domain.Genre;
 import pl.VideoRental.domain.Movie;
 import pl.VideoRental.useCase.port.moviePort.*;

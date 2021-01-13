@@ -1,4 +1,4 @@
-package pl.VideoRental.SampleData;
+package pl.VideoRental.sampleData;
 
 import pl.VideoRental.domain.Genre;
 import pl.VideoRental.domain.Movie;

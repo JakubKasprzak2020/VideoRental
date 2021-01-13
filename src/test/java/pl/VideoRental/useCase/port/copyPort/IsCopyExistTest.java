@@ -3,7 +3,6 @@ package pl.VideoRental.useCase.port.copyPort;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import pl.VideoRental.SampleData.SampleDataInit;
 import pl.VideoRental.domain.Copy;
 import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
 import pl.VideoRental.useCase.port.moviePort.GetAllMovies;

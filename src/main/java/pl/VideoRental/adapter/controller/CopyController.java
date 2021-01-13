@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.VideoRental.domain.Copy;
 import pl.VideoRental.useCase.exception.CopyDoesNotExistException;
-import pl.VideoRental.useCase.exception.CopyIsNotRentedException;
 import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
 import pl.VideoRental.useCase.port.copyPort.*;
 import pl.VideoRental.util.JSONConverter;
@@ -79,14 +78,10 @@ public class CopyController {
 
     }
 
-    @PutMapping("/api/copies/return/{id}")
+    @PutMapping("/api/copies/return/{copyId}")
     @ResponseStatus(HttpStatus.OK)
-    public void returnRentedCopy(@RequestBody Copy copy){
-        try {
-            returnACopy.returnACopy(copy);
-        } catch (CopyIsNotRentedException exception) {
-            System.out.println(exception.getMessage());
-        }
+    public void returnRentedCopy(@PathVariable long copyId){
+            returnACopy.returnACopyById(copyId);
     }
 
 

@@ -3,7 +3,7 @@ package pl.VideoRental.useCase.port.userPort;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import pl.VideoRental.SampleData.SampleDataStorage;
+import pl.VideoRental.sampleData.SampleDataStorage;
 import pl.VideoRental.domain.User;
 import pl.VideoRental.domain.UserSignInData;
 import pl.VideoRental.useCase.exception.UserDoesNotExistException;

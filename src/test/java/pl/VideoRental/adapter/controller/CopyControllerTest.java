@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import pl.VideoRental.SampleData.SampleDataStorage;
+import pl.VideoRental.sampleData.SampleDataStorage;
 import pl.VideoRental.domain.Copy;
 import pl.VideoRental.useCase.port.copyPort.*;
 import pl.VideoRental.util.JSONConverter;
@@ -162,8 +162,16 @@ class CopyControllerTest {
 
     //TODO
     @Test
-    void shouldReturnRentedCopy(){
-
+    void shouldReturnRentedCopy() throws Exception {
+        //given
+        long randomId = 1;
+        String url = "/api/copies/return/" + randomId;
+        //when
+        Mockito.doNothing().when(returnACopy).returnACopyById(any(Long.class));
+        RequestBuilder request = MockMvcRequestBuilders.put(url);
+        //then
+        mockMvc.perform(request).andExpect(status().isOk());
+        Mockito.verify(returnACopy, times(1)).returnACopyById(any(Long.class));
     }
 
 }

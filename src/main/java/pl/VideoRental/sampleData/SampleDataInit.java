@@ -1,9 +1,8 @@
-package pl.VideoRental.SampleData;
+package pl.VideoRental.sampleData;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import pl.VideoRental.domain.Genre;
 import pl.VideoRental.domain.Movie;
 import pl.VideoRental.domain.UserSignInData;
 import pl.VideoRental.useCase.exception.MovieAlreadyExistException;
@@ -12,8 +11,6 @@ import pl.VideoRental.useCase.port.moviePort.CreateMovie;
 import pl.VideoRental.useCase.port.copyPort.CreateCopyOfAMovie;
 import pl.VideoRental.useCase.port.moviePort.GetMovieFromCatalog;
 import pl.VideoRental.useCase.port.userPort.CreateUser;
-
-import java.time.LocalDate;
 
 @Component
 @RequiredArgsConstructor

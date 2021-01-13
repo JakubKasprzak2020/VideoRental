@@ -3,7 +3,7 @@ package pl.VideoRental.useCase.port.moviePort;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import pl.VideoRental.SampleData.SampleDataStorage;
+import pl.VideoRental.sampleData.SampleDataStorage;
 import pl.VideoRental.domain.Movie;
 
 import static org.junit.jupiter.api.Assertions.*;
