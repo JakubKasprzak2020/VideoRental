@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import pl.VideoRental.sampleData.SampleDataStorage;
 import pl.VideoRental.domain.Copy;
 import pl.VideoRental.useCase.port.copyPort.*;
-import pl.VideoRental.util.JSONConverter;
+import pl.VideoRental.util.JsonConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +50,7 @@ class CopyControllerTest {
     @MockBean
     private RentACopy rentACopy;
     @MockBean
-    private JSONConverter jsonConverter;
+    private JsonConverter jsonConverter;
 
     private final Copy COPY_1 = Copy.builder().movie(SampleDataStorage.MOVIE_1).build();
     private final Copy COPY_2 = Copy.builder().movie(SampleDataStorage.MOVIE_1).build();

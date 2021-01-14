@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import pl.VideoRental.util.JSONConverter;
+import pl.VideoRental.util.JsonConverter;
 import pl.VideoRental.domain.User;
 import pl.VideoRental.domain.UserSignInData;
 import pl.VideoRental.useCase.port.userPort.*;
@@ -46,7 +46,7 @@ class UserControllerTest {
     @MockBean
     private UpdateUser updateUser;
     @MockBean
-    private JSONConverter jsonConverter;
+    private JsonConverter jsonConverter;
 
     private final User USER_1 = User.builder()
             .name("Winston")

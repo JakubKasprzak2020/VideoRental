@@ -2,18 +2,16 @@ package pl.VideoRental.util;
 
 import com.google.gson.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.VideoRental.domain.Copy;
 import pl.VideoRental.domain.Order;
 import pl.VideoRental.domain.User;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Component
 @RequiredArgsConstructor
-public class JSONConverter {
+public class JsonConverter {
 
     private Gson getGson() {
         return new GsonBuilder()
@@ -35,6 +33,8 @@ public class JSONConverter {
         return getGson().fromJson(json, Copy.class);
     }
 
-    public Order getOrderFromJson(String json) {return getGson().fromJson(json, Order.class);}
+    public Order getOrderFromJson(String json) {
+        return getGson().fromJson(json, Order.class);
+    }
 
 }

@@ -7,6 +7,7 @@ import pl.VideoRental.domain.Order;
 import pl.VideoRental.domain.User;
 import pl.VideoRental.useCase.exception.OrderDoesNotExistException;
 import pl.VideoRental.useCase.port.orderPort.*;
+import pl.VideoRental.util.JsonConverter;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class OrderController {
     private final CreateOrderFromCartContent createOrderFromCartContent;
     private final DeleteOrder deleteOrder;
     private final UpdateOrder updateOrder;
+    private final JsonConverter jsonConverter;
 
 
     @GetMapping("/api/orders")
@@ -45,7 +47,8 @@ public class OrderController {
     }
 
     @PutMapping("/api/orders/{id}")
-    public void update(@PathVariable long id, @RequestBody Order order){
+    public void update(@RequestBody String json, @PathVariable long id) {
+        Order order = jsonConverter.getOrderFromJson(json);
         updateOrder.update(id, order);
     }
 

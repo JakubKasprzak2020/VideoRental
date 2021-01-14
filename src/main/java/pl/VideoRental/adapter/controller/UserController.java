@@ -3,7 +3,7 @@ package pl.VideoRental.adapter.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import pl.VideoRental.util.JSONConverter;
+import pl.VideoRental.util.JsonConverter;
 import pl.VideoRental.domain.User;
 import pl.VideoRental.domain.UserSignInData;
 import pl.VideoRental.useCase.exception.UserDoesNotExistException;
@@ -20,7 +20,7 @@ public class UserController {
     private final CreateUser createUser;
     private final DeleteUser deleteUser;
     private final UpdateUser updateUser;
-    private final JSONConverter jsonConverter;
+    private final JsonConverter jsonConverter;
 
     @GetMapping("/api/users")
     @ResponseStatus(HttpStatus.OK)

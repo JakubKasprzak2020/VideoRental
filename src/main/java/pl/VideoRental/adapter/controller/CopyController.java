@@ -7,7 +7,7 @@ import pl.VideoRental.domain.Copy;
 import pl.VideoRental.useCase.exception.CopyDoesNotExistException;
 import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
 import pl.VideoRental.useCase.port.copyPort.*;
-import pl.VideoRental.util.JSONConverter;
+import pl.VideoRental.util.JsonConverter;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class CopyController {
     private final UpdateCopy updateCopy;
     private final ReturnACopy returnACopy;
     private final RentACopy rentACopy;
-    private final JSONConverter jsonConverter;
+    private final JsonConverter jsonConverter;
 
     @GetMapping("/api/copies")
     @ResponseStatus(HttpStatus.OK)

@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import pl.VideoRental.domain.Copy;
 import pl.VideoRental.domain.Order;
 import pl.VideoRental.useCase.port.orderPort.*;
+import pl.VideoRental.util.JsonConverter;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -46,6 +47,8 @@ class OrderControllerTest {
     private DeleteOrder deleteOrder;
     @MockBean
     private UpdateOrder updateOrder;
+    @MockBean
+    private JsonConverter jsonConverter;
 
 
     @Test
@@ -99,7 +102,6 @@ class OrderControllerTest {
                 .deleteById(Mockito.any(Long.class));
     }
 
-    //TODO - 415 error
     @Test
     void shouldUpdateOrder() throws Exception {
         //given
@@ -110,9 +112,10 @@ class OrderControllerTest {
         String url = "/api/orders/" + randomId;
         //when
         Mockito.doNothing().when(updateOrder).update(any(Long.class), any(Order.class));
+        Mockito.when(jsonConverter.getOrderFromJson(any(String.class))).thenReturn(order);
         RequestBuilder request = MockMvcRequestBuilders
                 .put(url)
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.TEXT_PLAIN)
                 .content(objectMapper.writeValueAsString(order));
         //then
         mockMvc.perform(request).andExpect(status().isOk());

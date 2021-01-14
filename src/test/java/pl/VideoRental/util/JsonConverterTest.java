@@ -1,23 +1,26 @@
 package pl.VideoRental.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonSyntaxException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import pl.VideoRental.domain.Copy;
-import pl.VideoRental.domain.Order;
-import pl.VideoRental.domain.User;
-import pl.VideoRental.domain.UserType;
-
+import pl.VideoRental.domain.*;
+import pl.VideoRental.useCase.port.userPort.GetAllUsers;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class JSONConverterTest {
+class JsonConverterTest {
 
     @Autowired
-    JSONConverter jsonConverter;
+    JsonConverter jsonConverter;
+    @Autowired
+    ObjectMapper objectMapper;
+    @Autowired
+    GetAllUsers getAllUsers;
 
     @Test
     void shouldConvertToUser(){
@@ -75,22 +78,21 @@ class JSONConverterTest {
 
     //TODO - test is not passing
     @Test
-    void shouldConvertToOrder(){
-        String orderJson = "{\n" +
-                "        \"id\": 298,\n" +
-                "        \"cost\": 29,\n" +
-                "        \"user\": null,\n" +
-                "        \"copies\": null,\n" +
-                "        \"delivery\": null,\n" +
-                "    }";
+    void shouldConvertToOrder() throws JsonProcessingException {
+        //given
+        Order order = Order.builder()
+                .cost(BigDecimal.TEN)
+                .id(9)
+                .user(getAllUsers.getAll().get(0))
+                .build();
+        String json = objectMapper.writeValueAsString(order);
         //when
-        Order order = jsonConverter.getOrderFromJson(orderJson);
+        Order orderFromJson = jsonConverter.getOrderFromJson(json);
         //then
-        assertEquals(298, order.getId());
-        assertEquals(BigDecimal.valueOf(29), order.getCost() );
-        assertNull(order.getUser());
-        assertNull(order.getDelivery());
-        assertNull(order.getCopies());
+        assertEquals(order.getId(), orderFromJson.getId());
+        assertEquals(order.getCost(), orderFromJson.getCost() );
+        assertEquals(order.getUser().getId(), orderFromJson.getUser().getId());
+        assertNull(orderFromJson.getCopies());
     }
 
 
