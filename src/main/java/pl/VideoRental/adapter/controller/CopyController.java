@@ -72,13 +72,13 @@ public class CopyController {
     }
 
     //TODO - need User, so Spring Security level must be made first
-    @PutMapping("/api/copies/rent/{id}")
+    @PutMapping("/api/rent/{copyId}")
     @ResponseStatus(HttpStatus.OK)
     public void rent(){
 
     }
 
-    @PutMapping("/api/copies/return/{copyId}")
+    @PutMapping("/api/return/{copyId}")
     @ResponseStatus(HttpStatus.OK)
     public void returnRentedCopy(@PathVariable long copyId){
             returnACopy.returnACopyById(copyId);

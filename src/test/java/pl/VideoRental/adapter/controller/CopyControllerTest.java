@@ -160,12 +160,11 @@ class CopyControllerTest {
 
     }
 
-    //TODO
     @Test
     void shouldReturnRentedCopy() throws Exception {
         //given
         long randomId = 1;
-        String url = "/api/copies/return/" + randomId;
+        String url = "/api/return/" + randomId;
         //when
         Mockito.doNothing().when(returnACopy).returnACopyById(any(Long.class));
         RequestBuilder request = MockMvcRequestBuilders.put(url);

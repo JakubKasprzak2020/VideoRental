@@ -121,7 +121,7 @@ public class MovieControllerTest {
     void shouldDeleteMovie() throws Exception {
         //given
         long id = 1;
-        String url = "/api/movies/delete/" + id;
+        String url = "/api/movies/" + id;
         //when
         Mockito.doNothing().when(deleteMovie).deleteById(id);
         RequestBuilder request = MockMvcRequestBuilders.delete(url);
@@ -134,7 +134,7 @@ public class MovieControllerTest {
     void shouldUpdateMovie() throws Exception {
         //given
         long randomId = 1;
-        String url = "/api/movies/update/" + randomId;
+        String url = "/api/movies/" + randomId;
         //when
         Mockito.doNothing().when(updateMovie).update(eq(randomId), any(Movie.class));
         RequestBuilder request = MockMvcRequestBuilders

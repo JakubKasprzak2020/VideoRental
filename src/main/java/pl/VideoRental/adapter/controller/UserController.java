@@ -46,13 +46,13 @@ public class UserController {
         return createUser.create(userSignInData);
     }
 
-    @DeleteMapping("api/users/delete/{id}")
+    @DeleteMapping("api/users/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable long id) {
         deleteUser.deleteById(id);
     }
 
-    @PutMapping(value = "api/users/update/{id}")
+    @PutMapping(value = "api/users/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void update(@RequestBody String json, @PathVariable long id) {
         User user = jsonConverter.getUserFromJson(json);

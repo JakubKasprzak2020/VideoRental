@@ -44,13 +44,13 @@ public class MovieController {
         return createMovie.createIfIsNotExisting(movie);
     }
 
-    @DeleteMapping("api/movies/delete/{id}")
+    @DeleteMapping("api/movies/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable long id) {
             deleteMovie.deleteById(id);
     }
 
-    @PutMapping("api/movies/update/{id}")
+    @PutMapping("api/movies/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void update(@RequestBody Movie movie, @PathVariable long id) {
         updateMovie.update(id, movie);

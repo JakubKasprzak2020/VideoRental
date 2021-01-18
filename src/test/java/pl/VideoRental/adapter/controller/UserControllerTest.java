@@ -135,7 +135,7 @@ class UserControllerTest {
     void shouldDeleteUser() throws Exception {
         //given
         long randomId = 3;
-        String url = "/api/users/delete/" + randomId;
+        String url = "/api/users/" + randomId;
         //when
         Mockito.doNothing().when(deleteUser).deleteById(any(Long.class));
         RequestBuilder request = MockMvcRequestBuilders.delete(url);
@@ -149,7 +149,7 @@ class UserControllerTest {
     void shouldUpdateUser() throws Exception {
         //given
         long randomId = 1;
-        String url = "/api/users/update/" + randomId;
+        String url = "/api/users/" + randomId;
         //when
         Mockito.doNothing().when(updateUser).update(any(Long.class), any(User.class));
         Mockito.when(jsonConverter.getUserFromJson(userJson)).thenReturn(USER_1);
