@@ -39,4 +39,22 @@ class EmptyACartTest {
         assertTrue(cart.getCopies().isEmpty());
     }
 
+    @Test
+    public void shouldEmptyACartWhenNoArguments(){
+        //given
+        Copy copy1 = Copy.builder().isAvailable(false).build();
+        Copy copy2 = Copy.builder().isAvailable(false).build();
+        List<Copy> copies = cart.getCopies();
+        copies.add(copy1);
+        copies.add(copy2);
+        cart.setToPay(BigDecimal.TEN); // random value
+        //when
+        emptyACart.empty();
+        //then
+        assertTrue(copy1.isAvailable());
+        assertTrue(copy2.isAvailable());
+        assertEquals(BigDecimal.ZERO, cart.getToPay());
+        assertTrue(cart.getCopies().isEmpty());
+    }
+
 }
