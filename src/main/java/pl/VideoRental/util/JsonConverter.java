@@ -4,6 +4,7 @@ import com.google.gson.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.VideoRental.domain.Copy;
+import pl.VideoRental.domain.Delivery;
 import pl.VideoRental.domain.Order;
 import pl.VideoRental.domain.User;
 import java.time.LocalDate;
@@ -35,6 +36,16 @@ public class JsonConverter {
 
     public Order getOrderFromJson(String json) {
         return getGson().fromJson(json, Order.class);
+    }
+
+
+    //TODO problem with value of isDelivered - temporary solution
+    public Delivery getDeliveryFromJson(String json) {
+        Delivery delivery = getGson().fromJson(json, Delivery.class);
+       if (json.contains("true")){
+           delivery.setDelivered(true);
+       }
+        return delivery;
     }
 
 }

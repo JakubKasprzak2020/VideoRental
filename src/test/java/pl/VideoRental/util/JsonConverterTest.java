@@ -76,7 +76,6 @@ class JsonConverterTest {
         assertTrue(copy.isAvailable());
     }
 
-    //TODO - test is not passing
     @Test
     void shouldConvertToOrder() throws JsonProcessingException {
         //given
@@ -95,6 +94,21 @@ class JsonConverterTest {
         assertNull(orderFromJson.getCopies());
     }
 
+    @Test
+    void shouldConvertToDelivery() throws JsonProcessingException {
+        //given
+        Delivery delivery = Delivery.builder()
+                .address("MiddleEarth")
+                .isDelivered(true)
+                .build();
+        String json = objectMapper.writeValueAsString(delivery);
+        //when
+        Delivery deliveryFromJson = jsonConverter.getDeliveryFromJson(json);
+        //then
+        assertEquals(delivery.getAddress(), deliveryFromJson.getAddress());
+        assertEquals(delivery.isDelivered(), deliveryFromJson.isDelivered());
+        assertNull(deliveryFromJson.getOrder());
+    }
 
 
     @Test

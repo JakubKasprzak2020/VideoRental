@@ -1,10 +1,12 @@
 package pl.VideoRental.adapter.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import pl.VideoRental.domain.Delivery;
-import pl.VideoRental.domain.Order;
+import pl.VideoRental.useCase.exception.DeliveryDoesNotExistException;
 import pl.VideoRental.useCase.port.deliveryPort.*;
+import pl.VideoRental.util.JsonConverter;
 
 import java.util.List;
 
@@ -18,29 +20,49 @@ public class DeliveryController {
     private final GetAllDeliveries getAllDeliveries;
     private final GetDeliveryFromCatalog getDeliveryFromCatalog;
     private final UpdateDelivery updateDelivery;
+    private final JsonConverter jsonConverter;
 
 
-
-    public Delivery create(Order order){
-        return null;
+    @PostMapping("/api/delivery/{orderId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Delivery create(@PathVariable long orderId, @RequestBody String address) {
+        return createDeliveryFromAnOrder.makeDelivery(orderId, address);
     }
 
-    public void delete(long id){
+    @DeleteMapping("/api/delivery/{deliveryId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void delete(@PathVariable long deliveryId) {
+        deleteDelivery.deleteById(deliveryId);
     }
 
-    public void deliver(long id){
+    @PutMapping("/api/deliver/{deliveryId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deliver(@PathVariable long deliveryId) {
+        deliver.deliverToUser(deliveryId);
     }
 
-    public List<Delivery> getAll(){
-        return null;
+    @GetMapping("/api/delivery")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Delivery> getAll() {
+        return getAllDeliveries.getAll();
     }
 
-    public Delivery get(long id) {
-        return null;
+    @GetMapping("/api/delivery/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Delivery get(@PathVariable long id) {
+        try {
+            return getDeliveryFromCatalog.getById(id);
+        } catch (DeliveryDoesNotExistException exception){
+            System.out.println(exception.getMessage());
+            return null;
+        }
     }
 
-    public void update(long id, Delivery delivery){
-        
+    @PutMapping("/api/delivery/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void update(@PathVariable long id, @RequestBody String json) {
+        Delivery delivery = jsonConverter.getDeliveryFromJson(json);
+        updateDelivery.update(id, delivery);
     }
 
 
