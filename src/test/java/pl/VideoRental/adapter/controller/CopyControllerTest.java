@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import pl.VideoRental.authentication.UserDetailsServiceImpl;
 import pl.VideoRental.sampleData.SampleDataStorage;
 import pl.VideoRental.domain.Copy;
 import pl.VideoRental.useCase.port.copyPort.*;
@@ -51,6 +52,8 @@ class CopyControllerTest {
     private RentACopy rentACopy;
     @MockBean
     private JsonConverter jsonConverter;
+    @MockBean
+    private UserDetailsServiceImpl userDetailsService;
 
     private final Copy COPY_1 = Copy.builder().movie(SampleDataStorage.MOVIE_1).build();
     private final Copy COPY_2 = Copy.builder().movie(SampleDataStorage.MOVIE_1).build();

@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import pl.VideoRental.authentication.UserDetailsServiceImpl;
 import pl.VideoRental.domain.Delivery;
 import pl.VideoRental.useCase.port.deliveryPort.*;
 import pl.VideoRental.util.JsonConverter;
@@ -48,6 +49,8 @@ class DeliveryControllerTest {
     private UpdateDelivery updateDelivery;
     @MockBean
     private JsonConverter jsonConverter;
+    @MockBean
+    private UserDetailsServiceImpl userDetailsService;
 
 
     private final Delivery DELIVERY = Delivery.builder()

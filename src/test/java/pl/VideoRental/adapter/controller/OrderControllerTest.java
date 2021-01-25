@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import pl.VideoRental.authentication.UserDetailsServiceImpl;
 import pl.VideoRental.domain.Copy;
 import pl.VideoRental.domain.Order;
 import pl.VideoRental.useCase.port.orderPort.*;
@@ -49,6 +50,8 @@ class OrderControllerTest {
     private UpdateOrder updateOrder;
     @MockBean
     private JsonConverter jsonConverter;
+    @MockBean
+    private UserDetailsServiceImpl userDetailsService;
 
 
     @Test

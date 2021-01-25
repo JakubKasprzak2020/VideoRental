@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import pl.VideoRental.authentication.UserDetailsServiceImpl;
 import pl.VideoRental.sampleData.SampleDataStorage;
 import pl.VideoRental.domain.Genre;
 import pl.VideoRental.domain.Movie;
@@ -49,6 +51,8 @@ public class MovieControllerTest {
     private GetMovieFromCatalog getMovieFromCatalog;
     @MockBean
     private UpdateMovie updateMovie;
+    @MockBean
+    private UserDetailsServiceImpl userDetailsService;
 
     private final Movie movie1 = SampleDataStorage.MOVIE_1;
     private final Movie movie2 = SampleDataStorage.MOVIE_2;
@@ -62,6 +66,7 @@ public class MovieControllerTest {
             "        \"genre\": \"HISTORICAL\"\n" +
             "    }";
 
+    private final String [] roleList = {"ADMIN"};
 
     @Test
     void shouldGetAllMovies() throws Exception {
@@ -72,6 +77,12 @@ public class MovieControllerTest {
         String url = "/api/movies";
         //when
         Mockito.when(getAllMovies.getAll()).thenReturn(movies);
+/*        Mockito.when(userDetailsService.loadUserByUsername(any(String.class))).thenReturn(org.springframework.security.core.userdetails.User.builder()
+                .username("admin")
+                .password("admin")
+                .roles(roleList)
+                .build());*/
+     //   Mockito.when(userDetailsService.loadUserByUsername(any(String.class))).thenReturn(null);
         RequestBuilder request = MockMvcRequestBuilders.get(url);
         //then
         MvcResult mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();

@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import pl.VideoRental.authentication.UserDetailsServiceImpl;
 import pl.VideoRental.domain.Cart;
 import pl.VideoRental.useCase.port.cartPort.AddCopyToCart;
 import pl.VideoRental.useCase.port.cartPort.EmptyACart;
@@ -40,6 +41,8 @@ class CartControllerTest {
     private RemoveCopyFromCart removeCopyFromCart;
     @MockBean
     private GetCart getCart;
+    @MockBean
+    private UserDetailsServiceImpl userDetailsService;
 
 
     @Test
