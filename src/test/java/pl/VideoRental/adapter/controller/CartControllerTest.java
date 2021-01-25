@@ -7,6 +7,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -44,8 +45,8 @@ class CartControllerTest {
     @MockBean
     private UserDetailsServiceImpl userDetailsService;
 
-
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     void shouldGetCart() throws Exception {
         //given
         String url = "/api/cart";
@@ -58,6 +59,7 @@ class CartControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     void shouldEmptyCart() throws Exception {
         //given
         String url = "/api/cart";

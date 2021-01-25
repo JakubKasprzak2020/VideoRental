@@ -47,7 +47,7 @@ public class CopyController {
         }
     }
 
-    @PostMapping("/api/copies/{movieId}")
+    @PostMapping("/admin/copies/{movieId}")
     @ResponseStatus(HttpStatus.CREATED)
     public Copy create(@PathVariable long movieId){
         try {
@@ -58,13 +58,13 @@ public class CopyController {
         }
     }
 
-    @DeleteMapping("/api/copies/{copyId}")
+    @DeleteMapping("/admin/copies/{copyId}")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable long copyId) {
         deleteCopy.deleteById(copyId);
     }
 
-    @PutMapping("/api/copies/{copyId}")
+    @PutMapping("/admin/copies/{copyId}")
     @ResponseStatus(HttpStatus.OK)
     public void update(@PathVariable long copyId, @RequestBody String json) {
         Copy copy = jsonConverter.getCopyFromJson(json);
@@ -78,14 +78,14 @@ public class CopyController {
 
     }
 
-    @PutMapping("/api/return/{copyId}")
+    @PutMapping("/admin/return/{copyId}")
     @ResponseStatus(HttpStatus.OK)
     public void returnRentedCopy(@PathVariable long copyId){
             returnACopy.returnACopyById(copyId);
     }
 
 
-
+//TODO probably some of this methods are redundant
 
 
 }

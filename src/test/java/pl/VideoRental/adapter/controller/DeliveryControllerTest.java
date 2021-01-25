@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -59,10 +60,11 @@ class DeliveryControllerTest {
             .build();
 
     @Test
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldGetAllDeliveries() throws Exception {
         //given
         List<Delivery> deliveries = Collections.singletonList(DELIVERY);
-        String url = "/api/delivery";
+        String url = "/admin/delivery";
         //when
         Mockito.when(getAllDeliveries.getAll()).thenReturn(deliveries);
         RequestBuilder request = MockMvcRequestBuilders.get(url);
@@ -74,11 +76,12 @@ class DeliveryControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldGetDelivery() throws Exception {
         //given
 
         long randomId = 9;
-        String url = "/api/delivery/" + randomId;
+        String url = "/admin/delivery/" + randomId;
         //when
         Mockito.when(getDeliveryFromCatalog.getById(any(Long.class))).thenReturn(DELIVERY);
         RequestBuilder request = MockMvcRequestBuilders.get(url);
@@ -90,10 +93,11 @@ class DeliveryControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldDeleteDelivery() throws Exception {
         //given
         long randomId = 278;
-        String url = "/api/delivery/" + randomId;
+        String url = "/admin/delivery/" + randomId;
         //when
         Mockito.doNothing().when(deleteDelivery).deleteById(any(Long.class));
         RequestBuilder request = MockMvcRequestBuilders.delete(url);
@@ -103,11 +107,12 @@ class DeliveryControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldCreateDelivery() throws Exception {
         //given
         long randomOrderId = 19;
         String randomAddress = "Privet Drive 4";
-        String url = "/api/delivery/" + randomOrderId;
+        String url = "/admin/delivery/" + randomOrderId;
         //when
         Mockito.when(createDeliveryFromAnOrder.makeDelivery(any(Long.class), any(String.class)))
                 .thenReturn(DELIVERY);
@@ -123,10 +128,11 @@ class DeliveryControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldDeliverDelivery() throws Exception {
         //given
         long randomId = 1;
-        String url = "/api/deliver/" + randomId;
+        String url = "/admin/deliver/" + randomId;
         //when
         Mockito.doNothing().when(deliver).deliverToUser(any(Long.class));
         RequestBuilder request = MockMvcRequestBuilders.put(url);
@@ -136,11 +142,12 @@ class DeliveryControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldUpdateDelivery() throws Exception {
         //given
         String deliveryJson = objectMapper.writeValueAsString(DELIVERY);
         long randomId = 1;
-        String url = "/api/delivery/" + randomId;
+        String url = "/admin/delivery/" + randomId;
         //when
         Mockito.doNothing().when(updateDelivery).update(any(Long.class), any(Delivery.class));
         Mockito.when(jsonConverter.getDeliveryFromJson(any(String.class))).thenReturn(DELIVERY);

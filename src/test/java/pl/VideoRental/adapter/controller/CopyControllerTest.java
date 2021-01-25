@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -61,6 +62,7 @@ class CopyControllerTest {
 
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     void shouldGetAllCopies() throws Exception {
         //given
         List<Copy> copies = new ArrayList<>();
@@ -79,6 +81,7 @@ class CopyControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     void shouldGetAllCopiesWithTitle() throws Exception {
         //given
         List<Copy> copies = new ArrayList<>();
@@ -97,6 +100,7 @@ class CopyControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     void shouldGetCopy() throws Exception {
         //given
         long randomId = 6;
@@ -112,10 +116,11 @@ class CopyControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldCreateCopy() throws Exception {
         //given
         long randomId = 13;
-        String url = "/api/copies/" + randomId;
+        String url = "/admin/copies/" + randomId;
         //when
         Mockito.when(createCopyOfAMovie.create(any(Long.class))).thenReturn(COPY_1);
         RequestBuilder request = MockMvcRequestBuilders.post(url);
@@ -127,10 +132,11 @@ class CopyControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldDeleteCopy() throws Exception {
         //given
         long randomId = 9;
-        String url = "/api/copies/" + randomId;
+        String url = "/admin/copies/" + randomId;
         //when
         Mockito.doNothing().when(deleteCopy).deleteById(any(Long.class));
         RequestBuilder request = MockMvcRequestBuilders.delete(url);
@@ -140,10 +146,11 @@ class CopyControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldUpdateCopy() throws Exception {
         //given
         long randomId = 1;
-        String url = "/api/copies/" + randomId;
+        String url = "/admin/copies/" + randomId;
         //when
         Mockito.doNothing().when(updateCopy).update(any(Long.class), any(Copy.class));
         Mockito.when(jsonConverter.getCopyFromJson(any(String.class))).thenReturn(COPY_1);
@@ -164,10 +171,11 @@ class CopyControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldReturnRentedCopy() throws Exception {
         //given
         long randomId = 1;
-        String url = "/api/return/" + randomId;
+        String url = "/admin/return/" + randomId;
         //when
         Mockito.doNothing().when(returnACopy).returnACopyById(any(Long.class));
         RequestBuilder request = MockMvcRequestBuilders.put(url);

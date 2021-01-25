@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -55,12 +56,13 @@ class OrderControllerTest {
 
 
     @Test
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldGetAllOrders() throws Exception {
         //given
         Order order1 = new Order();
         Order order2 = new Order();
         List<Order> orders = Arrays.asList(order1, order2);
-        String url = "/api/orders";
+        String url = "/admin/orders";
         //when
         Mockito.when(getAllOrders.getAll()).thenReturn(orders);
         RequestBuilder request = MockMvcRequestBuilders.get(url);
@@ -73,12 +75,13 @@ class OrderControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldGetAnOrder() throws Exception {
         //given
         long randomId = 8;
         Order order = new Order();
         order.setCost(BigDecimal.TEN);
-        String url = "/api/orders/" + randomId;
+        String url = "/admin/orders/" + randomId;
         //when
         Mockito.when(getOrderFromCatalog.getById(Mockito.any(Long.class))).thenReturn(order);
         RequestBuilder request = MockMvcRequestBuilders.get(url);
@@ -92,10 +95,11 @@ class OrderControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldDeleteOrder() throws Exception {
         //given
         long randomId = 16;
-        String url = "/api/orders/" + randomId;
+        String url = "/admin/orders/" + randomId;
         //when
         Mockito.doNothing().when(deleteOrder).deleteById(Mockito.any(Long.class));
         RequestBuilder request = MockMvcRequestBuilders.delete(url);
@@ -106,13 +110,14 @@ class OrderControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldUpdateOrder() throws Exception {
         //given
         Order order = new Order();
         order.setCost(BigDecimal.TEN);
         order.setId(98);
         long randomId = 1;
-        String url = "/api/orders/" + randomId;
+        String url = "/admin/orders/" + randomId;
         //when
         Mockito.doNothing().when(updateOrder).update(any(Long.class), any(Order.class));
         Mockito.when(jsonConverter.getOrderFromJson(any(String.class))).thenReturn(order);

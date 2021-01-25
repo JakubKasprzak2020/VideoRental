@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -77,12 +78,13 @@ class UserControllerTest {
             "    }";
 
     @Test
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldGetAllUsers() throws Exception {
         //given
         List<User> users = new ArrayList<>();
         users.add(USER_1);
         users.add(USER_2);
-        String url = "/api/users";
+        String url = "/admin/users";
         //when
         Mockito.when(getAllUsers.getAll()).thenReturn(users);
         RequestBuilder request = MockMvcRequestBuilders.get(url);
@@ -94,10 +96,11 @@ class UserControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldGetUser() throws Exception {
         //given
         long randomId = 7;
-        String url = "/api/users/" + randomId;
+        String url = "/admin/users/" + randomId;
         //when
         Mockito.when(getUserFromCatalog.getById(randomId)).thenReturn(USER_1);
         RequestBuilder request = MockMvcRequestBuilders.get(url);
@@ -119,7 +122,7 @@ class UserControllerTest {
                 .name(USER_1.getName())
                 .lastName(USER_1.getLastName())
                 .build();
-        String url = "/api/users";
+        String url = "/registration";
         //when
         Mockito.when(createUser.create(any(UserSignInData.class))).thenReturn(USER_1);
         RequestBuilder request = MockMvcRequestBuilders
@@ -135,6 +138,7 @@ class UserControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     void shouldDeleteUser() throws Exception {
         //given
         long randomId = 3;
@@ -149,6 +153,7 @@ class UserControllerTest {
 
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     void shouldUpdateUser() throws Exception {
         //given
         long randomId = 1;

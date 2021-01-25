@@ -22,13 +22,13 @@ public class UserController {
     private final UpdateUser updateUser;
     private final JsonConverter jsonConverter;
 
-    @GetMapping("/api/users")
+    @GetMapping("/admin/users")
     @ResponseStatus(HttpStatus.OK)
     public List<User> getAll(){
         return getAllUsers.getAll();
     }
 
-    @GetMapping("/api/users/{id}")
+    @GetMapping("/admin/users/{id}")
     @ResponseStatus(HttpStatus.OK)
     public User get(@PathVariable long id){
         try {
@@ -40,7 +40,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/api/users")
+    @PostMapping("/registration")
     @ResponseStatus(HttpStatus.CREATED)
     public User create(@RequestBody UserSignInData userSignInData) {
         return createUser.create(userSignInData);

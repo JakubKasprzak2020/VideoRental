@@ -23,31 +23,31 @@ public class DeliveryController {
     private final JsonConverter jsonConverter;
 
 
-    @PostMapping("/api/delivery/{orderId}")
+    @PostMapping("/admin/delivery/{orderId}")
     @ResponseStatus(HttpStatus.CREATED)
     public Delivery create(@PathVariable long orderId, @RequestBody String address) {
         return createDeliveryFromAnOrder.makeDelivery(orderId, address);
     }
 
-    @DeleteMapping("/api/delivery/{deliveryId}")
+    @DeleteMapping("/admin/delivery/{deliveryId}")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable long deliveryId) {
         deleteDelivery.deleteById(deliveryId);
     }
 
-    @PutMapping("/api/deliver/{deliveryId}")
+    @PutMapping("/admin/deliver/{deliveryId}")
     @ResponseStatus(HttpStatus.OK)
     public void deliver(@PathVariable long deliveryId) {
         deliver.deliverToUser(deliveryId);
     }
 
-    @GetMapping("/api/delivery")
+    @GetMapping("/admin/delivery")
     @ResponseStatus(HttpStatus.OK)
     public List<Delivery> getAll() {
         return getAllDeliveries.getAll();
     }
 
-    @GetMapping("/api/delivery/{id}")
+    @GetMapping("/admin/delivery/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Delivery get(@PathVariable long id) {
         try {
@@ -58,7 +58,7 @@ public class DeliveryController {
         }
     }
 
-    @PutMapping("/api/delivery/{id}")
+    @PutMapping("/admin/delivery/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void update(@PathVariable long id, @RequestBody String json) {
         Delivery delivery = jsonConverter.getDeliveryFromJson(json);

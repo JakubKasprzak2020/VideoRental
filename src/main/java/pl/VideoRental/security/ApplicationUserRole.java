@@ -16,12 +16,17 @@ public enum ApplicationUserRole {
     USER("USER");
 
 
-    ApplicationUserRole(String name) {
-        this.name = name;
-    }
-
     @Id
     @GeneratedValue
     private long id;
     private String name;
+
+   ApplicationUserRole(String name) {
+        this.name = name;
+    }
+
+    public String hello(){
+       return "hello";
+    }
+
 }

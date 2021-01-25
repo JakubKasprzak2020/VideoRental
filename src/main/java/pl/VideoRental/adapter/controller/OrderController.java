@@ -23,13 +23,13 @@ public class OrderController {
     private final JsonConverter jsonConverter;
 
 
-    @GetMapping("/api/orders")
+    @GetMapping("/admin/orders")
     @ResponseStatus(HttpStatus.OK)
     public List<Order> getAll(){
         return getAllOrders.getAll();
     }
 
-    @GetMapping("/api/orders/{id}")
+    @GetMapping("/admin/orders/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Order get(@PathVariable long id){
        try {
@@ -40,13 +40,13 @@ public class OrderController {
         }
     }
 
-    @DeleteMapping("/api/orders/{id}")
+    @DeleteMapping("/admin/orders/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable long id){
         deleteOrder.deleteById(id);
     }
 
-    @PutMapping("/api/orders/{id}")
+    @PutMapping("/admin/orders/{id}")
     public void update(@RequestBody String json, @PathVariable long id) {
         Order order = jsonConverter.getOrderFromJson(json);
         updateOrder.update(id, order);
