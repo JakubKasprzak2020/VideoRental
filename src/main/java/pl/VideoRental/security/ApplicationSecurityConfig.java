@@ -29,10 +29,18 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/login", "/logout", "/registration", "/api/movies", "/api/movies/**").permitAll()
+                .antMatchers("/logi", "/logout", "/registration", "/api/movies", "/api/movies/**").permitAll()
                 .antMatchers("/api/**").hasAnyRole("ADMIN", "USER")
                 .anyRequest()
-                .authenticated();
+                .authenticated()
+                .and()
+               // .httpBasic();
+                .formLogin()
+               // .loginPage("/login").permitAll() //TODO - this page has not been created yet
+                .defaultSuccessUrl("/api/movies", true)
+                .passwordParameter("password")
+                .usernameParameter("username");
+
     }
 
 

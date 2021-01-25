@@ -58,4 +58,7 @@ public class UserController {
         User user = jsonConverter.getUserFromJson(json);
         updateUser.update(id, user);
     }
+
+    //TODO a method to upgrade USER to ADMIN should be made
+
 }
