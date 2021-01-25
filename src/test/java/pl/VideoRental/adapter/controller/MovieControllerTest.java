@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -77,12 +77,6 @@ public class MovieControllerTest {
         String url = "/api/movies";
         //when
         Mockito.when(getAllMovies.getAll()).thenReturn(movies);
-/*        Mockito.when(userDetailsService.loadUserByUsername(any(String.class))).thenReturn(org.springframework.security.core.userdetails.User.builder()
-                .username("admin")
-                .password("admin")
-                .roles(roleList)
-                .build());*/
-     //   Mockito.when(userDetailsService.loadUserByUsername(any(String.class))).thenReturn(null);
         RequestBuilder request = MockMvcRequestBuilders.get(url);
         //then
         MvcResult mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
@@ -106,6 +100,7 @@ public class MovieControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldCreateNewMovie() throws Exception {
         //given
         Movie movie = Movie.builder()
@@ -129,6 +124,7 @@ public class MovieControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldDeleteMovie() throws Exception {
         //given
         long id = 1;
@@ -142,6 +138,7 @@ public class MovieControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldUpdateMovie() throws Exception {
         //given
         long randomId = 1;
