@@ -38,19 +38,19 @@ public class MovieController {
         }
     }
 
-    @PostMapping("/api/movies")
+    @PostMapping("/admin/movies")
     @ResponseStatus(HttpStatus.CREATED)
     public Movie create(@RequestBody Movie movie) throws MovieAlreadyExistException {
         return createMovie.createIfIsNotExisting(movie);
     }
 
-    @DeleteMapping("api/movies/{id}")
+    @DeleteMapping("admin/movies/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable long id) {
             deleteMovie.deleteById(id);
     }
 
-    @PutMapping("api/movies/{id}")
+    @PutMapping("admin/movies/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void update(@RequestBody Movie movie, @PathVariable long id) {
         updateMovie.update(id, movie);

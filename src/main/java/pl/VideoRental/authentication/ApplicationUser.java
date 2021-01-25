@@ -5,7 +5,10 @@ import pl.VideoRental.security.ApplicationUserRole;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,7 +25,8 @@ public class ApplicationUser {
 
     private String password;
 
-    private List<ApplicationUserRole> roles;
+    @ManyToMany
+    private Set<ApplicationUserRole> roles;
 
 
 

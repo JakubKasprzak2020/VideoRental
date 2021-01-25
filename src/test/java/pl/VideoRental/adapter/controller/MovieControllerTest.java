@@ -103,7 +103,7 @@ public class MovieControllerTest {
                 .description("Year 1944, Europe...")
                 .releaseDate(LocalDate.of(1977, 1, 1))
                 .build();
-        String url = "/api/movies";
+        String url = "/admin/movies";
         //when
         Mockito.when(createMovie.createIfIsNotExisting(any(Movie.class))).thenReturn(movie);
         RequestBuilder request = MockMvcRequestBuilders
@@ -121,7 +121,7 @@ public class MovieControllerTest {
     void shouldDeleteMovie() throws Exception {
         //given
         long id = 1;
-        String url = "/api/movies/" + id;
+        String url = "/admin/movies/" + id;
         //when
         Mockito.doNothing().when(deleteMovie).deleteById(id);
         RequestBuilder request = MockMvcRequestBuilders.delete(url);
@@ -134,7 +134,7 @@ public class MovieControllerTest {
     void shouldUpdateMovie() throws Exception {
         //given
         long randomId = 1;
-        String url = "/api/movies/" + randomId;
+        String url = "/admin/movies/" + randomId;
         //when
         Mockito.doNothing().when(updateMovie).update(eq(randomId), any(Movie.class));
         RequestBuilder request = MockMvcRequestBuilders
