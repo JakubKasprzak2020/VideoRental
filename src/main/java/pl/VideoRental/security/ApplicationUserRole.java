@@ -25,8 +25,4 @@ public enum ApplicationUserRole {
         this.name = name;
     }
 
-    public String hello(){
-       return "hello";
-    }
-
 }

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -26,7 +27,7 @@ public class ApplicationUser {
     private String password;
 
     @ManyToMany
-    private Set<ApplicationUserRole> roles;
+    private Set<ApplicationUserRole> roles = new HashSet<>();
 
 
 

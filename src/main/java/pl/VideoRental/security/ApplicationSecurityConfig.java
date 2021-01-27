@@ -10,7 +10,12 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import pl.VideoRental.authentication.UserDetailsServiceImpl;
 
 @Configuration
@@ -20,7 +25,7 @@ import pl.VideoRental.authentication.UserDetailsServiceImpl;
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     //  A problem with the Bean below (bean could not be found)
-    //  private final PasswordEncoder passwordEncoder;
+    //   private final PasswordEncoder passwordEncoder;
     private final UserDetailsServiceImpl userDetailsServiceImpl;
 
     @Override
@@ -34,12 +39,12 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and()
-               // .httpBasic();
+                // .httpBasic();
                 .formLogin()
-               // .loginPage("/login").permitAll() //TODO - this page has not been created yet
+                // .loginPage("/login").permitAll() //TODO - this page has not been created yet
                 .defaultSuccessUrl("/api/movies", true)
-                .passwordParameter("password")
-                .usernameParameter("username");
+                .usernameParameter("username")
+                .passwordParameter("password");
 
     }
 
@@ -48,7 +53,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(10);
     }
 
     @Bean
@@ -63,8 +68,29 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(bCryptPasswordEncoder());
+    //    auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(bCryptPasswordEncoder()); //TODO - is this line necessary?
         auth.authenticationProvider(daoAuthenticationProvider());
+    }
+
+
+    //TODO - currently not working - null pointer exception while login
+    @Override
+    @Bean
+    protected UserDetailsService userDetailsService() {
+        UserDetails admin = User.builder()
+                .username("admin")
+                .password(bCryptPasswordEncoder().encode("pass"))
+                .roles("ADMIN")
+                .build();
+
+        UserDetails user = User.builder()
+                .username("user")
+                .password(bCryptPasswordEncoder().encode("pass"))
+                .roles("USER")
+                .build();
+
+        return new InMemoryUserDetailsManager(
+                admin);
     }
 
 
