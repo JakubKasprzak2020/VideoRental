@@ -42,14 +42,13 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 // .httpBasic();
                 .formLogin()
                 // .loginPage("/login").permitAll() //TODO - this page has not been created yet
+                .failureUrl("/login?error=true") // TODO - is it working?
                 .defaultSuccessUrl("/api/movies", true)
                 .usernameParameter("username")
                 .passwordParameter("password");
 
     }
 
-
-//from HM project
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -68,29 +67,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    //    auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(bCryptPasswordEncoder()); //TODO - is this line necessary?
+        auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(bCryptPasswordEncoder()); //TODO - is this line necessary?
         auth.authenticationProvider(daoAuthenticationProvider());
-    }
-
-
-    //TODO - currently not working - null pointer exception while login
-    @Override
-    @Bean
-    protected UserDetailsService userDetailsService() {
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password(bCryptPasswordEncoder().encode("pass"))
-                .roles("ADMIN")
-                .build();
-
-        UserDetails user = User.builder()
-                .username("user")
-                .password(bCryptPasswordEncoder().encode("pass"))
-                .roles("USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(
-                admin);
     }
 
 

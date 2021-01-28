@@ -23,6 +23,6 @@ public class DeleteUser {
     }
 
 
-
+//TODO - should also delete ApplicationUser (find by username - email)
 
 }

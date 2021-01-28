@@ -1,19 +1,15 @@
 package pl.VideoRental.useCase.port.userPort;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import pl.VideoRental.adapter.repository.UserRepository;
-import pl.VideoRental.authentication.ApplicationUser;
-import pl.VideoRental.authentication.ApplicationUserRepository;
-import pl.VideoRental.domain.Cart;
+import pl.VideoRental.authentication.*;
 import pl.VideoRental.domain.User;
 import pl.VideoRental.domain.UserSignInData;
 import pl.VideoRental.domain.UserType;
-import pl.VideoRental.security.ApplicationUserRole;
 
-import java.util.Collections;
-import java.util.Set;
+import java.util.Arrays;
 
 @Component
 @RequiredArgsConstructor
@@ -21,6 +17,7 @@ public class CreateUser {
 
     private final UserRepository userRepository;
     private final ApplicationUserRepository applicationUserRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public User create(UserSignInData userSignInData) {
         User user = User.builder()
@@ -32,16 +29,15 @@ public class CreateUser {
                 .userType(UserType.REGULAR)
                 .build();
         userRepository.save(user);
+        createApplicationUser(userSignInData);
         return user;
     }
 
-    //TODO - it's not used yet, password should be encrypt - actualy a User also should heve encrypted password
-    public ApplicationUser createApplicationUser(User user) {
-        Set<ApplicationUserRole> roles = Collections.singleton(ApplicationUserRole.USER);
+    private ApplicationUser createApplicationUser(UserSignInData userSignInData) {
         ApplicationUser applicationUser = ApplicationUser.builder()
-                .password(user.getPassword())
-                .username(user.getEmail())
-                .roles(roles)
+                .password(passwordEncoder.encode(userSignInData.getPassword()))
+                .username(userSignInData.getEmail())
+                .roles(Arrays.asList(ApplicationUserRole.USER.getName()))
                 .build();
         applicationUserRepository.save(applicationUser);
         return applicationUser;

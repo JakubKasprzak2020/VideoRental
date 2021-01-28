@@ -2,6 +2,7 @@ package pl.VideoRental.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
+import pl.VideoRental.authentication.ApplicationUser;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -25,8 +26,8 @@ public class User {
 
     private String name;
     private String lastName;
-    private String password;
-    private String email;
+    private String password; //TODO - this field should be only in ApplicationUser class (encoded)
+    private String email; //TODO - this field should be unique (it's username for ApplicationUser)
     private String address;
     private UserType userType;
 
@@ -35,8 +36,5 @@ public class User {
     @JsonBackReference
     private List<Copy> copies = new ArrayList<>();
 
- /*   @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST)
-    @JsonBackReference
-    private List<Order> orders = new ArrayList<>();*/
 
 }

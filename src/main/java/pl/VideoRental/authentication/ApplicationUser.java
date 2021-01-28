@@ -1,15 +1,9 @@
 package pl.VideoRental.authentication;
 
 import lombok.*;
-import pl.VideoRental.security.ApplicationUserRole;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import java.util.HashSet;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -20,16 +14,15 @@ import java.util.Set;
 public class ApplicationUser {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private String username;
+    private String username; //TODO - it should be unique
 
     private String password;
 
-    @ManyToMany
-    private Set<ApplicationUserRole> roles = new HashSet<>();
-
-
+    @ElementCollection (fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
 
 
 

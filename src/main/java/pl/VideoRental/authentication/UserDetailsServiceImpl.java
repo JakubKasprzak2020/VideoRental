@@ -5,11 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pl.VideoRental.domain.User;
-import pl.VideoRental.domain.UserSignInData;
-import pl.VideoRental.security.ApplicationUserRole;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,11 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         ApplicationUser userFromDb = applicationUserRepository.findByUsername(username);
 
-        List<String> roleList = new ArrayList<>();
-
-        for (ApplicationUserRole role : userFromDb.getRoles()) {
-            roleList.add(role.getName());
-        }
+        List<String> roleList = userFromDb.getRoles();
 
         return org.springframework.security.core.userdetails.User.builder()
                 .username(userFromDb.getUsername())
@@ -35,14 +27,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .roles(roleList.toArray(new String[0]))
                 .build();
     }
-
- /*   public void createApplicationUser(UserSignInData userSignInData){
-        UserDetails applicationUser = User.builder()
-                .email(userSignInData.getEmail())
-                .password(passwordEncoder.encode(userSignInData.getPassword()))
-                .roles("ADMIN")
-                .build();
-    }*/
 
 
 
