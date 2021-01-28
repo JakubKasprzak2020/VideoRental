@@ -3,6 +3,7 @@ package pl.VideoRental.useCase.port.userPort;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import pl.VideoRental.authentication.ApplicationUserRepository;
 import pl.VideoRental.domain.User;
 import pl.VideoRental.domain.UserSignInData;
 import pl.VideoRental.useCase.exception.UserDoesNotExistException;
@@ -20,6 +21,8 @@ class DeleteUserTest {
     private GetUserFromCatalog getUserFromCatalog;
     @Autowired
     private GetAllUsers getAllUsers;
+    @Autowired
+    private ApplicationUserRepository applicationUserRepository;
 
     private UserSignInData userSignInData = UserSignInData.builder()
             .name("Marie")
@@ -37,6 +40,7 @@ class DeleteUserTest {
         deleteUser.deleteById(user.getId());
         //then
         assertThrows(UserDoesNotExistException.class, () -> getUserFromCatalog.getById(user.getId()));
+        assertNull(applicationUserRepository.findByUsername(user.getEmail()));
     }
 
     @Test
