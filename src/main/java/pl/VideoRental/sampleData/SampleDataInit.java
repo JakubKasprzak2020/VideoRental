@@ -2,7 +2,11 @@ package pl.VideoRental.sampleData;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import pl.VideoRental.authentication.ApplicationUser;
+import pl.VideoRental.authentication.ApplicationUserRepository;
+import pl.VideoRental.authentication.ApplicationUserRole;
 import pl.VideoRental.domain.Movie;
 import pl.VideoRental.domain.UserSignInData;
 import pl.VideoRental.useCase.exception.MovieAlreadyExistException;
@@ -11,6 +15,8 @@ import pl.VideoRental.useCase.port.moviePort.CreateMovie;
 import pl.VideoRental.useCase.port.copyPort.CreateCopyOfAMovie;
 import pl.VideoRental.useCase.port.moviePort.GetMovieFromCatalog;
 import pl.VideoRental.useCase.port.userPort.CreateUser;
+
+import java.util.Arrays;
 
 @Component
 @RequiredArgsConstructor
@@ -35,6 +41,8 @@ public class SampleDataInit implements CommandLineRunner {
     private final CreateCopyOfAMovie createCopyOfAMovie;
     private final CreateUser createUser;
     private final GetMovieFromCatalog getMovieFromCatalog;
+    private final ApplicationUserRepository applicationUserRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -42,6 +50,7 @@ public class SampleDataInit implements CommandLineRunner {
         initSampleMovies();
         initSampleCopies();
         initSampleUsers();
+        initAdminAccount();
     }
 
 
@@ -86,6 +95,15 @@ public class SampleDataInit implements CommandLineRunner {
         copiesLengthMarker++;
     }
 
+    private void initAdminAccount(){
+        ApplicationUser applicationUser = ApplicationUser
+                .builder()
+                .username("admin@admin.com")
+                .password(passwordEncoder.encode("password"))
+                .roles(Arrays.asList(ApplicationUserRole.ADMIN.getName()))
+                .build();
+        applicationUserRepository.save(applicationUser);
+    }
 
 
 }
