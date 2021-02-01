@@ -5,8 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
+import pl.VideoRental.authentication.ApplicationUser;
+import pl.VideoRental.authentication.ApplicationUserRepository;
 import pl.VideoRental.domain.User;
 import pl.VideoRental.domain.UserSignInData;
+import pl.VideoRental.sampleData.SampleDataStorage;
 import pl.VideoRental.useCase.exception.UserDoesNotExistException;
 
 import java.util.List;
@@ -25,6 +28,8 @@ class GetUserFromCatalogTest {
     private GetAllUsers getAllUsers;
     @Autowired
     private DeleteUser deleteUser;
+    @Autowired
+    private ApplicationUserRepository applicationUserRepository;
 
     @Test
     void shouldGetUserWhenUserExist() throws UserDoesNotExistException {
@@ -59,6 +64,23 @@ class GetUserFromCatalogTest {
         long numberOfUserIdThatNotExist = 1300;
         //then
         assertThrows(UserDoesNotExistException.class, ()->{getUserFromCatalog.getById(numberOfUserIdThatNotExist);});
+    }
+
+
+    @Test
+    void shouldFindUserByApplicationUser() {
+        //given
+        String username = SampleDataStorage.USER_SIGN_IN_DATA_1.getEmail();
+        String name = SampleDataStorage.USER_SIGN_IN_DATA_1.getName();
+        String lastName = SampleDataStorage.USER_SIGN_IN_DATA_1.getLastName();
+        ApplicationUser applicationUser = applicationUserRepository.findByUsername(username);
+        //when
+        User user = getUserFromCatalog.getByApplicationUser(applicationUser);
+        //then
+        assertNotNull(user);
+        assertEquals(username, user.getEmail());
+        assertEquals(name, user.getName());
+        assertEquals(lastName, user.getLastName());
     }
 
 }
