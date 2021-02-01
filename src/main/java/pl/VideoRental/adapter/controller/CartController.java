@@ -13,6 +13,7 @@ import pl.VideoRental.domain.Copy;
 import pl.VideoRental.domain.User;
 import pl.VideoRental.useCase.exception.CopyDoesNotExistException;
 import pl.VideoRental.useCase.exception.CopyIsAlreadyRentedException;
+import pl.VideoRental.useCase.exception.UserDoesNotExistException;
 import pl.VideoRental.useCase.port.cartPort.AddCopyToCart;
 import pl.VideoRental.useCase.port.cartPort.EmptyACart;
 import pl.VideoRental.useCase.port.cartPort.GetCart;
@@ -33,7 +34,6 @@ public class CartController {
     private final GetCart getCart;
     private final GetCopyFromCatalog getCopyFromCatalog;
     private final GetUserFromCatalog getUserFromCatalog;
-    private final ApplicationUserRepository applicationUserRepository;
 
     @GetMapping("/api/cart")
     @ResponseStatus(HttpStatus.OK)
@@ -41,25 +41,26 @@ public class CartController {
         return getCart.get();
     }
 
-    //TODO Spring Security First
+    //TODO - probably this method should be replaced by addMovieToCatalog - number of free copy should be chosen automatically
     @PutMapping("/api/cart/in/{copyId}")
     @ResponseStatus(HttpStatus.OK)
     public void add(@AuthenticationPrincipal UserDetails userDetails,
                     @PathVariable long copyId,
-                    @RequestBody String rentalDays) throws CopyDoesNotExistException, CopyIsAlreadyRentedException {
-
-        ApplicationUser applicationUser = applicationUserRepository.findByUsername(userDetails.getUsername());
-        User user = getUserFromCatalog.getByApplicationUser(applicationUser);
+                    @RequestBody String rentalDays) throws CopyDoesNotExistException, CopyIsAlreadyRentedException, UserDoesNotExistException {
+        User user = getUserFromCatalog.getByEmail(userDetails.getUsername());
         Copy copy = getCopyFromCatalog.get(copyId);
         int rentalDaysInteger = Integer.parseInt(rentalDays);
         LocalDate rentalDate = LocalDate.now();
         addCopyToCart.add(user, copy, rentalDaysInteger, rentalDate);
     }
 
-    //TODO Spring Security First
     @PutMapping("/api/cart/out/{copyId}")
     @ResponseStatus(HttpStatus.OK)
-    public void remove(@PathVariable long copyId){
+    public void remove(@AuthenticationPrincipal UserDetails userDetails,
+                       @PathVariable long copyId) throws UserDoesNotExistException, CopyDoesNotExistException {
+        User user = getUserFromCatalog.getByEmail(userDetails.getUsername());
+        Copy copy = getCopyFromCatalog.get(copyId);
+        removeCopyFromCart.removeCopy(user, copy);
     }
 
     @PatchMapping("/api/cart")
