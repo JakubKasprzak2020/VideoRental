@@ -26,7 +26,6 @@ class UpdateUserTest {
     UserSignInData userSignInData = SampleDataStorage.USER_SIGN_IN_DATA_1;
 
     User user = User.builder()
-            .password(userSignInData.getPassword())
             .address(userSignInData.getAddress())
             .email(userSignInData.getEmail())
             .lastName("Eastwood")
@@ -45,7 +44,6 @@ class UpdateUserTest {
         assertEquals(user.getAddress(), updatedUser.getAddress());
         assertEquals(user.getName(), updatedUser.getName());
         assertEquals(user.getLastName(), updatedUser.getLastName());
-        assertEquals(user.getPassword(), updatedUser.getPassword());
         assertEquals(user.getEmail(), updatedUser.getEmail());
         user.setName(SampleDataStorage.USER_SIGN_IN_DATA_1.getName());
         user.setLastName(SampleDataStorage.USER_SIGN_IN_DATA_1.getLastName());

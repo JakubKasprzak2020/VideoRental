@@ -40,7 +40,6 @@ class JsonConverterTest {
         assertEquals(876, user.getId());
         assertEquals("Anna", user.getName());
         assertEquals("Kournikova", user.getLastName());
-        assertEquals("tenis", user.getPassword());
         assertEquals("anna@kournikova.com", user.getEmail());
         assertEquals("Miami Beach", user.getAddress());
         assertEquals(UserType.REGULAR, user.getUserType());

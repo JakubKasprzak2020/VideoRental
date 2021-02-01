@@ -47,7 +47,6 @@ class GetUserFromCatalogTest {
         //then
         assertEquals(name, user.getName());
         assertEquals(lastName, user.getLastName());
-        assertEquals(password, user.getPassword());
         assertEquals(email, user.getEmail());
         assertEquals(address, user.getAddress());
         assertEquals(user.getId(), userFromCatalog.getId());

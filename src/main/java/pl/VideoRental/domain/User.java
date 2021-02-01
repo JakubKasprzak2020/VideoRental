@@ -26,7 +26,6 @@ public class User {
 
     private String name;
     private String lastName;
-    private String password; //TODO - this field should be only in ApplicationUser class (encoded)
     private String email; //TODO - this field should be unique (it's username for ApplicationUser)
     private String address;
     private UserType userType;

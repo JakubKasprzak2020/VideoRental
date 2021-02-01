@@ -23,7 +23,6 @@ public class CreateUser {
         User user = User.builder()
                 .name(userSignInData.getName())
                 .lastName(userSignInData.getLastName())
-                .password(userSignInData.getPassword())
                 .email(userSignInData.getEmail())
                 .address(userSignInData.getAddress())
                 .userType(UserType.REGULAR)

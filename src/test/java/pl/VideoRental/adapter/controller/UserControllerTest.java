@@ -57,14 +57,12 @@ class UserControllerTest {
             .lastName("Churchill")
             .email("win@gov.com")
             .address("Downing Street")
-            .password("To Berlin")
             .build();
     private final User USER_2 = User.builder()
             .name("Jozef")
             .lastName("Stalin")
             .email("jstalin@google.com")
             .address("Red Square")
-            .password("1234")
             .build();
 
     private final String userJson = "{\n" +
@@ -118,7 +116,6 @@ class UserControllerTest {
         UserSignInData userSignInData = UserSignInData.builder()
                 .address(USER_1.getAddress())
                 .email(USER_1.getEmail())
-                .password(USER_1.getPassword())
                 .name(USER_1.getName())
                 .lastName(USER_1.getLastName())
                 .build();

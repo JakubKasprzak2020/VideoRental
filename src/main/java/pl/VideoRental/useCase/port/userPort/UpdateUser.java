@@ -20,7 +20,6 @@ public class UpdateUser {
             oldUser.setLastName(newUser.getLastName());
             oldUser.setEmail(newUser.getEmail());
             oldUser.setAddress(newUser.getAddress());
-            oldUser.setPassword(newUser.getPassword());
             oldUser.setUserType(newUser.getUserType());
             userRepository.save(oldUser);
         } catch (UserDoesNotExistException exception){
