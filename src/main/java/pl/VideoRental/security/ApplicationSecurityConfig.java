@@ -39,14 +39,18 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and()
-                // .httpBasic();
+                .httpBasic();
+
+
+
+             /*
                 .formLogin()
                 // .loginPage("/login").permitAll() //TODO - this page has not been created yet
                 .failureUrl("/login?error=true") // TODO - is it working?
                 .defaultSuccessUrl("/api/movies", true)
                 .usernameParameter("username")
                 .passwordParameter("password");
-
+*/
     }
 
 
