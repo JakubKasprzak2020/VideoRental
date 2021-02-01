@@ -17,7 +17,8 @@ public class RemoveCopyFromCart {
     private final CalculateCostOfCopiesInCart calculateCostOfCopiesInCart;
 
     public void removeCopy(User user, Copy copy){
-        cart.getCopies().remove(copy);
+        cart.getCopies().removeIf(c -> c.getId() == copy.getId());
+     //   cart.getCopies().remove(copy);
         copy.setAvailable(true);
         copy.setRentalDays(0);
         copy.setRentalDate(null);

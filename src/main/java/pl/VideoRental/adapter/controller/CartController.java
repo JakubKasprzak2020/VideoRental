@@ -5,9 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import pl.VideoRental.adapter.repository.CopyRepository;
-import pl.VideoRental.authentication.ApplicationUser;
-import pl.VideoRental.authentication.ApplicationUserRepository;
 import pl.VideoRental.domain.Cart;
 import pl.VideoRental.domain.Copy;
 import pl.VideoRental.domain.User;
@@ -21,7 +18,6 @@ import pl.VideoRental.useCase.port.cartPort.RemoveCopyFromCart;
 import pl.VideoRental.useCase.port.copyPort.GetCopyFromCatalog;
 import pl.VideoRental.useCase.port.userPort.GetUserFromCatalog;
 
-import java.security.Principal;
 import java.time.LocalDate;
 
 @RestController
