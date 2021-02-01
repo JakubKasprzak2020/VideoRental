@@ -2,11 +2,16 @@ package pl.VideoRental.adapter.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import pl.VideoRental.domain.Order;
 import pl.VideoRental.domain.User;
+import pl.VideoRental.useCase.exception.CartIsEmptyException;
 import pl.VideoRental.useCase.exception.OrderDoesNotExistException;
+import pl.VideoRental.useCase.exception.UserDoesNotExistException;
 import pl.VideoRental.useCase.port.orderPort.*;
+import pl.VideoRental.useCase.port.userPort.GetUserFromCatalog;
 import pl.VideoRental.util.JsonConverter;
 
 import java.util.List;
@@ -21,6 +26,7 @@ public class OrderController {
     private final DeleteOrder deleteOrder;
     private final UpdateOrder updateOrder;
     private final JsonConverter jsonConverter;
+    private final GetUserFromCatalog getUserFromCatalog;
 
 
     @GetMapping("/admin/orders")
@@ -52,8 +58,9 @@ public class OrderController {
         updateOrder.update(id, order);
     }
 
-    //TODO - Spring Security first
-    public Order create(User user) {
-        return null;
+    @PutMapping("/api/orders")
+    public Order create(@AuthenticationPrincipal UserDetails userDetails) throws UserDoesNotExistException, CartIsEmptyException {
+        User user = getUserFromCatalog.getByEmail(userDetails.getUsername());
+       return createOrderFromCartContent.makeAnOrder(user);
     }
 }

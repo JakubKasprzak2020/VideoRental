@@ -16,9 +16,13 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import pl.VideoRental.authentication.UserDetailsServiceImpl;
-import pl.VideoRental.domain.Copy;
 import pl.VideoRental.domain.Order;
+import pl.VideoRental.domain.User;
+import pl.VideoRental.domain.UserType;
+import pl.VideoRental.useCase.exception.CartIsEmptyException;
+import pl.VideoRental.useCase.exception.UserDoesNotExistException;
 import pl.VideoRental.useCase.port.orderPort.*;
+import pl.VideoRental.useCase.port.userPort.GetUserFromCatalog;
 import pl.VideoRental.util.JsonConverter;
 
 import java.math.BigDecimal;
@@ -53,6 +57,8 @@ class OrderControllerTest {
     private JsonConverter jsonConverter;
     @MockBean
     private UserDetailsServiceImpl userDetailsService;
+    @MockBean
+    private GetUserFromCatalog getUserFromCatalog;
 
 
     @Test
@@ -131,10 +137,22 @@ class OrderControllerTest {
                 .update(any(Long.class), any(Order.class));
     }
 
-    //TODO - waiting for Spring Security context
-    @Test
-    void shouldCreateOrder() {
 
+    @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
+    void shouldCreateOrder() throws Exception {
+        //given
+        String url = "/api/orders";
+        User user = User.builder().userType(UserType.REGULAR).build();
+        Order order = new Order();
+        //when
+        Mockito.when(getUserFromCatalog.getByEmail(any(String.class))).thenReturn(user);
+        Mockito.when(createOrderFromCartContent.makeAnOrder(any(User.class))).thenReturn(order);
+        RequestBuilder request = MockMvcRequestBuilders.put(url);
+        //then
+        mockMvc.perform(request).andExpect(status().isOk());
+        Mockito.verify(getUserFromCatalog, times(1)).getByEmail(any(String.class));
+        Mockito.verify(createOrderFromCartContent, times(1)).makeAnOrder(any(User.class));
     }
 
 

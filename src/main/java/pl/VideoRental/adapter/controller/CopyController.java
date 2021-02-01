@@ -71,7 +71,7 @@ public class CopyController {
         updateCopy.update(copyId, copy);
     }
 
-    //TODO - need User, so Spring Security level must be made first
+    //TODO - this method looks to be redundant
     @PutMapping("/api/rent/{copyId}")
     @ResponseStatus(HttpStatus.OK)
     public void rent(){
