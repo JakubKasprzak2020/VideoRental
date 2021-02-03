@@ -60,6 +60,12 @@ public class SampleDataInit implements CommandLineRunner {
         createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_3);
     }
 
+    /**
+    MOVIE_1 has 3 copies.
+    MOVIE_2 has 2 copies.
+    MOVIE_3 has 1 copy.
+     */
+
     private void initSampleCopies() throws MovieDoesNotExistException {
         long movie1Id = getMovieFromCatalog.getByTitle(TITLE_OF_MOVIE_1).getId();
         long movie2Id = getMovieFromCatalog.getByTitle(TITLE_OF_MOVIE_2).getId();
