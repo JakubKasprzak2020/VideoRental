@@ -20,10 +20,7 @@ import pl.VideoRental.domain.Cart;
 import pl.VideoRental.domain.Copy;
 import pl.VideoRental.domain.User;
 import pl.VideoRental.domain.UserType;
-import pl.VideoRental.useCase.port.cartPort.AddCopyToCart;
-import pl.VideoRental.useCase.port.cartPort.EmptyACart;
-import pl.VideoRental.useCase.port.cartPort.GetCart;
-import pl.VideoRental.useCase.port.cartPort.RemoveCopyFromCart;
+import pl.VideoRental.useCase.port.cartPort.*;
 import pl.VideoRental.useCase.port.copyPort.GetCopyFromCatalog;
 import pl.VideoRental.useCase.port.userPort.GetUserFromCatalog;
 
@@ -56,6 +53,8 @@ class CartControllerTest {
     private GetCopyFromCatalog getCopyFromCatalog;
     @MockBean
     private GetUserFromCatalog getUserFromCatalog;
+    @MockBean
+    private AddMovieToCart addMovieToCart;
 
     @Test
     @WithMockUser(username = "user", password = "user", roles = "USER")
@@ -123,6 +122,25 @@ class CartControllerTest {
         Mockito.verify(getUserFromCatalog, times(1)).getByEmail(any(String.class));
         Mockito.verify(getCopyFromCatalog, times(1)).get(any(Long.class));
         Mockito.verify(removeCopyFromCart, times(1)).removeCopy(any(User.class), any(Copy.class));
+    }
+
+    @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
+    void shouldAddMovieToCart() throws Exception {
+        //given
+        String url = "/api/cart/62";
+        User user = User.builder().userType(UserType.REGULAR).build();
+        //when
+        Mockito.when(getUserFromCatalog.getByEmail(any(String.class))).thenReturn(user);
+        Mockito.doNothing().when(addMovieToCart).add(any(User.class), any(Long.class), any(Integer.class));
+        RequestBuilder request = MockMvcRequestBuilders.put(url)
+                .contentType(MediaType.TEXT_PLAIN)
+                .content("3");
+        //then
+        mockMvc.perform(request).andExpect(status().isOk());
+        Mockito.verify(getUserFromCatalog, times(1)).getByEmail(any(String.class));
+        Mockito.verify(addMovieToCart, times(1))
+                .add(any(User.class), any(Long.class), any(Integer.class));
     }
 
 

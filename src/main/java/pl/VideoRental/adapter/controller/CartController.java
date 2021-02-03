@@ -10,11 +10,9 @@ import pl.VideoRental.domain.Copy;
 import pl.VideoRental.domain.User;
 import pl.VideoRental.useCase.exception.CopyDoesNotExistException;
 import pl.VideoRental.useCase.exception.CopyIsAlreadyRentedException;
+import pl.VideoRental.useCase.exception.MovieIsNotAvailableException;
 import pl.VideoRental.useCase.exception.UserDoesNotExistException;
-import pl.VideoRental.useCase.port.cartPort.AddCopyToCart;
-import pl.VideoRental.useCase.port.cartPort.EmptyACart;
-import pl.VideoRental.useCase.port.cartPort.GetCart;
-import pl.VideoRental.useCase.port.cartPort.RemoveCopyFromCart;
+import pl.VideoRental.useCase.port.cartPort.*;
 import pl.VideoRental.useCase.port.copyPort.GetCopyFromCatalog;
 import pl.VideoRental.useCase.port.userPort.GetUserFromCatalog;
 
@@ -30,6 +28,7 @@ public class CartController {
     private final GetCart getCart;
     private final GetCopyFromCatalog getCopyFromCatalog;
     private final GetUserFromCatalog getUserFromCatalog;
+    private final AddMovieToCart addMovieToCart;
 
     @GetMapping("/api/cart")
     @ResponseStatus(HttpStatus.OK)
@@ -37,7 +36,7 @@ public class CartController {
         return getCart.get();
     }
 
-    //TODO - probably this method should be replaced by addMovieToCatalog - free copy should be chosen automatically from catolg of copies
+    //TODO - probably this method should be replaced by addMovieToCatalog - free copy should be chosen automatically from catalog of copies
     @PutMapping("/api/cart/in/{copyId}")
     @ResponseStatus(HttpStatus.OK)
     public void add(@AuthenticationPrincipal UserDetails userDetails,
@@ -49,6 +48,18 @@ public class CartController {
         LocalDate rentalDate = LocalDate.now();
         addCopyToCart.add(user, copy, rentalDaysInteger, rentalDate);
     }
+
+    @PutMapping("api/cart/{movieId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void addMovie(@AuthenticationPrincipal UserDetails userDetails,
+                         @PathVariable long movieId,
+                         @RequestBody String rentalDays) throws UserDoesNotExistException, MovieIsNotAvailableException, CopyIsAlreadyRentedException {
+        User user = getUserFromCatalog.getByEmail(userDetails.getUsername());
+        int rentalDaysInteger = Integer.parseInt(rentalDays);
+        addMovieToCart.add(user, movieId, rentalDaysInteger);
+    }
+
+
 
     @PutMapping("/api/cart/out/{copyId}")
     @ResponseStatus(HttpStatus.OK)
