@@ -1,5 +1,6 @@
 package pl.VideoRental.adapter.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -32,11 +33,12 @@ public class CartController {
 
     @GetMapping("/api/cart")
     @ResponseStatus(HttpStatus.OK)
+    @JsonProperty //without this annotation there is InvalidDefinitionException while trying to get cart by Postman
     public Cart get(){
         return getCart.get();
     }
 
-    //TODO - probably this method should be replaced by addMovieToCatalog - free copy should be chosen automatically from catalog of copies
+    //TODO - probably this method should be replaced by addMovie- free copy should be chosen automatically from catalog of copies
     @PutMapping("/api/cart/in/{copyId}")
     @ResponseStatus(HttpStatus.OK)
     public void add(@AuthenticationPrincipal UserDetails userDetails,
