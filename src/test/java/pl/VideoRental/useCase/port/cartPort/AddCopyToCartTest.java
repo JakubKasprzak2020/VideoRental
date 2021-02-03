@@ -62,6 +62,7 @@ class AddCopyToCartTest {
         copy.setAvailable(false);
         //then
         assertThrows(CopyIsAlreadyRentedException.class, ()->addCopyToCart.add(user, copy, rentalDays, rentalDate));
+        copy.setAvailable(true);
     }
 
 
