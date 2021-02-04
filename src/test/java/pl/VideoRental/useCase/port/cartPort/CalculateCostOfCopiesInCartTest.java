@@ -11,6 +11,7 @@ import pl.VideoRental.domain.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -271,7 +272,8 @@ class CalculateCostOfCopiesInCartTest {
      */
     BigDecimal expected = BigDecimal.valueOf(30).setScale(2, RoundingMode.CEILING);
     assertEquals(expected, cart.getToPay());
-    emptyACart.empty(cart);
+  //  emptyACart.empty(cart); - it saves copies and this copies shouldn't be saved
+    cart.setCopies(new ArrayList<>());
 }
 
     @Test
@@ -296,7 +298,8 @@ class CalculateCostOfCopiesInCartTest {
          */
         BigDecimal expected = BigDecimal.valueOf(114).setScale(2, RoundingMode.CEILING); // (30 * 1 + 30 * 3) * 0.95
         assertEquals(expected, cart.getToPay());
-        emptyACart.empty(cart);
+       // emptyACart.empty(cart);
+        cart.setCopies(new ArrayList<>());
     }
 
     @Test
@@ -327,7 +330,8 @@ class CalculateCostOfCopiesInCartTest {
          */
         BigDecimal expectedCost = BigDecimal.valueOf(38.25).setScale(2, RoundingMode.CEILING);
         assertEquals(expectedCost, cart.getToPay());
-        emptyACart.empty(cart);
+        //emptyACart.empty(cart);
+        cart.setCopies(new ArrayList<>());
     }
 
     @Test
@@ -373,6 +377,7 @@ class CalculateCostOfCopiesInCartTest {
             BigDecimal expectedCost = BigDecimal.valueOf(224)
                     .setScale(2, RoundingMode.CEILING);
             assertEquals(expectedCost, cart.getToPay());
-            emptyACart.empty(cart);
+          //  emptyACart.empty(cart);
+        cart.setCopies(new ArrayList<>());
         }
     }

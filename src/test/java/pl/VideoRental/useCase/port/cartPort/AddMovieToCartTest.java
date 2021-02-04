@@ -58,6 +58,7 @@ class AddMovieToCartTest {
         assertTrue(cart.getToPay().intValue() > 0);
         assertNull(copyFromCart.getUser()); //User is added to Copy during MakeAnOrderFromCartContent process
         emptyACart.empty(cart);
+
     }
 
     @Test
@@ -77,6 +78,8 @@ class AddMovieToCartTest {
         assertThrows(MovieIsNotAvailableException.class, ()->addMovieToCart.add(user, movieId, rentalDays));
         copy.setAvailable(true);
         copyRepository.save(copy);
+
+
     }
 
 }
