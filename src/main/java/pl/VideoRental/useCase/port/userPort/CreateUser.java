@@ -9,6 +9,7 @@ import pl.VideoRental.domain.User;
 import pl.VideoRental.domain.UserSignInData;
 import pl.VideoRental.domain.UserType;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 @Component
@@ -26,6 +27,7 @@ public class CreateUser {
                 .email(userSignInData.getEmail())
                 .address(userSignInData.getAddress())
                 .userType(UserType.REGULAR)
+                .amountSpent(BigDecimal.ZERO)
                 .build();
         userRepository.save(user);
         createApplicationUser(userSignInData);

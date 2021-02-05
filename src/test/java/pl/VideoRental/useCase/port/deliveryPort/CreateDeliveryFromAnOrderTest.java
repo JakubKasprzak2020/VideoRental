@@ -86,5 +86,10 @@ class CreateDeliveryFromAnOrderTest {
         deleteDelivery.deleteById(delivery.getId());
     }
 
+    @Test
+    void shouldPromoteUserType(){
+
+    }
+
 
 }

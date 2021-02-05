@@ -5,6 +5,7 @@ import lombok.*;
 import pl.VideoRental.authentication.ApplicationUser;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class User {
     private String email; //TODO - this field should be unique (it's username for ApplicationUser)
     private String address;
     private UserType userType;
+    private BigDecimal amountSpent;
 
 
     @OneToMany(mappedBy = "user", fetch=FetchType.EAGER)
