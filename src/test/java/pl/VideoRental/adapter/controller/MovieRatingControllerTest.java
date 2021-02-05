@@ -18,10 +18,13 @@ import pl.VideoRental.authentication.UserDetailsServiceImpl;
 import pl.VideoRental.domain.*;
 import pl.VideoRental.useCase.port.movieRatingPort.CreateMovieRating;
 import pl.VideoRental.useCase.port.movieRatingPort.DeleteMovieRating;
+import pl.VideoRental.useCase.port.movieRatingPort.GetAllAverageRatings;
 import pl.VideoRental.useCase.port.movieRatingPort.GetAllMovieRatings;
 import pl.VideoRental.useCase.port.userPort.GetUserFromCatalog;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -47,6 +50,8 @@ class MovieRatingControllerTest {
     private GetUserFromCatalog getUserFromCatalog;
     @MockBean
     private UserDetailsServiceImpl userDetailsService;
+    @MockBean
+    private GetAllAverageRatings getAllAverageRatings;
 
     @Test
     @WithMockUser(username = "user", password = "user", roles = "USER")
@@ -60,24 +65,37 @@ class MovieRatingControllerTest {
         Mockito.when(createMovieRating.create(any(User.class), any(Long.class), any(Integer.class))).thenReturn(new MovieRating());
         RequestBuilder request = MockMvcRequestBuilders.post(url)
                 .contentType(MediaType.TEXT_PLAIN)
-                        .content(rating);
+                .content(rating);
         //then
-        mockMvc.perform(request).andExpect(status().isOk());
+        mockMvc.perform(request).andExpect(status().isCreated());
         Mockito.verify(getUserFromCatalog, times(1)).getByEmail(any(String.class));
         Mockito.verify(createMovieRating, times(1)).create(any(User.class), any(Long.class), any(Integer.class));
     }
 
     @Test
-    @WithMockUser(username = "user", password = "user", roles = "USER")
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldGetAllMovieRatings() throws Exception {
         //given
-        String url = "/api/ratings";
+        String url = "/admin/ratings";
         //when
         Mockito.when(getAllMovieRatings.getAll()).thenReturn(new ArrayList<>());
         RequestBuilder request = MockMvcRequestBuilders.get(url);
         //then
         MvcResult mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
         Mockito.verify(getAllMovieRatings, times(1)).getAll();
+    }
+
+    @Test
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
+    void shouldGetAllAverageRatings() throws Exception {
+        //given
+        String url = "/api/ratings";
+        //when
+        Mockito.when(getAllAverageRatings.getAll()).thenReturn(new TreeMap<String, Double>());
+        RequestBuilder request = MockMvcRequestBuilders.get(url);
+        //then
+        MvcResult mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
+        Mockito.verify(getAllAverageRatings, times(1)).getAll();
     }
 
     @Test
