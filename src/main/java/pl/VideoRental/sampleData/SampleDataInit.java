@@ -8,13 +8,17 @@ import pl.VideoRental.authentication.ApplicationUser;
 import pl.VideoRental.authentication.ApplicationUserRepository;
 import pl.VideoRental.authentication.ApplicationUserRole;
 import pl.VideoRental.domain.Movie;
+import pl.VideoRental.domain.User;
 import pl.VideoRental.domain.UserSignInData;
 import pl.VideoRental.useCase.exception.MovieAlreadyExistException;
 import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
 import pl.VideoRental.useCase.port.moviePort.CreateMovie;
 import pl.VideoRental.useCase.port.copyPort.CreateCopyOfAMovie;
+import pl.VideoRental.useCase.port.moviePort.GetAllMovies;
 import pl.VideoRental.useCase.port.moviePort.GetMovieFromCatalog;
+import pl.VideoRental.useCase.port.movieRatingPort.CreateMovieRating;
 import pl.VideoRental.useCase.port.userPort.CreateUser;
+import pl.VideoRental.useCase.port.userPort.GetAllUsers;
 
 import java.util.Arrays;
 
@@ -43,7 +47,9 @@ public class SampleDataInit implements CommandLineRunner {
     private final GetMovieFromCatalog getMovieFromCatalog;
     private final ApplicationUserRepository applicationUserRepository;
     private final PasswordEncoder passwordEncoder;
-
+    private final CreateMovieRating createMovieRating;
+    private final GetAllMovies getAllMovies;
+    private final GetAllUsers getAllUsers;
 
     @Override
     public void run(String... args) throws Exception {
@@ -51,13 +57,14 @@ public class SampleDataInit implements CommandLineRunner {
         initSampleCopies();
         initSampleUsers();
         initAdminAccount();
+        initSampleMovieRatings();
     }
 
 
     private void initSampleMovies() throws MovieAlreadyExistException {
-        createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_1);
-        createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_2);
-        createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_3);
+       createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_1);
+       createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_2);
+       createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_3);
     }
 
     /**
@@ -111,5 +118,18 @@ public class SampleDataInit implements CommandLineRunner {
         applicationUserRepository.save(applicationUser);
     }
 
+    private void initSampleMovieRatings() throws MovieDoesNotExistException {
+        User user1 = getAllUsers.getAll().get(0);
+        User user2 = getAllUsers.getAll().get(1);
+        long movie1ID = getAllMovies.getAll().get(0).getId();
+        long movie2ID = getAllMovies.getAll().get(1).getId();
+        long movie3ID = getAllMovies.getAll().get(2).getId();
+        createMovieRating.create(user1, movie1ID, 8);
+        createMovieRating.create(user1, movie2ID, 6);
+        createMovieRating.create(user1, movie3ID, 9);
+        createMovieRating.create(user2, movie1ID, 3);
+        createMovieRating.create(user2, movie2ID, 10);
+        createMovieRating.create(user2, movie3ID, 5);
+    }
 
 }
