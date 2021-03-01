@@ -3,6 +3,7 @@ package pl.VideoRental.useCase.port.deliveryPort;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import pl.VideoRental.adapter.repository.OrderRepository;
 import pl.VideoRental.domain.*;
 import pl.VideoRental.useCase.exception.UserDoesNotExistException;
@@ -17,6 +18,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 class CreateDeliveryFromAnOrderTest {
 
     @Autowired

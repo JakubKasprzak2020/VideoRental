@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -36,6 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(OrderController.class)
+//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 class OrderControllerTest {
 
     @Autowired
@@ -61,6 +63,8 @@ class OrderControllerTest {
     private GetUserFromCatalog getUserFromCatalog;
 
 
+
+
     @Test
     @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldGetAllOrders() throws Exception {
@@ -79,6 +83,8 @@ class OrderControllerTest {
         assertEquals(expectedJsonResponse, actualJsonResponse);
         Mockito.verify(getAllOrders, Mockito.times(1)).getAll();
     }
+
+
 
     @Test
     @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
@@ -99,6 +105,7 @@ class OrderControllerTest {
         Mockito.verify(getOrderFromCatalog, Mockito.times(1))
                 .getById(Mockito.any(Long.class));
     }
+
 
     @Test
     @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
@@ -154,6 +161,8 @@ class OrderControllerTest {
         Mockito.verify(getUserFromCatalog, times(1)).getByEmail(any(String.class));
         Mockito.verify(createOrderFromCartContent, times(1)).makeAnOrder(any(User.class));
     }
+
+
 
 
 }

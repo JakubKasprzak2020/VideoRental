@@ -3,6 +3,7 @@ package pl.VideoRental.useCase.port.userPort;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import pl.VideoRental.domain.User;
 import pl.VideoRental.domain.UserSignInData;
 import pl.VideoRental.domain.UserType;
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 class PromoteUserTypeTest {
 
     @Autowired
