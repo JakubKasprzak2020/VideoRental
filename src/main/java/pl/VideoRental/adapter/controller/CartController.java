@@ -38,7 +38,7 @@ public class CartController {
         return getCart.get();
     }
 
-    //TODO - probably this method should be replaced by addMovie- free copy should be chosen automatically from catalog of copies
+    //TODO - probably this method is redundant
     @PutMapping("/api/cart/in/{copyId}")
     @ResponseStatus(HttpStatus.OK)
     public void add(@AuthenticationPrincipal UserDetails userDetails,

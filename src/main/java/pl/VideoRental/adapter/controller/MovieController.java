@@ -24,7 +24,7 @@ public class MovieController {
     @GetMapping(path="/api/movies")
     @ResponseStatus(HttpStatus.OK)
     public List<Movie> getAll() {
-        return getAllMovies.getAll();
+        return getAllMovies.getAllInAlphabeticalOrder();
     }
 
     @GetMapping("/api/movies/{title}")
@@ -58,6 +58,5 @@ public class MovieController {
 
 
 
-//TODO - there should be a Rent a Movie method that find free copy and rent it - it would be more user friendly
 
 }

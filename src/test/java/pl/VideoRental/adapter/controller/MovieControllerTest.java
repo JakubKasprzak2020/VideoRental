@@ -76,7 +76,7 @@ public class MovieControllerTest {
         movies.add(movie2);
         String url = "/api/movies";
         //when
-        Mockito.when(getAllMovies.getAll()).thenReturn(movies);
+        Mockito.when(getAllMovies.getAllInAlphabeticalOrder()).thenReturn(movies);
         RequestBuilder request = MockMvcRequestBuilders.get(url);
         //then
         MvcResult mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
