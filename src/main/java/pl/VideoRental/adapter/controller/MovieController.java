@@ -19,6 +19,7 @@ public class MovieController {
     private final GetAllMovies getAllMovies;
     private final GetMovieFromCatalog getMovieFromCatalog;
     private final UpdateMovie updateMovie;
+    private final SortMovies sortMovies;
 
 
     @GetMapping(path="/api/movies")
@@ -31,6 +32,12 @@ public class MovieController {
     @ResponseStatus(HttpStatus.OK)
     public List<Movie> getAllInChronoOrder() {
         return getAllMovies.getAllInChronologicalOrder();
+    }
+
+    @GetMapping(path="/api/movies/genre/{genreName}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Movie> getAllWithGenre(@PathVariable String genreName){
+        return sortMovies.sortByGenre(genreName);
     }
 
     @GetMapping("/api/movies/{title}")

@@ -53,6 +53,8 @@ public class MovieControllerTest {
     private UpdateMovie updateMovie;
     @MockBean
     private UserDetailsServiceImpl userDetailsService;
+    @MockBean
+    private SortMovies sortMovies;
 
     private final Movie movie1 = SampleDataStorage.MOVIE_1;
     private final Movie movie2 = SampleDataStorage.MOVIE_2;
@@ -66,7 +68,7 @@ public class MovieControllerTest {
             "        \"genre\": \"HISTORICAL\"\n" +
             "    }";
 
-    private final String [] roleList = {"ADMIN"};
+    private final String[] roleList = {"ADMIN"};
 
     @Test
     void shouldGetAllMovies() throws Exception {
@@ -172,5 +174,21 @@ public class MovieControllerTest {
                 .update(eq(randomId), any(Movie.class));
     }
 
+    @Test
+    void shouldGetAllMoviesByGenre() throws Exception {
+        //given
+        List<Movie> movies = new ArrayList<>();
+        movies.add(movie1);
+        String url = "/api/movies/genre/" + movie1.getGenre().name();
+        //when
+        Mockito.when(sortMovies.sortByGenre(any(String.class))).thenReturn(movies);
+        RequestBuilder request = MockMvcRequestBuilders.get(url);
+        //then
+        MvcResult mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
+        String actualJsonResponse = mvcResult.getResponse().getContentAsString();
+        String expectedJsonResponse = objectMapper.writeValueAsString(movies);
+        assertEquals(expectedJsonResponse, actualJsonResponse);
+        Mockito.verify(sortMovies, times(1)).sortByGenre(movie1.getGenre().name());
+    }
 
 }
