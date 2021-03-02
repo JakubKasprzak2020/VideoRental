@@ -29,6 +29,12 @@ public class GetAllMovies {
                 .collect(Collectors.toList());
     }
 
+    public List<Movie> getAllInChronologicalOrder(){
+        List <Movie> movies = getAll();
+        return movies.stream()
+                .sorted(Comparator.comparing(Movie::getReleaseDate))
+                .collect(Collectors.toList());
+    }
 
 
 }

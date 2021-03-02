@@ -27,6 +27,12 @@ public class MovieController {
         return getAllMovies.getAllInAlphabeticalOrder();
     }
 
+    @GetMapping(path="/api/movies/chrono")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Movie> getAllInChronoOrder() {
+        return getAllMovies.getAllInChronologicalOrder();
+    }
+
     @GetMapping("/api/movies/{title}")
     @ResponseStatus(HttpStatus.OK)
     public Movie get(@PathVariable String title) throws MovieDoesNotExistException {

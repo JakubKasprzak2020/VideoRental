@@ -86,6 +86,23 @@ public class MovieControllerTest {
     }
 
     @Test
+    void shouldGetAllMoviesInChronoOrder() throws Exception {
+        //given
+        List<Movie> movies = new ArrayList<>();
+        movies.add(movie1);
+        movies.add(movie2);
+        String url = "/api/movies/chrono";
+        //when
+        Mockito.when(getAllMovies.getAllInChronologicalOrder()).thenReturn(movies);
+        RequestBuilder request = MockMvcRequestBuilders.get(url);
+        //then
+        MvcResult mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
+        String actualJsonResponse = mvcResult.getResponse().getContentAsString();
+        String expectedJsonResponse = objectMapper.writeValueAsString(movies);
+        assertEquals(expectedJsonResponse, actualJsonResponse);
+    }
+
+    @Test
     void shouldGetMovie() throws Exception {
         //given
         String url = "/api/movies/" + movie1.getTitle();
