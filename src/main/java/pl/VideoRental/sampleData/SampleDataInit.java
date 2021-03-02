@@ -65,6 +65,23 @@ public class SampleDataInit implements CommandLineRunner {
        createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_1);
        createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_2);
        createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_3);
+       createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_4);
+       createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_5);
+       createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_6);
+       createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_7);
+       createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_8);
+       createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_9);
+       createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_10);
+       createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_11);
+       createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_12);
+       createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_13);
+       createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_14);
+       createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_15);
+       createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_16);
+       createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_17);
+       createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_18);
+       createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_19);
+       createMovieAndChangeUsersSizeMarker(SampleDataStorage.MOVIE_20);
     }
 
     /**

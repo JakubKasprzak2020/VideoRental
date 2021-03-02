@@ -25,7 +25,7 @@ class DeleteMovieTest {
     private GetAllMovies getAllMovies;
 
     private Movie movie = new Movie().builder()
-            .title("Sherlock Holmes")
+            .title("The return of Sherlock Holmes")
             .genre(Genre.CRIME_STORY)
             .description("Sherlock Holmes returned to London...")
             .releaseDate(LocalDate.of(2000, 1, 1))
