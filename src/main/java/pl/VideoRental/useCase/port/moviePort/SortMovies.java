@@ -29,8 +29,9 @@ public class SortMovies {
 
 
     Genre changeStringToGenre(String nameOfGenre) {
+        String nameOfGenreInUpperCase = nameOfGenre.toUpperCase();
        return Stream.of(Genre.values())
-               .filter(g -> g.name().equals(nameOfGenre))
+               .filter(g -> g.name().equals(nameOfGenreInUpperCase))
                .findFirst()
                .orElse(Genre.OTHERS);
         }
