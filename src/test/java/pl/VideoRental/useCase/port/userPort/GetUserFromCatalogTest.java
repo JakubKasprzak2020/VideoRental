@@ -83,4 +83,18 @@ class GetUserFromCatalogTest {
         assertEquals(lastName, user.getLastName());
     }
 
+    @Test
+    void shouldFindUserByEmail() throws UserDoesNotExistException {
+        //given
+        String email = SampleDataStorage.USER_SIGN_IN_DATA_1.getEmail();
+        String name = SampleDataStorage.USER_SIGN_IN_DATA_1.getName();
+        String lastName = SampleDataStorage.USER_SIGN_IN_DATA_1.getLastName();
+        //when
+        User user = getUserFromCatalog.getByEmail(email);
+        //then
+        assertNotNull(user);
+        assertEquals(name, user.getName());
+        assertEquals(lastName, user.getLastName());
+    }
+
 }

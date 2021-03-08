@@ -39,7 +39,7 @@ public class JsonConverter {
     }
 
 
-    //TODO problem with value of isDelivered - temporary solution
+    //this method is a solution for problem with isDelivered method
     public Delivery getDeliveryFromJson(String json) {
         Delivery delivery = getGson().fromJson(json, Delivery.class);
        if (json.contains("true")){

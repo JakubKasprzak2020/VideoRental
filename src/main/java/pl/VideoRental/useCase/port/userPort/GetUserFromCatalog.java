@@ -18,12 +18,11 @@ public class GetUserFromCatalog {
         return userRepository.findById(id).orElseThrow(() -> new UserDoesNotExistException(id));
     }
 
-    //TODO - needs test method
     public User getByEmail(String email) throws UserDoesNotExistException {
         return userRepository.findByEmail(email).orElseThrow(() -> new UserDoesNotExistException(email));
     }
 
-    //TODO - probably this method is redundant
+    // probably this method is redundant
     public User getByApplicationUser(ApplicationUser applicationUser) {
         String email = applicationUser.getUsername();
         return userRepository.findByEmail(email).orElse(null);
