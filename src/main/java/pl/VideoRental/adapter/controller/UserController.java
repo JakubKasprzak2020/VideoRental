@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import pl.VideoRental.domain.Copy;
 import pl.VideoRental.util.JsonConverter;
 import pl.VideoRental.domain.User;
 import pl.VideoRental.domain.UserSignInData;
@@ -46,6 +47,12 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public User getMyProfile(@AuthenticationPrincipal UserDetails userDetails) throws UserDoesNotExistException {
         return getUserFromCatalog.getByEmail(userDetails.getUsername());
+    }
+
+    @GetMapping("/api/my_copies")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Copy> getMyCopies(@AuthenticationPrincipal UserDetails userDetails) throws UserDoesNotExistException {
+        return getUserFromCatalog.getByEmail(userDetails.getUsername()).getCopies();
     }
 
     @PostMapping("/registration")
