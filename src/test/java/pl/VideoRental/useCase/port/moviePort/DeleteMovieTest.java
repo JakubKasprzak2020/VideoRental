@@ -3,10 +3,14 @@ package pl.VideoRental.useCase.port.moviePort;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import pl.VideoRental.domain.Copy;
 import pl.VideoRental.domain.Genre;
 import pl.VideoRental.domain.Movie;
+import pl.VideoRental.useCase.exception.CopyDoesNotExistException;
 import pl.VideoRental.useCase.exception.MovieAlreadyExistException;
 import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
+import pl.VideoRental.useCase.port.copyPort.CreateCopyOfAMovie;
+import pl.VideoRental.useCase.port.copyPort.GetCopyFromCatalog;
 
 import java.time.LocalDate;
 
@@ -23,6 +27,10 @@ class DeleteMovieTest {
     private DeleteMovie deleteMovie;
     @Autowired
     private GetAllMovies getAllMovies;
+    @Autowired
+    private CreateCopyOfAMovie createCopyOfAMovie;
+    @Autowired
+    private GetCopyFromCatalog getCopyFromCatalog;
 
     private Movie movie = new Movie().builder()
             .title("The return of Sherlock Holmes")
@@ -32,7 +40,6 @@ class DeleteMovieTest {
             .build();
 
 
-
     @Test
     void shouldDeleteMovieById() throws MovieAlreadyExistException {
         //given
@@ -40,7 +47,7 @@ class DeleteMovieTest {
         //when
         deleteMovie.deleteById(movie.getId());
         //then
-        assertThrows(MovieDoesNotExistException.class, ()-> getMovieFromCatalog.getById(movie.getId()));
+        assertThrows(MovieDoesNotExistException.class, () -> getMovieFromCatalog.getById(movie.getId()));
     }
 
 
@@ -56,7 +63,17 @@ class DeleteMovieTest {
         assertEquals(moviesSizeBeforeDeleting, movieSizeAfterDeleting);
     }
 
+    //deleting because of orphanRemoval
+    @Test
+    void shouldDeleteAllCopiesAfterDeletingMovie() throws MovieAlreadyExistException, MovieDoesNotExistException {
+        //given
+        Movie newMovie = createMovie.create(movie);
+        Copy copy = createCopyOfAMovie.create(newMovie.getId());
+        //when
+        deleteMovie.deleteById(movie.getId());
+        //then
+        assertThrows(CopyDoesNotExistException.class, () -> getCopyFromCatalog.get(copy.getId()));
+    }
 
-    //TODO - tests proved that after deleting Movies there is no Copy of Movie left
 
 }
