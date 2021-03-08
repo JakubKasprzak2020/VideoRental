@@ -13,14 +13,16 @@ public class UpdateUser {
     private final UserRepository userRepository;
     private final GetUserFromCatalog getUserFromCatalog;
 
+    /**
+     *The only fields that could be change by this method are name, lastName and Address.
+     */
+
     public void update(long id, User newUser){
         try {
             User oldUser = getUserFromCatalog.getById(id);
             oldUser.setName(newUser.getName());
             oldUser.setLastName(newUser.getLastName());
-            oldUser.setEmail(newUser.getEmail());
             oldUser.setAddress(newUser.getAddress());
-            oldUser.setUserType(newUser.getUserType());
             userRepository.save(oldUser);
         } catch (UserDoesNotExistException exception){
             System.out.println(exception.getMessage());

@@ -53,7 +53,6 @@ class DeleteUserTest {
         int usersSizeAfterDeleting = getAllUsers.getAll().size();
         //then
         assertEquals(usersSizeBeforeDeleting, usersSizeAfterDeleting);
-
     }
 
 }
