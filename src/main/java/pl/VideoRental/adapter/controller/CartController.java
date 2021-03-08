@@ -38,19 +38,6 @@ public class CartController {
         return getCart.get();
     }
 
-    //TODO - probably this method is redundant
-    @PutMapping("/api/cart/in/{copyId}")
-    @ResponseStatus(HttpStatus.OK)
-    public void add(@AuthenticationPrincipal UserDetails userDetails,
-                    @PathVariable long copyId,
-                    @RequestBody String rentalDays) throws CopyDoesNotExistException, CopyIsAlreadyRentedException, UserDoesNotExistException {
-        User user = getUserFromCatalog.getByEmail(userDetails.getUsername());
-        Copy copy = getCopyFromCatalog.get(copyId);
-        int rentalDaysInteger = Integer.parseInt(rentalDays);
-        LocalDate rentalDate = LocalDate.now();
-        addCopyToCart.add(user, copy, rentalDaysInteger, rentalDate);
-    }
-
     @PutMapping("api/cart/{movieId}")
     @ResponseStatus(HttpStatus.OK)
     public void addMovie(@AuthenticationPrincipal UserDetails userDetails,

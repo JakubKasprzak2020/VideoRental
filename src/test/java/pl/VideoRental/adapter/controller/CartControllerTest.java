@@ -84,29 +84,6 @@ class CartControllerTest {
 
     @Test
     @WithMockUser(username = "user", password = "user", roles = "USER")
-    void shouldAddCopyToCart() throws Exception {
-        //given
-        String url = "/api/cart/in/62";
-        ApplicationUser applicationUser = new ApplicationUser();
-        User user = User.builder().userType(UserType.REGULAR).build();
-        Copy copy = new Copy();
-        //when
-        Mockito.when(getUserFromCatalog.getByEmail(any(String.class))).thenReturn(user);
-        Mockito.when(getCopyFromCatalog.get(any(Long.class))).thenReturn(copy);
-        Mockito.doNothing().when(addCopyToCart).add(any(User.class), any(Copy.class), any(Integer.class), any(LocalDate.class));
-        RequestBuilder request = MockMvcRequestBuilders.put(url)
-                .contentType(MediaType.TEXT_PLAIN)
-                .content("3");
-        //then
-        mockMvc.perform(request).andExpect(status().isOk());
-        Mockito.verify(getUserFromCatalog, times(1)).getByEmail(any(String.class));
-        Mockito.verify(getCopyFromCatalog, times(1)).get(any(Long.class));
-        Mockito.verify(addCopyToCart, times(1))
-                .add(any(User.class), any(Copy.class), any(Integer.class), any(LocalDate.class));
-    }
-
-    @Test
-    @WithMockUser(username = "user", password = "user", roles = "USER")
     void shouldRemoveCopyFromCart() throws Exception {
         //given
         String url = "/api/cart/out/71";
