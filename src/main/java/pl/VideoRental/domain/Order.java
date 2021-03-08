@@ -27,15 +27,13 @@ public class Order {
 
     private BigDecimal cost;
 
-    //TODO ManyToOne here is probably redundant
     @ManyToOne
-    //@JsonManagedReference
     private User user;
 
     @OneToMany(fetch=FetchType.EAGER)
     private List<Copy> copies = new ArrayList<>();
 
-    @OneToOne(mappedBy = "order", orphanRemoval = true) //TODO after deleting order there should be no delivery left - check is it work
+    @OneToOne(mappedBy = "order", orphanRemoval = true)
     @JsonBackReference
     private Delivery delivery;
 

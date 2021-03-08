@@ -23,7 +23,7 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    //TODO should here be @Column(unique = true)?
+    @Column(unique = true)
     private String title;
 
     private String description;

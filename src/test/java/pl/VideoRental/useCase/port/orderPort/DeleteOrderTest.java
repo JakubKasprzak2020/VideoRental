@@ -4,9 +4,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.VideoRental.adapter.repository.OrderRepository;
+import pl.VideoRental.domain.Delivery;
 import pl.VideoRental.domain.Order;
+import pl.VideoRental.useCase.exception.DeliveryDoesNotExistException;
 import pl.VideoRental.useCase.exception.OrderDoesNotExistException;
 import pl.VideoRental.useCase.port.copyPort.GetAllCopies;
+import pl.VideoRental.useCase.port.deliveryPort.CreateDeliveryFromAnOrder;
+import pl.VideoRental.useCase.port.deliveryPort.GetDeliveryFromCatalog;
 import pl.VideoRental.useCase.port.userPort.GetAllUsers;
 
 import java.math.BigDecimal;
@@ -28,7 +32,10 @@ class DeleteOrderTest {
     GetOrderFromCatalog getOrderFromCatalog;
     @Autowired
     GetAllOrders getAllOrders;
-
+    @Autowired
+    CreateDeliveryFromAnOrder createDeliveryFromAnOrder;
+    @Autowired
+    GetDeliveryFromCatalog getDeliveryFromCatalog;
 
     private Order makeAnOrder() {
         return Order.builder()
@@ -53,7 +60,7 @@ class DeleteOrderTest {
     void shouldNotDeleteAnythingWithWrongIdAsAnArgument() {
         //given
         Order order = makeAnOrder();
-        orderRepository.save(order); //adding order to catalog because there are no orders in sample data initialization
+        orderRepository.save(order);
         int ordersSizeBeforeDeleting = getAllOrders.getAll().size();
         long orderIdThatNotExist = 999;
         //when
@@ -64,7 +71,18 @@ class DeleteOrderTest {
         deleteOrder.deleteById(order.getId());
     }
 
-    //TODO prove that after deleting an order there is also no delivery
+    @Test
+    void shouldDeleteDeliveryWhileDeletingOrder(){ //because of orphan removal in Order.class
+        //given
+        Order order = makeAnOrder();
+        orderRepository.save(order);
+        Delivery delivery = createDeliveryFromAnOrder.makeDelivery(order.getId(), order.getUser().getAddress());
+        long deliveryId = delivery.getId();
+        //when
+        deleteOrder.deleteById(order.getId());
+        //then
+        assertThrows(DeliveryDoesNotExistException.class, ()-> getDeliveryFromCatalog.getById(deliveryId));
+    }
 
 
 }
