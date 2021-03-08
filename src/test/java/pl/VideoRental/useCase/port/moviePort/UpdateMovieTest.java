@@ -3,8 +3,10 @@ package pl.VideoRental.useCase.port.moviePort;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import pl.VideoRental.sampleData.SampleDataStorage;
 import pl.VideoRental.domain.Movie;
+import pl.VideoRental.useCase.exception.MovieDoesNotExistException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,6 +17,8 @@ class UpdateMovieTest {
     UpdateMovie updateMovie;
     @Autowired
     IsMovieExist isMovieExist;
+    @Autowired
+    GetMovieFromCatalog getMovieFromCatalog;
 
     Movie movie = Movie.builder()
             .title("Update Title")
@@ -48,8 +52,17 @@ class UpdateMovieTest {
         assertFalse(isMovieExist.isExistByTitle(movie.getTitle()));
     }
 
-    //TODO Update should be impossible when new title is not unique
-
+    @Test
+    void shouldNotUpdateMovieWhenNewTitleIsNotUnique() throws MovieDoesNotExistException {
+        //given
+        Movie movie1 = getMovieFromCatalog.getByTitle(SampleDataStorage.MOVIE_1.getTitle());
+        String titleOfMovieExistingInDB = SampleDataStorage.MOVIE_2.getTitle();
+        //when
+        movie1.setTitle(titleOfMovieExistingInDB);
+        //then
+        assertThrows(DataIntegrityViolationException.class,
+                ()->updateMovie.update(movie1.getId(), movie1));
+    }
 
 
 }

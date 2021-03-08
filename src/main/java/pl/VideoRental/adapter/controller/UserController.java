@@ -74,6 +74,4 @@ public class UserController {
         updateUser.update(id, user);
     }
 
-    //TODO a method to upgrade USER to ADMIN should be made
-
 }

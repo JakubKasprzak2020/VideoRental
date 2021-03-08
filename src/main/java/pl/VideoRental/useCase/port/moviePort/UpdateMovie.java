@@ -27,6 +27,4 @@ public class UpdateMovie {
     }
 
 
-    //TODO there should be validation if new title of updated movie is unique
-
 }
