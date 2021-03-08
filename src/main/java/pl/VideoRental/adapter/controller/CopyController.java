@@ -21,22 +21,21 @@ public class CopyController {
     private final DeleteCopy deleteCopy;
     private final UpdateCopy updateCopy;
     private final ReturnACopy returnACopy;
-    private final RentACopy rentACopy;
     private final JsonConverter jsonConverter;
 
-    @GetMapping("/api/copies")
+    @GetMapping("/admin/copies")
     @ResponseStatus(HttpStatus.OK)
     public List<Copy> getAll(){
         return getAllCopies.getAll();
     }
 
-    @GetMapping("/api/copies/movie/{title}")
+    @GetMapping("/admin/copies/movie/{title}")
     @ResponseStatus(HttpStatus.OK)
     public List<Copy> getAllByMovieTitle(@PathVariable String title) {
         return getAllCopies.getAllByMovieTitle(title);
     }
 
-    @GetMapping("/api/copies/{id}")
+    @GetMapping("/admin/copies/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Copy getById(@PathVariable long id) {
         try {
@@ -71,12 +70,6 @@ public class CopyController {
         updateCopy.update(copyId, copy);
     }
 
-    //TODO - this method looks to be redundant
-    @PutMapping("/api/rent/{copyId}")
-    @ResponseStatus(HttpStatus.OK)
-    public void rent(){
-
-    }
 
     @PutMapping("/admin/return/{copyId}")
     @ResponseStatus(HttpStatus.OK)

@@ -50,8 +50,6 @@ class CopyControllerTest {
     @MockBean
     private ReturnACopy returnACopy;
     @MockBean
-    private RentACopy rentACopy;
-    @MockBean
     private JsonConverter jsonConverter;
     @MockBean
     private UserDetailsServiceImpl userDetailsService;
@@ -62,14 +60,14 @@ class CopyControllerTest {
 
 
     @Test
-    @WithMockUser(username = "user", password = "user", roles = "USER")
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldGetAllCopies() throws Exception {
         //given
         List<Copy> copies = new ArrayList<>();
         copies.add(COPY_1);
         copies.add(COPY_2);
         copies.add(COPY_3);
-        String url = "/api/copies";
+        String url = "/admin/copies";
         //when
         Mockito.when(getAllCopies.getAll()).thenReturn(copies);
         RequestBuilder request = MockMvcRequestBuilders.get(url);
@@ -81,14 +79,14 @@ class CopyControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "user", password = "user", roles = "USER")
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldGetAllCopiesWithTitle() throws Exception {
         //given
         List<Copy> copies = new ArrayList<>();
         copies.add(COPY_1);
         copies.add(COPY_2);
         String title = SampleDataStorage.MOVIE_1.getTitle();
-        String url = "/api/copies/movie/" + title;
+        String url = "/admin/copies/movie/" + title;
         //when
         Mockito.when(getAllCopies.getAllByMovieTitle(title)).thenReturn(copies);
         RequestBuilder request = MockMvcRequestBuilders.get(url);
@@ -100,11 +98,11 @@ class CopyControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "user", password = "user", roles = "USER")
+    @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     void shouldGetCopy() throws Exception {
         //given
         long randomId = 6;
-        String url = "/api/copies/" + randomId;
+        String url = "/admin/copies/" + randomId;
         //when
         Mockito.when(getCopyFromCatalog.get(any(Long.class))).thenReturn(COPY_1);
         RequestBuilder request = MockMvcRequestBuilders.get(url);
@@ -164,11 +162,6 @@ class CopyControllerTest {
                 .update(any(Long.class), any(Copy.class));
     }
 
-    //TODO
-    @Test
-    void shouldRentCopy(){
-
-    }
 
     @Test
     @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
