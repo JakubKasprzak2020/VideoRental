@@ -2,6 +2,8 @@ package pl.VideoRental.adapter.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import pl.VideoRental.util.JsonConverter;
 import pl.VideoRental.domain.User;
@@ -38,6 +40,12 @@ public class UserController {
             System.out.println(exception.getMessage());
             return null;
         }
+    }
+
+    @GetMapping("/api/my_profile")
+    @ResponseStatus(HttpStatus.OK)
+    public User getMyProfile(@AuthenticationPrincipal UserDetails userDetails) throws UserDoesNotExistException {
+        return getUserFromCatalog.getByEmail(userDetails.getUsername());
     }
 
     @PostMapping("/registration")

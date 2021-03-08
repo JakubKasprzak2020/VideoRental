@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import pl.VideoRental.authentication.UserDetailsServiceImpl;
+import pl.VideoRental.useCase.exception.UserDoesNotExistException;
 import pl.VideoRental.util.JsonConverter;
 import pl.VideoRental.domain.User;
 import pl.VideoRental.domain.UserSignInData;
@@ -169,5 +170,17 @@ class UserControllerTest {
     }
 
 
+    @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
+    void shouldGiveCurrentUser() throws Exception {
+       //given
+        String url = "/api/my_profile";
+        //when
+        Mockito.when(getUserFromCatalog.getByEmail(any(String.class))).thenReturn(USER_1);
+        RequestBuilder request = MockMvcRequestBuilders.get(url);
+        //then
+        mockMvc.perform(request).andExpect(status().isOk());
+        Mockito.verify(getUserFromCatalog, times(1)).getByEmail(any(String.class));
+    }
 
 }
