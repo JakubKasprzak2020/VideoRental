@@ -64,7 +64,7 @@ class DeliveryControllerTest {
     void shouldGetAllDeliveries() throws Exception {
         //given
         List<Delivery> deliveries = Collections.singletonList(DELIVERY);
-        String url = "/admin/delivery";
+        String url = "/admin/deliveries";
         //when
         Mockito.when(getAllDeliveries.getAll()).thenReturn(deliveries);
         RequestBuilder request = MockMvcRequestBuilders.get(url);
@@ -81,7 +81,7 @@ class DeliveryControllerTest {
         //given
 
         long randomId = 9;
-        String url = "/admin/delivery/" + randomId;
+        String url = "/admin/deliveries/" + randomId;
         //when
         Mockito.when(getDeliveryFromCatalog.getById(any(Long.class))).thenReturn(DELIVERY);
         RequestBuilder request = MockMvcRequestBuilders.get(url);
@@ -97,7 +97,7 @@ class DeliveryControllerTest {
     void shouldDeleteDelivery() throws Exception {
         //given
         long randomId = 278;
-        String url = "/admin/delivery/" + randomId;
+        String url = "/admin/deliveries/" + randomId;
         //when
         Mockito.doNothing().when(deleteDelivery).deleteById(any(Long.class));
         RequestBuilder request = MockMvcRequestBuilders.delete(url);
@@ -112,7 +112,7 @@ class DeliveryControllerTest {
         //given
         long randomOrderId = 19;
         String randomAddress = "Privet Drive 4";
-        String url = "/admin/delivery/" + randomOrderId;
+        String url = "/admin/deliveries/" + randomOrderId;
         //when
         Mockito.when(createDeliveryFromAnOrder.makeDelivery(any(Long.class), any(String.class)))
                 .thenReturn(DELIVERY);
@@ -132,7 +132,7 @@ class DeliveryControllerTest {
     void shouldDeliverDelivery() throws Exception {
         //given
         long randomId = 1;
-        String url = "/admin/deliver/" + randomId;
+        String url = "/admin/deliveries/" + randomId;
         //when
         Mockito.doNothing().when(deliver).deliverToUser(any(Long.class));
         RequestBuilder request = MockMvcRequestBuilders.put(url);
@@ -147,12 +147,12 @@ class DeliveryControllerTest {
         //given
         String deliveryJson = objectMapper.writeValueAsString(DELIVERY);
         long randomId = 1;
-        String url = "/admin/delivery/" + randomId;
+        String url = "/admin/deliveries/" + randomId;
         //when
         Mockito.doNothing().when(updateDelivery).update(any(Long.class), any(Delivery.class));
         Mockito.when(jsonConverter.getDeliveryFromJson(any(String.class))).thenReturn(DELIVERY);
         RequestBuilder request = MockMvcRequestBuilders
-                .put(url)
+                .patch(url)
                 .contentType(MediaType.TEXT_PLAIN)
                 .content(deliveryJson);
         //then
