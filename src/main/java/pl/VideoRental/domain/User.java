@@ -27,7 +27,8 @@ public class User {
 
     private String name;
     private String lastName;
-    private String email; //TODO - this field should be unique (it's username for ApplicationUser)
+    @Column(unique = true)
+    private String email;
     private String address;
     private UserType userType;
     private BigDecimal amountSpent;

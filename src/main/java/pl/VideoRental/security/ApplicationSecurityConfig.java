@@ -24,8 +24,6 @@ import pl.VideoRental.authentication.UserDetailsServiceImpl;
 @RequiredArgsConstructor
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    //  A problem with the Bean below (bean could not be found)
-    //   private final PasswordEncoder passwordEncoder;
     private final UserDetailsServiceImpl userDetailsServiceImpl;
 
     @Override
@@ -43,14 +41,15 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
-             /*
+             /* for formLogin instead of httpBasic
+
                 .formLogin()
-                // .loginPage("/login").permitAll() //TODO - this page has not been created yet
-                .failureUrl("/login?error=true") // TODO - is it working?
+                // .loginPage("/login").permitAll()
+                .failureUrl("/login?error=true")
                 .defaultSuccessUrl("/api/movies", true)
                 .usernameParameter("username")
                 .passwordParameter("password");
-*/
+            */
     }
 
 
@@ -71,7 +70,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(bCryptPasswordEncoder()); //TODO - is this line necessary?
+        auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(bCryptPasswordEncoder());
         auth.authenticationProvider(daoAuthenticationProvider());
     }
 
