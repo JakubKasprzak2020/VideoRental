@@ -35,10 +35,6 @@ public class SampleDataInit implements CommandLineRunner {
     public static int moviesLengthMarker = 0;
     public static int copiesLengthMarker = 0;
 
-    public static final String TITLE_OF_MOVIE_1 = SampleDataStorage.MOVIE_1.getTitle();
-    public static final String TITLE_OF_MOVIE_2 = SampleDataStorage.MOVIE_2.getTitle();
-    public static final String TITLE_OF_MOVIE_3 = SampleDataStorage.MOVIE_3.getTitle();
-
     public static final int NUMBER_OF_COPIES_OF_MOVIE_1 = 3;
 
     private final CreateMovie createMovie;
@@ -91,15 +87,49 @@ public class SampleDataInit implements CommandLineRunner {
      */
 
     private void initSampleCopies() throws MovieDoesNotExistException {
-        long movie1Id = getMovieFromCatalog.getByTitle(TITLE_OF_MOVIE_1).getId();
-        long movie2Id = getMovieFromCatalog.getByTitle(TITLE_OF_MOVIE_2).getId();
-        long movie3Id = getMovieFromCatalog.getByTitle(TITLE_OF_MOVIE_3).getId();
+        long movie1Id = getMovieFromCatalog.getByTitle(SampleDataStorage.MOVIE_1.getTitle()).getId();
+        long movie2Id = getMovieFromCatalog.getByTitle(SampleDataStorage.MOVIE_2.getTitle()).getId();
+        long movie3Id = getMovieFromCatalog.getByTitle(SampleDataStorage.MOVIE_3.getTitle()).getId();
+        long movie4Id = getMovieFromCatalog.getByTitle(SampleDataStorage.MOVIE_4.getTitle()).getId();
+        long movie5Id = getMovieFromCatalog.getByTitle(SampleDataStorage.MOVIE_5.getTitle()).getId();
+        long movie6Id = getMovieFromCatalog.getByTitle(SampleDataStorage.MOVIE_6.getTitle()).getId();
+        long movie7Id = getMovieFromCatalog.getByTitle(SampleDataStorage.MOVIE_7.getTitle()).getId();
+        long movie8Id = getMovieFromCatalog.getByTitle(SampleDataStorage.MOVIE_8.getTitle()).getId();
+        long movie9Id = getMovieFromCatalog.getByTitle(SampleDataStorage.MOVIE_9.getTitle()).getId();
+        long movie10Id = getMovieFromCatalog.getByTitle(SampleDataStorage.MOVIE_10.getTitle()).getId();
+        long movie11Id = getMovieFromCatalog.getByTitle(SampleDataStorage.MOVIE_11.getTitle()).getId();
+        long movie12Id = getMovieFromCatalog.getByTitle(SampleDataStorage.MOVIE_12.getTitle()).getId();
+        long movie13Id = getMovieFromCatalog.getByTitle(SampleDataStorage.MOVIE_13.getTitle()).getId();
+        long movie14Id = getMovieFromCatalog.getByTitle(SampleDataStorage.MOVIE_14.getTitle()).getId();
+        long movie15Id = getMovieFromCatalog.getByTitle(SampleDataStorage.MOVIE_15.getTitle()).getId();
+        long movie16Id = getMovieFromCatalog.getByTitle(SampleDataStorage.MOVIE_16.getTitle()).getId();
+        long movie17Id = getMovieFromCatalog.getByTitle(SampleDataStorage.MOVIE_17.getTitle()).getId();
+        long movie18Id = getMovieFromCatalog.getByTitle(SampleDataStorage.MOVIE_18.getTitle()).getId();
+        long movie19Id = getMovieFromCatalog.getByTitle(SampleDataStorage.MOVIE_19.getTitle()).getId();
+        long movie20Id = getMovieFromCatalog.getByTitle(SampleDataStorage.MOVIE_20.getTitle()).getId();
         for (int i = 0; i<NUMBER_OF_COPIES_OF_MOVIE_1; i++){
             createCopyAndChangeCopiesSizeMarker(movie1Id);
         }
         createCopyAndChangeCopiesSizeMarker(movie2Id);
         createCopyAndChangeCopiesSizeMarker(movie2Id);
         createCopyAndChangeCopiesSizeMarker(movie3Id);
+        createCopyAndChangeCopiesSizeMarker(movie4Id);
+        createCopyAndChangeCopiesSizeMarker(movie5Id);
+        createCopyAndChangeCopiesSizeMarker(movie6Id);
+        createCopyAndChangeCopiesSizeMarker(movie7Id);
+        createCopyAndChangeCopiesSizeMarker(movie8Id);
+        createCopyAndChangeCopiesSizeMarker(movie9Id);
+        createCopyAndChangeCopiesSizeMarker(movie10Id);
+        createCopyAndChangeCopiesSizeMarker(movie11Id);
+        createCopyAndChangeCopiesSizeMarker(movie12Id);
+        createCopyAndChangeCopiesSizeMarker(movie13Id);
+        createCopyAndChangeCopiesSizeMarker(movie14Id);
+        createCopyAndChangeCopiesSizeMarker(movie15Id);
+        createCopyAndChangeCopiesSizeMarker(movie16Id);
+        createCopyAndChangeCopiesSizeMarker(movie17Id);
+        createCopyAndChangeCopiesSizeMarker(movie18Id);
+        createCopyAndChangeCopiesSizeMarker(movie19Id);
+        createCopyAndChangeCopiesSizeMarker(movie20Id);
     }
 
     private void initSampleUsers(){

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.VideoRental.sampleData.SampleDataInit;
 import pl.VideoRental.domain.Copy;
+import pl.VideoRental.sampleData.SampleDataStorage;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ class GetAllCopiesTest {
     @Test
     void shouldGiveAListOfAllCopiesWithTitle() {
         //given
-        String title = SampleDataInit.TITLE_OF_MOVIE_1;
+        String title = SampleDataStorage.MOVIE_1.getTitle();
         //when
         List<Copy> copies = getAllCopies.getAllByMovieTitle(title);
         //then
