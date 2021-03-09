@@ -15,6 +15,11 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import pl.VideoRental.authentication.UserDetailsServiceImpl;
+import pl.VideoRental.domain.Order;
+import pl.VideoRental.domain.User;
+import pl.VideoRental.mail.EmailContent;
+import pl.VideoRental.mail.EmailContentCreator;
+import pl.VideoRental.mail.EmailService;
 import pl.VideoRental.sampleData.SampleDataStorage;
 import pl.VideoRental.domain.Copy;
 import pl.VideoRental.useCase.port.copyPort.*;
@@ -53,6 +58,10 @@ class CopyControllerTest {
     private JsonConverter jsonConverter;
     @MockBean
     private UserDetailsServiceImpl userDetailsService;
+    @MockBean
+    private EmailContentCreator emailContentCreator;
+    @MockBean
+    private EmailService emailService;
 
     private final Copy COPY_1 = Copy.builder().movie(SampleDataStorage.MOVIE_1).build();
     private final Copy COPY_2 = Copy.builder().movie(SampleDataStorage.MOVIE_1).build();
@@ -169,8 +178,13 @@ class CopyControllerTest {
         //given
         long randomId = 1;
         String url = "/admin/return/" + randomId;
+        User user = User.builder().email("user@user.com").build();
+        COPY_1.setUser(user);
         //when
         Mockito.doNothing().when(returnACopy).returnACopyById(any(Long.class));
+        Mockito.when(getCopyFromCatalog.get(any(Long.class))).thenReturn(COPY_1);
+        Mockito.when(emailContentCreator.getContentForThanksForGivingTheMovieBack(any(String.class))).thenReturn(new EmailContent());
+        Mockito.doNothing().when(emailService).sendEmail(any(String.class), any(EmailContent.class));
         RequestBuilder request = MockMvcRequestBuilders.put(url);
         //then
         mockMvc.perform(request).andExpect(status().isOk());
