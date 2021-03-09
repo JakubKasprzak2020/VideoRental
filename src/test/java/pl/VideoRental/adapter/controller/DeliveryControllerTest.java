@@ -16,7 +16,13 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import pl.VideoRental.authentication.UserDetailsServiceImpl;
 import pl.VideoRental.domain.Delivery;
+import pl.VideoRental.domain.Order;
+import pl.VideoRental.domain.User;
+import pl.VideoRental.mail.EmailContent;
+import pl.VideoRental.mail.EmailContentCreator;
+import pl.VideoRental.mail.EmailService;
 import pl.VideoRental.useCase.port.deliveryPort.*;
+import pl.VideoRental.useCase.port.orderPort.GetOrderFromCatalog;
 import pl.VideoRental.util.JsonConverter;
 
 import java.util.Collections;
@@ -52,6 +58,12 @@ class DeliveryControllerTest {
     private JsonConverter jsonConverter;
     @MockBean
     private UserDetailsServiceImpl userDetailsService;
+    @MockBean
+    private GetOrderFromCatalog getOrderFromCatalog;
+    @MockBean
+    private EmailContentCreator emailContentCreator;
+    @MockBean
+    private EmailService emailService;
 
 
     private final Delivery DELIVERY = Delivery.builder()
@@ -116,6 +128,9 @@ class DeliveryControllerTest {
         //when
         Mockito.when(createDeliveryFromAnOrder.makeDelivery(any(Long.class), any(String.class)))
                 .thenReturn(DELIVERY);
+        Mockito.when(getOrderFromCatalog.getById(any(Long.class))).thenReturn(Order.builder().user(new User()).build());
+        Mockito.when(emailContentCreator.getContentForUserTypePromotion(any(User.class))).thenReturn(new EmailContent());
+        Mockito.doNothing().when(emailService).sendEmail(any(String.class), any(EmailContent.class));
         RequestBuilder request = MockMvcRequestBuilders
                 .post(url)
                 .contentType(MediaType.TEXT_PLAIN)

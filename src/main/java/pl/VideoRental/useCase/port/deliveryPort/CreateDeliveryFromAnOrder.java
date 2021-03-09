@@ -27,7 +27,6 @@ public class CreateDeliveryFromAnOrder {
     public Delivery makeDelivery(Order order, String address ){
         Delivery delivery = Delivery.builder().order(order).address(address).build();
 
-       // userRepository.save(order.getUser()); - it looks that it's no necessary
         orderRepository.save(order);
         deliveryRepository.save(delivery);
         addOrderCostToUsersAmountSpent(order.getUser(), order.getCost());

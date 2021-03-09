@@ -18,7 +18,7 @@ public class PromoteUserType {
 
     private final UserRepository userRepository;
 
-    public static final int AMOUNT_FOR_SILVER_USER_TYPE = 300;
+    public static final int AMOUNT_FOR_SILVER_USER_TYPE = 3;
     public static final int AMOUNT_FOR_GOLD_USER_TYPE = 1000;
     public static final int AMOUNT_FOR_PLATINUM_USER_TYPE = 2000;
 
