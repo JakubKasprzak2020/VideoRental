@@ -7,6 +7,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import pl.VideoRental.domain.Order;
 import pl.VideoRental.domain.User;
+import pl.VideoRental.mail.EmailContent;
+import pl.VideoRental.mail.EmailContentCreator;
+import pl.VideoRental.mail.EmailService;
 import pl.VideoRental.useCase.exception.CartIsEmptyException;
 import pl.VideoRental.useCase.exception.OrderDoesNotExistException;
 import pl.VideoRental.useCase.exception.UserDoesNotExistException;
@@ -27,6 +30,8 @@ public class OrderController {
     private final UpdateOrder updateOrder;
     private final JsonConverter jsonConverter;
     private final GetUserFromCatalog getUserFromCatalog;
+    private final EmailContentCreator emailContentCreator;
+    private final EmailService emailService;
 
 
     @GetMapping("/admin/orders")
@@ -61,7 +66,10 @@ public class OrderController {
     @PutMapping("/api/orders")
     public Order create(@AuthenticationPrincipal UserDetails userDetails) throws UserDoesNotExistException, CartIsEmptyException {
         User user = getUserFromCatalog.getByEmail(userDetails.getUsername());
-       return createOrderFromCartContent.makeAnOrder(user);
+       Order order = createOrderFromCartContent.makeAnOrder(user);
+       EmailContent emailContent = emailContentCreator.getContentForOrderConfirmation(order);
+       emailService.sendEmail(user.getEmail(), emailContent);
+       return order;
     }
 }
 

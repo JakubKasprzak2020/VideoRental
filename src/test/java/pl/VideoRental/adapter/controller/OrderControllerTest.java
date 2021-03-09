@@ -20,6 +20,9 @@ import pl.VideoRental.authentication.UserDetailsServiceImpl;
 import pl.VideoRental.domain.Order;
 import pl.VideoRental.domain.User;
 import pl.VideoRental.domain.UserType;
+import pl.VideoRental.mail.EmailContent;
+import pl.VideoRental.mail.EmailContentCreator;
+import pl.VideoRental.mail.EmailService;
 import pl.VideoRental.useCase.exception.CartIsEmptyException;
 import pl.VideoRental.useCase.exception.UserDoesNotExistException;
 import pl.VideoRental.useCase.port.orderPort.*;
@@ -61,7 +64,10 @@ class OrderControllerTest {
     private UserDetailsServiceImpl userDetailsService;
     @MockBean
     private GetUserFromCatalog getUserFromCatalog;
-
+    @MockBean
+    private EmailContentCreator emailContentCreator;
+    @MockBean
+    private EmailService emailService;
 
 
 
@@ -155,6 +161,8 @@ class OrderControllerTest {
         //when
         Mockito.when(getUserFromCatalog.getByEmail(any(String.class))).thenReturn(user);
         Mockito.when(createOrderFromCartContent.makeAnOrder(any(User.class))).thenReturn(order);
+        Mockito.when(emailContentCreator.getContentForOrderConfirmation(any(Order.class))).thenReturn(new EmailContent());
+        Mockito.doNothing().when(emailService).sendEmail(any(String.class), any(EmailContent.class));
         RequestBuilder request = MockMvcRequestBuilders.put(url);
         //then
         mockMvc.perform(request).andExpect(status().isOk());
