@@ -66,7 +66,7 @@ REST Application for renting movies recorded on physical copies (VHS, DVD, BlueR
 - When application calculate cost it includes discounts caused by user types. 
 
 ### Mail service:
-User received this types of an email from appication:
+User received this types of emails from application:
 - Confirmation after placing an order.
 - Congratulations after reaching new user type.
 - Thanks after returning borrowed copies.
