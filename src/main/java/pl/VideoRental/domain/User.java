@@ -5,6 +5,7 @@ import lombok.*;
 import pl.VideoRental.authentication.ApplicationUser;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ public class User {
     private String name;
     private String lastName;
     @Column(unique = true)
+    @Email(message = "Email should be valid")
     private String email;
     private String address;
     private UserType userType;

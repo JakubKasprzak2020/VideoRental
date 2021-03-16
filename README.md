@@ -204,4 +204,5 @@ password: longlive
 - lombok
 - junit test
 - gson
+- hibernate-validator
 
